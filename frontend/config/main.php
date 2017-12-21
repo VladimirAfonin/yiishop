@@ -42,6 +42,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '' => 'site/index',
+               '<action:login|logout>' => 'site/<action>'
             ],
         ],
 

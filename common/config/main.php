@@ -9,6 +9,8 @@ return [
         'db' => require(dirname(__DIR__)) . '/config/db.php',
         'cache' => [
             'class' => 'yii\caching\FileCache',
+            // one dir for
+            'cachePath' => '@common/runtime/cache',
         ],
     ],
 ];

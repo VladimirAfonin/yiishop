@@ -42,8 +42,9 @@ return [
             'yii_test',
         ],
         'setCookieValidationKey' => [
-            'backend/config/main-local.php',
-            'frontend/config/main-local.php',
+//            'backend/config/main-local.php',
+//            'frontend/config/main-local.php',
+        'common/config/params-local.php'
         ],
     ],
     'Production' => [

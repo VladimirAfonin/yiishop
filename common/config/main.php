@@ -5,6 +5,10 @@ return [
         '@npm'   => '@vendor/npm-asset',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    // our container class
+    'bootstrap' => [
+        'common\bootstrap\SetUp'
+    ],
     'components' => [
         'db' => require(dirname(__DIR__)) . '/config/db.php',
         'cache' => [

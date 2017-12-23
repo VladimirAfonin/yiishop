@@ -59,16 +59,11 @@ return [
 
     // global config auth filter for all app.
     'as access' => [
-        'class' => \yii\filters\AccessControl::className(),
+        'class' => 'yii\filters\AccessControl',
             'except' => ['site/login', 'site/error'],
 //            'only' => [],
         'rules' => [
             [
-                'actions' => ['login', 'error'],
-                'allow' => true,
-            ],
-            [
-                'actions' => ['logout', 'index'],
                 'allow' => true,
                 'roles' => ['@'],
             ],

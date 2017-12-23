@@ -6,7 +6,7 @@ return yii\helpers\ArrayHelper::merge(
     [
         'components' => [
             'db' => [
-                'dsn' => 'mysql:host=localhost;dbname=yii2advanced_test',
+                'dsn' => 'mysql:host=localhost;port=3306;dbname=yiielis;unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock',
             ]
         ],
     ]

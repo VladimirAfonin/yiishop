@@ -29,7 +29,8 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
-    public function __construct(string $username = '', string $email = '', string $password = '')
+
+    /*public function __construct(string $username = '', string $email = '', string $password = '')
     {
         $this->username = $username;
         $this->email = $email;
@@ -38,6 +39,19 @@ class User extends ActiveRecord implements IdentityInterface
         $this->status = self::STATUS_ACTIVE;
         $this->generateAuthKey();
         parent::__construct();
+    }*/
+
+    public static function create(string $username = '', string $email = '', string $password = ''): self
+    {
+        // self - не учитывает наследование, static - учитываем наследование
+        $user = new static;
+        $user->username = $username;
+        $user->email = $email;
+        $user->setPassword($password);
+        $user->created_at = time();
+        $user->status = self::STATUS_ACTIVE;
+        $user->generateAuthKey();
+        return $user;
     }
 
 

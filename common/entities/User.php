@@ -41,6 +41,14 @@ class User extends ActiveRecord implements IdentityInterface
         parent::__construct();
     }*/
 
+    /**
+     * create new user
+     *
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     * @return User
+     */
     public static function create(string $username = '', string $email = '', string $password = ''): self
     {
         // self - не учитывает наследование, static - учитываем наследование
@@ -52,6 +60,14 @@ class User extends ActiveRecord implements IdentityInterface
         $user->status = self::STATUS_ACTIVE;
         $user->generateAuthKey();
         return $user;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
     }
 
 

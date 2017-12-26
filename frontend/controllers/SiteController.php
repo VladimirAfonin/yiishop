@@ -15,12 +15,21 @@ use frontend\forms\ResetPasswordForm;
 use frontend\forms\SignupForm;
 use frontend\forms\ContactForm;
 use frontend\services\auth\SignUpService;
+use yii\base\Module;
 
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
+    private $passwordResetService;
+
+    public function __construct($id, Module $module, PasswordResetService $passwordResetService,  $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->passwordResetService = $passwordResetService;
+    }
+
     /**
      * @inheritdoc
      */
@@ -176,9 +185,18 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset()
     {
-        $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
+        $form = new PasswordResetRequestForm();
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+
+            try{
+                $this->passwordResetService->request($form);
+                Yii::$app->session->setFlash('success', 'check your email  for further instructions');
+            } catch(\RuntimeException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+
+            if ($form->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
 
                 return $this->goHome();
@@ -188,7 +206,7 @@ class SiteController extends Controller
         }
 
         return $this->render('requestPasswordResetToken', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
@@ -201,7 +219,8 @@ class SiteController extends Controller
      */
     public function actionResetPassword($token)
     {
-        $service = new PasswordResetService();
+        $service = Yii::$container->get(PasswordResetService::class);
+//        $service = new PasswordResetService();
 
         try{
             $service->validateToken($token);

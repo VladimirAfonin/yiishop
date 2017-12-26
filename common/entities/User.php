@@ -230,4 +230,25 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    /**
+     *
+     */
+    public function requestPasswordReset(): void
+    {
+        if(!empty($this->password_reset_token) && self::isPasswordResetTokenValid($this->password_reset_token)) {
+            throw new \RuntimeException('password resetting is already requested.');
+        }
+        $this->password_reset_token = Yii::$app->security->generateRandomString(). '_' . time();
+    }
+
+    /**
+     * @param $password
+     */
+    public function resetPassword($password): void
+    {
+        if(empty($this->password_reset_token)) { throw new \RuntimeException('password resetting is not requested.'); }
+        $this->setPassword($password);
+        $this->password_reset_token = null;
+    }
 }

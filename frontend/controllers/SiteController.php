@@ -25,16 +25,19 @@ class SiteController extends Controller
 {
     private $passwordResetService;
     private $contactService;
+    private $signupService;
 
     public function __construct(
             $id,
             Module $module,
             PasswordResetService $passwordResetService,
             ContactService $contactService,
+            SignUpService $signupService,
             $config = [] )
     {
         parent::__construct($id, $module, $config);
         $this->passwordResetService = $passwordResetService;
+        $this->signupService = $signupService;
     }
 
     /**
@@ -171,20 +174,40 @@ class SiteController extends Controller
     {
         $form = new SignupForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-
-            if($user = (new SignUpService())->signup($form)) {
-                if (Yii::$app->getUser()->login($user)) {
-                    Yii::$app->session->setFlash('success', 'User success');
-                    return $this->goHome();
-                }
-            } else {
-                Yii::$app->session->setFlash('errro', 'something error');
+            try {
+                $this->signupService->signup($form);
+                Yii::$app->session->setFlash('success', 'check your email for further instructions.');
+                return $this->goHome();
+            } catch (\RuntimeException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
 
         return $this->render('signup', [
             'model' => $form,
         ]);
+    }
+
+    /**
+     * confirm sign up action into email
+     *
+     * @param $token
+     * @return \yii\web\Response
+     */
+    public function actionConfirm($token)
+    {
+        try {
+            $this->signupService->confirm($token);
+            Yii::$app->session->setFlash('success', 'your email is confirmed.');
+
+            return $this->redirect(['login']);
+        } catch(\RuntimeException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+
+            return $this->goHome();
+        }
     }
 
     /**

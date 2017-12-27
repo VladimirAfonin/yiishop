@@ -24,9 +24,9 @@ use common\entities\InstantiateTrait;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    use InstantiateTrait;
+//    use InstantiateTrait;
 
-    const STATUS_DELETED = 0;
+    const STATUS_WAIT = 0;
     const STATUS_ACTIVE = 10;
 
 
@@ -57,9 +57,47 @@ class User extends ActiveRecord implements IdentityInterface
         $user->email = $email;
         $user->setPassword($password);
         $user->created_at = time();
-        $user->status = self::STATUS_ACTIVE;
+        $user->status = self::STATUS_WAIT;
+        $user->generateConfirmEmailToken();
         $user->generateAuthKey();
         return $user;
+    }
+
+    /**
+     * confirm sign up into email
+     */
+    public function confirmSignup()
+    {
+        // if user doesnt wait - if he is already active.
+        if(!$this->isWait()) { throw new \RuntimeException('user is already active.'); }
+
+        $this->status = self::STATUS_ACTIVE;
+        $this->removeEmailConfirmToken();
+    }
+
+    /**
+     * is user waiting
+     * @return bool|bool
+     */
+    public function isWait(): bool
+    {
+        return $this->status === self::STATUS_WAIT;
+    }
+
+    /**
+     *  generate new password reset token
+     */
+    private function generateConfirmEmailToken()
+    {
+        $this->email_confirm_token = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     *  remove email confirm token
+     */
+    private function removeEmailConfirmToken()
+    {
+        $this->email_confirm_token = null;
     }
 
     /**
@@ -96,7 +134,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_WAIT]],
         ];
     }
 

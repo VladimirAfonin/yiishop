@@ -6,6 +6,7 @@ use frontend\services\contact\ContactService;
 use yii\base\BootstrapInterface;
 use yii\di\Instance;
 use yii\mail\MailerInterface;
+use frontend\services\auth\SignUpService;
 
 class SetUp implements BootstrapInterface
 {
@@ -21,6 +22,14 @@ class SetUp implements BootstrapInterface
             );
         });
 
+        // set 'sign up' service
+        $container->setSingleton(SignUpService::class, function() use($app) {
+            return new SignUpService(
+                [$app->params['supportEmail'] => $app->name . ' robot'],
+                $app->mailer
+            );
+        });
+
         // set 'contactService'
         $container->setSingleton(ContactService::class, function() use($app) {
             return new ContactService(
@@ -30,16 +39,20 @@ class SetUp implements BootstrapInterface
             );
         });
 
+
+
+
+
         /* --- set 'contactService' -> second variant  --- */
         $container->setSingleton(MailerInterface::class, function() use ($app) {
             return $app->mailer;
         });
 
-        $container->setSingleton(ContactService::class, [], [
-            $app->params['supportEmail'],
-            $app->params['adminEmail'],
-            Instance::of(MailerInterface::class)
-        ]);
+//        $container->setSingleton(ContactService::class, [], [
+//            $app->params['supportEmail'],
+//            $app->params['adminEmail'],
+//            Instance::of(MailerInterface::class)
+//        ]);
         /* ---  /.set 'contactService' -> second variant --- */
 
 

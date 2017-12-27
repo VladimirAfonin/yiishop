@@ -6,16 +6,19 @@ use frontend\forms\PasswordResetRequestForm;
 use common\entities\User;
 use frontend\forms\ResetPasswordForm;
 use yii\mail\MailerInterface;
+use common\collections\UserCollection;
 
 class PasswordResetService
 {
     private $supportEmail;
     private $mailer;
+    private $usersCollect;
 
-    public function __construct($supportEmail, MailerInterface $mailer)
+    public function __construct($supportEmail, MailerInterface $mailer, UserCollection $usersCollect)
     {
         $this->supportEmail = $supportEmail;
         $this->mailer = $mailer;
+        $this->usersCollect = $usersCollect;
     }
 
     /**
@@ -23,21 +26,17 @@ class PasswordResetService
      */
     public function request(PasswordResetRequestForm $form): void
     {
-        $user = User::findOne([
-            'status' => User::STATUS_ACTIVE,
-            'email' => $form->email,
-        ]);
-
-        if(!$user) { throw new \RuntimeException('Users not found.'); }
+        $user = $this->usersCollect->getByEmail($form->email);
+        if(!$user->isActive()) { throw new \RuntimeException('user is not active'); }
 
         $user->requestPasswordReset();
-
-        if(!$user->save()) { throw new \RuntimeException('Saving error.'); }
+        $this->usersCollect->save($user);
 
         $sent = $this->mailer
             ->compose(
                 ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
-                ['user' => $user])
+                ['user' => $user]
+            )
             ->setFrom($this->supportEmail)
             ->setTo($user->email)
             ->setSubject('Password reset for ' . \Yii::$app->name)
@@ -54,7 +53,7 @@ class PasswordResetService
     public function validateToken($token): void
     {
         if(empty($token) || !is_string($token)) { throw new \RuntimeException('password reset token cant be blank.'); }
-        if(!User::findByPasswordResetToken($token)){ throw new \RuntimeException('wrong password reset token'); }
+        if(!$this->usersCollect->existsByPasswordResetToken($token)) { throw new \RuntimeException('wrong password reset token.'); }
     }
 
     /**
@@ -64,13 +63,8 @@ class PasswordResetService
      */
     public function reset(string $token, ResetPasswordForm $form): void
     {
-        $user = User::findByPasswordResetToken($token);
-
-        if(!$user) { throw new \RuntimeException('user not found'); }
-
+        $user = $this->usersCollect->getByPasswordResetToken($token);
         $user->resetPassword($form->password);
-
-        if(!$user->save()) { throw new \RuntimeException('saving error.'); }
-
+        $this->usersCollect->save($user);
     }
 }

@@ -27,6 +27,15 @@ class UserCollection
     }
 
     /**
+     * @param string $username
+     * @return User
+     */
+    public function getByUsername(string $username): User
+    {
+        return $this->getBy(['username' => $username]);
+    }
+
+    /**
      * @param string $token
      * @return User
      */

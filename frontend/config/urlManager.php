@@ -7,6 +7,11 @@ return [
     'showScriptName' => false,
     'rules' => [
         '' => 'site/index',
-        '<action:login|logout>' => 'site/<action>'
+        '<action:login|logout>' => 'auth/auth/<action>',
+        '<action:signup>' => 'auth/signup/<action>',
+        'contact' => 'contact/index',
+        'about' => 'site/about',
+
+
     ]
 ];

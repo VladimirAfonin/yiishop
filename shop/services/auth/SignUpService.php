@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\services\auth;
+namespace shop\services\auth;
 
 
 use shop\forms\auth\SignupForm;

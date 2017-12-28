@@ -1,6 +1,7 @@
 <?php
 
-namespace common\collections;
+namespace shop\collections;
+
 
 use shop\entities\User;
 use shop\collections\NotFoundException;

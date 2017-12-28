@@ -1,5 +1,5 @@
 <?php
-namespace common\tests;
+namespace shop\tests\_support;
 
 /**
  * Inherited Methods

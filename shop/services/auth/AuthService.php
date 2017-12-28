@@ -1,9 +1,9 @@
 <?php
 
-namespace common\services\auth;
+namespace shop\services\auth;
 
 use shop\collections\UserCollection;
-use shop\forms\LoginForm;
+use shop\forms\auth\LoginForm;
 use shop\entities\User;
 
 class AuthService

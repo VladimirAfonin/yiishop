@@ -1,14 +1,14 @@
 <?php
 namespace common\bootstrap;
 
-use common\collections\UserCollection;
-use common\services\auth\AuthService;
-use frontend\services\auth\PasswordResetService;
-use frontend\services\contact\ContactService;
+use shop\collections\UserCollection;
+use shop\services\auth\AuthService;
+use shop\services\auth\PasswordResetService;
+use shop\services\contact\ContactService;
 use yii\base\BootstrapInterface;
 use yii\di\Instance;
 use yii\mail\MailerInterface;
-use frontend\services\auth\SignUpService;
+use shop\services\auth\SignUpService;
 
 class SetUp implements BootstrapInterface
 {

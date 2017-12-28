@@ -1,5 +1,6 @@
 <?php
-namespace frontend\services\contact;
+namespace shop\services\contact;
+
 
 use Yii;
 use shop\forms\auth\ContactForm;

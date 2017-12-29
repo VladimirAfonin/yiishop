@@ -13,6 +13,11 @@ class Network extends ActiveRecord
         return '{{%user_networks}}';
     }
 
+    /**
+     * @param $network
+     * @param $identity
+     * @return Network
+     */
     public static function create($network, $identity): self
     {
         Assert::notEmpty($network);
@@ -22,6 +27,18 @@ class Network extends ActiveRecord
         $item->network = $network;
         $item->identity = $identity;
         return $item;
+    }
+
+    /**
+     * check if we have a new network in our DB.
+     *
+     * @param $network
+     * @param $identity
+     * @return bool
+     */
+    public function isFor($network, $identity): bool
+    {
+        return $this->network === $network && $this->identity === $identity;
     }
 
 }

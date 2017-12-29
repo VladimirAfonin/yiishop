@@ -91,6 +91,20 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
+    public function attachNetwork($network, $identity): void
+    {
+        // got related current network's
+        $networks = $this->networks;
+        foreach($networks as $network) {
+            if($network->isFor($network, $identity)) {
+                throw new \RuntimeException('network is already attached.');
+            }
+        }
+        // add another one row with some socialnet
+        $networks[] =  Network::create($network, $identity);
+        $this->networks = $network;
+    }
+
     /**
      * confirm sign up into email
      */

@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use shop\entities\User;
 use shop\helpers\UserHelper;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\forms\UserSearch */
@@ -27,12 +28,31 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            [
+                'attribute' => 'created_at',
+                'filter' => DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'date_from',
+                    'attribute2' => 'date_to',
+                    'type' => DatePicker::TYPE_RANGE,
+                    'separator' => '-',
+                    'pluginOptions' => [
+                        'todayHighlight' => true,
+                        'autoclose' => true,
+                        'format' => 'yyyy-mm-dd'
+                    ],
+                ]),
+                'format' => 'datetime',
+            ],
+            [
+                'attribute' => 'username',
+                'value' => function(User $user) {
+                    return Html::a(Html::encode($user->username), ['view', 'id' => $user->id]);
+                },
+                'format' => 'html'
+            ],
             'username',
-//            'auth_key',
-//            'password_hash',
-//            'password_reset_token',
-             'email:email',
-            // 'email_confirm_token:email',
+            'email:email',
             [
                 'attribute' => 'status',
                 'value' => function(User $user) {
@@ -41,8 +61,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'filter' => UserHelper::statusList() // выпадающий список
             ],
-             'created_at:datetime',
-            // 'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -68,7 +68,7 @@ class UserCollection
      * @param array $condition
      * @return User
      */
-    private function getBy(array $condition): User
+    private function getBy(array $condition)
     {
         if(!$user = User::find()->andWhere($condition)->limit(1)->one()) {
             throw new NotFoundException('user not found');

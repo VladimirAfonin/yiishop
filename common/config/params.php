@@ -4,6 +4,6 @@ return [
     'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
     'cookieDomain' => '.example.com',
-    'frontendHostInfo' => 'http://example.com',
-    'backendHostInfo' => 'http://example.com'
+    'frontendHostInfo' => 'http://localhost',
+    'backendHostInfo' => 'http://localhost'
 ];

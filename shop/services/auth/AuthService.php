@@ -18,7 +18,7 @@ class AuthService
     public function auth(LoginForm $form): User
     {
         $user = $this->_userCollection->getByUsername($form->username);
-        if(!$user || !$user->isActive() || $user->validatePassword($form->password)) {
+        if(!$user || !$user->isActive() || !$user->validatePassword($form->password)) {
             throw new \RuntimeException('undefined user or password.');
         }
         return $user;

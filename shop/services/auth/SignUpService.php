@@ -24,7 +24,7 @@ class SignUpService
      * @param SignupForm $form
      * @return User
      */
-    public function signup(SignupForm $form): void
+    public function signup(SignupForm $form)
     {
         $user =  User::create($form->username, $form->email, $form->password);
 
@@ -51,7 +51,7 @@ class SignUpService
      * @param $token
      * @return void
      */
-    public function confirm($token): void
+    public function confirm($token)
     {
         if(empty($token)) { throw new \RuntimeException('empty confirm token.'); }
 

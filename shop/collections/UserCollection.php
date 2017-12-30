@@ -59,7 +59,7 @@ class UserCollection
     /**
      * @param User $user
      */
-    public function save(User $user): void
+    public function save(User $user)
     {
         if(!$user->save()) { throw new NotFoundException('saving error.'); }
     }

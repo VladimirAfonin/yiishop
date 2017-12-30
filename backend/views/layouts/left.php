@@ -31,7 +31,8 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Управление', 'options' => ['class' => 'header']],
-                    ['label' => 'Пользователи', 'icon' => 'file-code-o', 'url' => ['/user/index']],
+                    ['label' => 'Пользователи', 'icon' => '', 'url' => ['/user'], 'active' => Yii::$app->controller->id == 'user'],
+                    ['label' => 'Главная', 'icon' => '', 'url' => ['/site'], 'active' => $this->context->id == 'site'],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],

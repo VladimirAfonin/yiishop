@@ -32,6 +32,13 @@ use dmstr\widgets\Alert;
     <section class="content">
         <?= Alert::widget() ?>
         <?= $content ?>
+
+        <?= Alert::widget([
+            'options' => [
+                'class' => 'alert-info',
+                'body' => Yii::$app->session->getFlash('success')
+            ],
+        ]) ?>
     </section>
 </div>
 

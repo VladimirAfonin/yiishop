@@ -2,18 +2,29 @@
 
 namespace backend\controllers;
 
+use shop\forms\manage\User\UserCreateForm;
+use shop\services\manage\UserManageService;
 use Yii;
 use shop\entities\User;
 use backend\forms\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\base\Module;
+use shop\forms\manage\User\UserEditForm;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
 class UserController extends Controller
 {
+    private $_userService;
+    public function __construct($id, Module $module, UserManageService $service, array $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->_userService = $service;
+    }
+
     /**
      * @inheritdoc
      */
@@ -63,15 +74,20 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $form = new UserCreateForm();
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $user = $this->_userService->create($form);
+                Yii::$app->session->setFlash('success', 'Пользователь успешно создан!');
+                return $this->redirect(['view', 'id' => $user->id]);
+            } catch (\RuntimeException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
+        return $this->render('create', [
+            'model' => $form,
+        ]);
     }
 
     /**
@@ -82,15 +98,22 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $user = $this->findModel($id);
+        $form = new UserEditForm($user);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try {
+                $this->_userService->edit($user->id, $form);
+                Yii::$app->session->setFlash('success', 'Пользователь успешно отредактирован!');
+                return $this->redirect(['view', 'id' => $user->id]);
+            } catch (\RuntimeException $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
         }
+        return $this->render('update', [
+            'model' => $form,
+            'user' => $user
+        ]);
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
 
 
 /* @var $this yii\web\View */
@@ -11,11 +12,12 @@ $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+    <?php $form = ActiveForm::begin() ?>
+        <?= $form->field($model, 'username')->textInput(['maxLength' => true]) ?>
+        <?= $form->field($model, 'email')->textInput(['maxLength' => true]) ?>
+        <?= $form->field($model, 'password')->passwordInput(['maxLength' => true]) ?>
+        <div class="form-group">
+            <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
+        </div>
+    <?php ActiveForm::end(); ?>
 </div>

@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use shop\entities\User;
+use shop\helpers\UserHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\forms\UserSearch */
@@ -12,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<!--    <h1>--><?//= Html::encode($this->title) ?><!--</h1>-->
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -31,7 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'password_reset_token',
              'email:email',
             // 'email_confirm_token:email',
-             'status',
+            [
+                'attribute' => 'status',
+                'value' => function(User $user) {
+                    return UserHelper::statusLabel($user->status);
+                },
+                'format' => 'html',
+                'filter' => UserHelper::statusList() // выпадающий список
+            ],
              'created_at:datetime',
             // 'updated_at',
 

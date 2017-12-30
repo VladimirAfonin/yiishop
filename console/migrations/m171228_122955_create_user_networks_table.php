@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `user_networks`.
  */
-class m171228_122956_create_user_networks_table extends Migration
+class m171228_122955_create_user_networks_table extends Migration
 {
     /**
      * @inheritdoc

@@ -1,6 +1,7 @@
 <?php
 namespace shop\entities\Shop;
 
+use shop\behaviors\MetaBehavior;
 use yii\db\ActiveRecord;
 use shop\entities\Meta;
 use yii\helpers\Json;
@@ -14,16 +15,28 @@ class Brand extends  ActiveRecord
         return 'shop_brands';
     }
 
+    public function behaviors(): array
+    {
+        return [
+            // 1-st
+            MetaBehavior::class, // our meta behavior
+            // 2-st
+            /*
+            [
+                'class' => MetaBehavior::class,
+                'jsonAttribute' => 'meta_serialize'
+            ]
+            */
+        ];
+    }
+
     /**
      * когда мы достали запись из бд
      */
-    public function afterFind(): void
-    {
-        $meta = Json::decode($this->getAttribute('meta_json'));
-        $this->meta = new Meta($meta['title'], $meta['description'], $meta['keywords']);
-
-        parent::afterFind();
-    }
+//    public function afterFind(): void
+//    {
+//        parent::afterFind();
+//    }
 
     /**
      * before save
@@ -31,16 +44,10 @@ class Brand extends  ActiveRecord
      * @param bool $insert
      * @return bool
      */
-    public function beforeSave($insert): bool
-    {
-        $this->setAttribute('meta_json', Json::encode([
-            'title' => $this->meta->title,
-            'description' => $this->meta->description,
-            'keywords' => $this->meta->keywords
-        ]));
-
-        return parent::beforeSave($insert);
-    }
+//    public function beforeSave($insert): bool
+//    {
+//        return parent::beforeSave($insert);
+//    }
 
     /**
      * @param $name

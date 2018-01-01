@@ -1,15 +1,11 @@
 <?php
-
 namespace shop\collections;
-
 
 use shop\entities\User;
 use shop\collections\NotFoundException;
 
 class UserCollection
 {
-
-
     /**
      * @param string $token
      * @return User

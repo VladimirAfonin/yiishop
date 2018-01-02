@@ -18,15 +18,14 @@ class BrandManageService
 
     /**
      * @param BrandForm $form
-     * @param MetaForm $metaForm
      * @return Brand
      */
-    public function create(BrandForm $form, MetaForm $metaForm): Brand
+    public function create(BrandForm $form /*, MetaForm $metaForm */): Brand
     {
         $brand = Brand::create(
             $form->name,
             $form->slug,
-            new Meta($metaForm->title, $metaForm->description, $metaForm->keywords)
+            new Meta( $form->meta->title, $form->meta->description, $form->meta->keywords)
         );
         $this->_brandCollect->save($brand);
         return $brand;

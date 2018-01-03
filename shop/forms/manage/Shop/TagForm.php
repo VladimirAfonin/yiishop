@@ -3,6 +3,7 @@ namespace shop\forms\manage\Shop;
 
 use yii\base\Model;
 use shop\entities\Shop\Tag;
+use shop\validators\SlugValidator;
 
 class TagForm extends  Model
 {
@@ -26,7 +27,7 @@ class TagForm extends  Model
         return [
             [['name'], 'required'],
             [['name', 'slug'], 'string', 'max' => 255],
-            [['slug', 'match', 'pattern' => '#^[a-z0-9_-]*$#s']],
+            ['slug', SlugValidator::class],
             [['name', 'slug'], 'unique', 'targetClass' => Tag::class, 'filter' => ['<>', 'id', $this->_tag->id]]
         ];
     }

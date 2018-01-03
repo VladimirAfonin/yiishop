@@ -7,6 +7,9 @@ use yii\base\Model;
 use shop\entities\Shop\Brand;
 use yii\helpers\ArrayHelper;
 
+/**
+ * @property MetaForm $meta;
+ */
 class BrandForm extends CompositeForm
 {
     public $name;

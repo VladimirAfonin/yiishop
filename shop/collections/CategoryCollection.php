@@ -1,6 +1,7 @@
 <?php
 namespace shop\collections;
 
+use SebastianBergmann\CodeCoverage\RuntimeException;
 use shop\entities\Shop\Category;
 
 class CategoryCollection
@@ -11,7 +12,8 @@ class CategoryCollection
      */
     public function get($id): Category
     {
-        return Category::findOne($id);
+        if(!$category = Category::findOne($id)) { throw new \RuntimeException('category not found'); }
+        return $category;
     }
 
     /**

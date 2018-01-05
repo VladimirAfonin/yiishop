@@ -66,6 +66,37 @@ class Product extends  ActiveRecord
     }
 
     /**
+     * @param $id
+     * @param $value
+     */
+    public function setValue($id, $value): void
+    {
+        $values = $this->values;
+        foreach($values as $item) {
+            if($item->isForCharacteristic($id)) {
+                return;
+            }
+        }
+        $values[] = Value::create($id, $value);
+        $this->values = $values;
+    }
+
+    /**
+     * @param $id
+     * @return Value
+     */
+    public function getValue($id): Value
+    {
+        $values = $this->values;
+        foreach($values as $item) {
+            if($item->isForCharacteristic($id)) {
+                return $item;
+            }
+        }
+        return Value::blank($id);
+    }
+
+    /**
      * @param $categoryId
      */
     public function changeMainCategory($categoryId): void

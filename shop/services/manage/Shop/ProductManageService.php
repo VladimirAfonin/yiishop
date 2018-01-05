@@ -47,6 +47,10 @@ class ProductManageService
             $product->assignCategory($category->id);
         }
 
+        foreach($form->values as $value) {
+            $product->setValue($value->id, $value->value);
+        }
+
         $this->_products->save($product);
 
         return $product;

@@ -11,7 +11,10 @@ class ProductCollection
      */
     public function get($id): Product
     {
-        return Product::findOne($id);
+        if(!$product =  Product::findOne($id)) {
+            throw new \RuntimeException('product is not found.');
+        }
+        return $product;
     }
 
     /**

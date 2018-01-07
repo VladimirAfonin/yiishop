@@ -2,12 +2,14 @@
 namespace shop\entities\Shop\Product;
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use SebastianBergmann\CodeCoverage\RuntimeException;
 use shop\behaviors\MetaBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use shop\entities\Meta;
 use shop\entities\Shop\Brand;
 use shop\entities\Shop\Category;
+use yii\web\UploadedFile;
 
 class Product extends  ActiveRecord
 {
@@ -30,8 +32,15 @@ class Product extends  ActiveRecord
             MetaBehavior::className(),
             [
                 'class' => SaveRelationsBehavior::className(),
-                'relations' => ['categoryAssignments'],
+                'relations' => ['categoryAssignments', 'values', 'photos'],
             ]
+        ];
+    }
+
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
         ];
     }
 
@@ -148,6 +157,92 @@ class Product extends  ActiveRecord
     }
 
     /**
+     * add photo
+     *
+     * @param UploadedFile $file
+     */
+    public function addPhoto(UploadedFile $file): void
+    {
+        $photos = $this->photos;
+        $photos[] = Photo::create($file);
+        $this->setPhotos($photos);
+    }
+
+    /**
+     * @param $id
+     */
+    public function removePhoto($id): void
+    {
+        $photos = $this->photos;
+        foreach($photos as $key => $photo) {
+            if($photo->isIdEqualTo($id)) {
+                unset($photos[$key]);
+                $this->setPhotos($photos);
+                return;
+            }
+        }
+        throw new \RuntimeException('photo is not found');
+    }
+
+    /**
+     * remove all photos
+     */
+    public function removePhotos(): void
+    {
+        $this->setPhotos([]);
+    }
+
+    /**
+     * @param array $photos
+     */
+    private function setPhotos(array $photos): void
+    {
+        foreach($photos as $i => $photo) {
+            $photo->setSort($i);
+        }
+        $this->photos = $photos;
+    }
+
+    /**
+     * sort photo to up
+     *
+     * @param $id
+     */
+    public function movePhotoUp($id): void
+    {
+        $photos = $this->photos;
+        foreach ($photos as $i => $photo) {
+            if($photo->isIdEqualTo($id) && ($prev = $photos[$i - 1] ?? null)) {
+                $photos[$i] = $prev;       // current -> prev
+                $photos[$i - 1] = $photo; //  prev -> current
+                $this->setPhotos($photos);
+                return;
+            }
+        }
+        throw new RuntimeException('photo is not found');
+    }
+
+    /**
+     * sort photo to down
+     *
+     * @param $id
+     */
+    public function movePhotoDown($id): void
+    {
+        $photos = $this->photos;
+        foreach ($photos as $i => $photo) {
+            if($photo->isIdEqualTo($id) && ($next = $photos[$i + 1] ?? null)) {
+                $photos[$i] = $next; // current -> next
+                $photos[$i + 1] = $photo; // next -> current
+                $this->setPhotos($photos);
+                return;
+            }
+        }
+        throw new RuntimeException('photo is not found');
+    }
+
+
+    /**
      * @return ActiveQuery
      */
     public function getBrand(): ActiveQuery
@@ -170,4 +265,21 @@ class Product extends  ActiveRecord
     {
         return $this->hasOne(CategoryAssignment::class, ['product_id' => 'id']);
     }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getValues(): ActiveQuery
+    {
+        return $this->hasOne(Value::class, ['product_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getPhotos(): ActiveQuery
+    {
+        return $this->hasOne(Photo::class, ['product_id' => 'id'])->orderBy('sort');
+    }
+
 }

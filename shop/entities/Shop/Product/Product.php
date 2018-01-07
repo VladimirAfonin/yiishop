@@ -208,7 +208,7 @@ class Product extends  ActiveRecord
      *
      * @param $id
      */
-    public function movePhotoUp($id): void
+    public function movePhotoDown($id): void
     {
         $photos = $this->photos;
         foreach ($photos as $i => $photo) {
@@ -227,7 +227,7 @@ class Product extends  ActiveRecord
      *
      * @param $id
      */
-    public function movePhotoDown($id): void
+    public function movePhotoUp($id): void
     {
         $photos = $this->photos;
         foreach ($photos as $i => $photo) {

@@ -32,7 +32,13 @@ class Product extends  ActiveRecord
             MetaBehavior::className(),
             [
                 'class' => SaveRelationsBehavior::className(),
-                'relations' => ['categoryAssignments', 'values', 'photos', 'tagAssignments', 'relatedAssignments'],
+                'relations' => [
+                    'categoryAssignments',
+                    'values',
+                    'photos',
+                    'tagAssignments',
+                    'relatedAssignments',
+                    'modifications'],
             ]
         ];
     }
@@ -120,6 +126,56 @@ class Product extends  ActiveRecord
             }
         }
         return Value::blank($id);
+    }
+
+    /**
+     * @param $id
+     * @return Modification
+     */
+    public function getModification($id): Modification
+    {
+        foreach ($this->modifications as $modification) {
+            if($modification->isIdEqualTo($id)) {
+                return $modification;
+            }
+        }
+        throw new \RuntimeException('modification is not found');
+    }
+
+    /**
+     * @param $code
+     * @param $name
+     * @param $price
+     */
+    public function addModification($code, $name, $price): void
+    {
+        $modifications = $this->modifications;
+        foreach ($modifications as $i => $modification) {
+            if ($modification->isCodeEqualTo($code)) {
+                throw new \RuntimeException('modification already exists.');
+            }
+            $modifications[] = Modification::create($code, $name, $price);
+            $this->modifications = $modifications;
+        }
+    }
+
+    /**
+     * @param $id
+     * @param $code
+     * @param $name
+     * @param $price
+     */
+    public function editModification($id, $code, $name, $price): void
+    {
+        $modifications = $this->modifications;
+        foreach ($modifications as $i => $modification) {
+            if ($modification->isIdEqualTo($id)) {
+                $modification->edit($code, $name, $price);
+                $this->modifications = $modifications;
+                return;
+            }
+        }
+        throw new \RuntimeException('modification is not found');
     }
 
     /**
@@ -380,7 +436,7 @@ class Product extends  ActiveRecord
      */
     public function getTagAssignments(): ActiveQuery
     {
-        return $this->hasOne(Tag::class, ['product_id' => 'id']);
+        return $this->hasMany(Tag::class, ['product_id' => 'id']);
     }
 
     /**
@@ -389,6 +445,14 @@ class Product extends  ActiveRecord
     public function getRelatedAssignments(): ActiveQuery
     {
         return $this->hasOne(RelatedAssignment::class, ['product_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getModifications(): ActiveQuery
+    {
+        return $this->hasOne(Modification::class, ['product_id' => 'id']);
     }
 
 }

@@ -37,6 +37,9 @@ class Product extends  ActiveRecord
         ];
     }
 
+    /**
+     * @return array
+     */
     public function transactions()
     {
         return [
@@ -62,6 +65,20 @@ class Product extends  ActiveRecord
         $product->meta = $meta;
         $product->created_at = time();
         return $product;
+    }
+
+    /**
+     * @param $brandId
+     * @param $code
+     * @param $name
+     * @param Meta $meta
+     */
+    public function edit($brandId, $code, $name, Meta $meta): void
+    {
+        $this->brand_id = $brandId;
+        $this->code = $code;
+        $this->name = $name;
+        $this->meta = $meta;
     }
 
     /**

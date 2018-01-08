@@ -13,7 +13,7 @@ class TagsForm extends Model
     public function __construct(Product $product = null, array $config = [])
     {
         if($product) {
-            $this->existing = ArrayHelper::getColumn($product->tagAssignment, 'tag_id'); // берем по связи с тэгами по полю 'tag_id'
+            $this->existing = ArrayHelper::getColumn($product->tagAssignments, 'tag_id'); // берем по связи с тэгами по полю 'tag_id'
         }
         parent::__construct($config);
     }

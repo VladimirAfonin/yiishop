@@ -32,7 +32,7 @@ class Product extends  ActiveRecord
             MetaBehavior::className(),
             [
                 'class' => SaveRelationsBehavior::className(),
-                'relations' => ['categoryAssignments', 'values', 'photos'],
+                'relations' => ['categoryAssignments', 'values', 'photos', 'tagAssignments', 'relatedAssignments'],
             ]
         ];
     }
@@ -241,6 +241,82 @@ class Product extends  ActiveRecord
         throw new RuntimeException('photo is not found');
     }
 
+    /**
+     * @param $id
+     */
+    public function assignTag($id): void
+    {
+        $assignments = $this->tagAssignments;
+        foreach($assignments as $assignment) {
+            if($assignment->isForTag($id)) {
+                return;
+            }
+        }
+        $assignments[] = CategoryAssignment::create($id);
+        $this->tagAssignments = $assignments;
+    }
+
+    /**
+     * one tag
+     *
+     * @param $id
+     */
+    public function revokeTag($id): void
+    {
+        $assignments = $this->tagAssignments;
+        foreach ($assignments as $k => $assignment) {
+            if ($assignment->isForTag($id)) {
+                unset($assignments[$k]);
+                $this->tagAssignments = $assignments;
+                return;
+            }
+        }
+        throw new \RuntimeException('assignment is not found.');
+    }
+
+    /**
+     * all tags
+     */
+    public function revokeTags(): void
+    {
+        $this->tagAssignments = [];
+    }
+
+    /**
+     * assign related product
+     *
+     * @param $id
+     */
+    public function assignRelatedProduct($id): void
+    {
+        $assignments = $this->relatedAssignments;
+        foreach ($assignments as $assignment) {
+            if ($assignment->isForProduct($id)) {
+                return;
+            }
+        }
+        $assignments[] = CategoryAssignment::create($id);
+        $this->relatedAssignments = $assignments;
+    }
+
+    /**
+     * revoke related product
+     *
+     * @param $id
+     */
+    public function revokeRelatedProduct($id): void
+    {
+        $assignments = $this->relatedAssignments;
+        foreach ($assignments as $k => $assignment) {
+            if ($assignment->isForProduct($id)) {
+                unset($assignments[$k]);
+                $this->relatedAssignments = $assignments;
+                return;
+            }
+        }
+        throw new \RuntimeException('assignment is not found.');
+    }
+
 
     /**
      * @return ActiveQuery
@@ -280,6 +356,22 @@ class Product extends  ActiveRecord
     public function getPhotos(): ActiveQuery
     {
         return $this->hasOne(Photo::class, ['product_id' => 'id'])->orderBy('sort');
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getTagAssignments(): ActiveQuery
+    {
+        return $this->hasOne(Tag::class, ['product_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getRelatedAssignments(): ActiveQuery
+    {
+        return $this->hasOne(RelatedAssignment::class, ['product_id' => 'id']);
     }
 
 }

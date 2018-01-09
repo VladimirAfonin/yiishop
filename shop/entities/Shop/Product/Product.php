@@ -38,7 +38,9 @@ class Product extends  ActiveRecord
                     'photos',
                     'tagAssignments',
                     'relatedAssignments',
-                    'modifications'],
+                    'modifications',
+                    'reviews',
+                ],
             ]
         ];
     }
@@ -95,6 +97,113 @@ class Product extends  ActiveRecord
     {
         $this->price_new = $new;
         $this->price_old = $old;
+    }
+
+    /**
+     * отзывы
+     *
+     * @param $userId
+     * @param $vote
+     * @param $text
+     */
+    public function addReview($userId, $vote, $text): void
+    {
+        $reviews = $this->reviews;
+        $reviews[] = Review::create($userId, $vote, $text);
+        $this->updateReviews($reviews);
+    }
+
+    /**
+     * отзывы редактирование
+     *
+     * @param $id
+     * @param $vote
+     * @param $text
+     */
+    public function editReview($id, $vote, $text): void
+    {
+        $reviews = $this->reviews;
+        foreach ($reviews as $k => $review) {
+            if ($review->isIdEqualTo($id)) {
+                $review->edit($vote, $text);
+                $this->updateReviews($reviews);
+                return;
+            }
+        }
+        throw new \RuntimeException('review not found');
+    }
+
+    /**
+     * активировать отзыв
+     *
+     * @param $id
+     */
+    public function activateReview($id): void
+    {
+        $reviews = $this->reviews;
+        foreach ($reviews as $review) {
+            if ($review->isIdEqualTo($id)) {
+                $review->active();
+                $this->updateReviews($reviews);
+                return;
+            }
+        }
+        throw new \RuntimeException('review is not found');
+    }
+
+    /**
+     * @param $id
+     */
+    public function draftReview($id): void
+    {
+        $reviews = $this->reviews;
+        foreach ($reviews as $k => $review) {
+            if ($review->isIdEqualTo($id)) {
+                $review->draft();
+                $this->updateReviews($reviews);
+                return;
+            }
+        }
+        throw new \RuntimeException('review not found');
+    }
+
+    /**
+     * удаляем отзыв
+     *
+     * @param $id
+     */
+    public function removeReview($id): void
+    {
+        $reviews = $this->reviews;
+        foreach ($reviews as $k => $review) {
+            if ($review->isIdEqualTo($id)) {
+                unset($reviews[$k]);
+                $this->updateReviews($reviews);
+                return;
+            }
+        }
+        throw new \RuntimeException('review not found');
+    }
+
+    /**
+     * перерасчет отзыва
+     *
+     * @param array $reviews
+     */
+    private function updateReviews(array $reviews): void
+    {
+        $amount = 0;
+        $total = 0;
+
+        foreach ($reviews as $review) {
+            if ($review->isActive()) {
+                $amount++;
+                $total += $review->getRating();
+            }
+        }
+
+        $this->reviews = $reviews;
+        $this->rating = $amount ? ($total / $amount) : null;
     }
 
     /**
@@ -453,6 +562,14 @@ class Product extends  ActiveRecord
     public function getModifications(): ActiveQuery
     {
         return $this->hasOne(Modification::class, ['product_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getReviews(): ActiveQuery
+    {
+        return $this->hasMany(Review::class, ['product_id' => 'id']);
     }
 
 }

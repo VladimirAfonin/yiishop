@@ -114,6 +114,26 @@ class Product extends  ActiveRecord
     }
 
     /**
+     * общее действие для 'edit', 'activate',
+     * 'draft' с Review
+     *
+     * @param $id
+     * @param callable $callback
+     */
+    private function doWithReview($id, callable  $callback): void
+    {
+        $reviews = $this->reviews;
+        foreach ($reviews as $k => $review) {
+            if ($review->isIdEqualTo($id)) {
+                $callback();
+                $this->updateReviews($reviews);
+                return;
+            }
+        }
+        throw new \RuntimeException('review not found');
+    }
+
+    /**
      * отзывы редактирование
      *
      * @param $id
@@ -122,15 +142,10 @@ class Product extends  ActiveRecord
      */
     public function editReview($id, $vote, $text): void
     {
-        $reviews = $this->reviews;
-        foreach ($reviews as $k => $review) {
-            if ($review->isIdEqualTo($id)) {
-                $review->edit($vote, $text);
-                $this->updateReviews($reviews);
-                return;
-            }
-        }
-        throw new \RuntimeException('review not found');
+        $callback = function (Review $review) use($vote, $text) {
+            $review->edit($vote, $text);
+        };
+        $this->doWithReview($id, $callback);
     }
 
     /**
@@ -140,15 +155,10 @@ class Product extends  ActiveRecord
      */
     public function activateReview($id): void
     {
-        $reviews = $this->reviews;
-        foreach ($reviews as $review) {
-            if ($review->isIdEqualTo($id)) {
-                $review->active();
-                $this->updateReviews($reviews);
-                return;
-            }
-        }
-        throw new \RuntimeException('review is not found');
+        $callback = function (Review $review) {
+            $review->active();
+        };
+        $this->doWithReview($id, $callback);
     }
 
     /**
@@ -156,15 +166,10 @@ class Product extends  ActiveRecord
      */
     public function draftReview($id): void
     {
-        $reviews = $this->reviews;
-        foreach ($reviews as $k => $review) {
-            if ($review->isIdEqualTo($id)) {
-                $review->draft();
-                $this->updateReviews($reviews);
-                return;
-            }
-        }
-        throw new \RuntimeException('review not found');
+        $callback = function (Review $review) {
+            $review->draft();
+        };
+        $this->doWithReview($id, $callback);
     }
 
     /**

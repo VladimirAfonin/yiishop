@@ -7,6 +7,7 @@ use shop\entities\Meta;
 use shop\entities\Shop\Brand;
 use shop\forms\manage\MetaForm;
 use shop\forms\manage\Shop\BrandForm;
+use shop\exceptions\UnableToRemoveBrandException;
 
 class BrandManageService
 {
@@ -56,7 +57,7 @@ class BrandManageService
     {
         $brand = $this->_brandCollect->get($id);
         if($this->_productsCollect->existsByBrand($brand->id)) {
-            throw new \RuntimeException('unable to remove brand with products.');
+            throw new UnableToRemoveBrandException($brand);
         }
         $this->_brandCollect->remove($brand);
     }

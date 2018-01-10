@@ -2,6 +2,7 @@
 namespace shop\services\manage\Shop;
 
 use shop\collections\BrandCollection;
+use shop\collections\ProductCollection;
 use shop\entities\Meta;
 use shop\entities\Shop\Brand;
 use shop\forms\manage\MetaForm;
@@ -10,10 +11,12 @@ use shop\forms\manage\Shop\BrandForm;
 class BrandManageService
 {
     private $_brandCollect;
+    private $_productsCollect;
 
-    public function __construct(BrandCollection $brandsCollect)
+    public function __construct(BrandCollection $brandsCollect, ProductCollection $productCollection)
     {
         $this->_brandCollect = $brandsCollect;
+        $this->_productsCollect = $productCollection;
     }
 
     /**
@@ -52,6 +55,9 @@ class BrandManageService
     public function remove($id): void
     {
         $brand = $this->_brandCollect->get($id);
+        if($this->_productsCollect->existsByBrand($brand->id)) {
+            throw new \RuntimeException('unable to remove brand with products.');
+        }
         $this->_brandCollect->remove($brand);
     }
 }

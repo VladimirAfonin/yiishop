@@ -101,10 +101,12 @@ class BrandController extends Controller
     {
         try {
             $this->_service->remove($id);
+            return $this->redirect(['index']);
         } catch(\RuntimeException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     /**

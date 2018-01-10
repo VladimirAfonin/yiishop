@@ -32,4 +32,15 @@ class ProductCollection
     {
         if(!$product->delete()) { throw new NotFoundException('delete error.'); }
     }
+
+    /**
+     * Does we have product with certain brand
+     *
+     * @param $brandId
+     * @return bool|bool
+     */
+    public function existsByBrand($brandId): bool
+    {
+        return Product::find()->andWhere(['brand_id' => $brandId])->exists();
+    }
 }

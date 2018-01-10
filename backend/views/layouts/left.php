@@ -33,7 +33,7 @@
                     ['label' => 'Управление', 'options' => ['class' => 'header']],
                     ['label' => 'Shop', 'icon' => 'folder', 'items' => [
                             ['label' => 'Brands', 'icon' => 'file-o', 'url' => ['/shop/brand/index'], 'active' => Yii::$app->controller->id == 'shop/brand'],
-                            ['label' => 'Brands', 'icon' => 'file-o', 'url' => ['/shop/brand/index'], 'active' => Yii::$app->controller->id == 'shop/brand'],
+                            ['label' => 'Tags', 'icon' => 'file-o', 'url' => ['/shop/tag/index'], 'active' => Yii::$app->controller->id == 'shop/tag'],
                         ]
                     ],
                     ['label' => 'Пользователи', 'icon' => '', 'url' => ['/user'], 'active' => Yii::$app->controller->id == 'user'],

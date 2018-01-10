@@ -31,6 +31,11 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Управление', 'options' => ['class' => 'header']],
+                    ['label' => 'Shop', 'icon' => 'folder', 'items' => [
+                            ['label' => 'Brands', 'icon' => 'file-o', 'url' => ['/shop/brand/index'], 'active' => Yii::$app->controller->id == 'shop/brand'],
+                            ['label' => 'Brands', 'icon' => 'file-o', 'url' => ['/shop/brand/index'], 'active' => Yii::$app->controller->id == 'shop/brand'],
+                        ]
+                    ],
                     ['label' => 'Пользователи', 'icon' => '', 'url' => ['/user'], 'active' => Yii::$app->controller->id == 'user'],
                     ['label' => 'Главная', 'icon' => '', 'url' => ['/site'], 'active' => $this->context->id == 'site'],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],

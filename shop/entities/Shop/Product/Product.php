@@ -352,7 +352,7 @@ class Product extends  ActiveRecord
     {
         $photos = $this->photos;
         $photos[] = Photo::create($file);
-        $this->setPhotos($photos);
+        $this->updatePhotos($photos);
     }
 
     /**
@@ -364,7 +364,7 @@ class Product extends  ActiveRecord
         foreach($photos as $key => $photo) {
             if($photo->isIdEqualTo($id)) {
                 unset($photos[$key]);
-                $this->setPhotos($photos);
+                $this->updatePhotos($photos);
                 return;
             }
         }
@@ -376,13 +376,13 @@ class Product extends  ActiveRecord
      */
     public function removePhotos(): void
     {
-        $this->setPhotos([]);
+        $this->updatePhotos([]);
     }
 
     /**
      * @param array $photos
      */
-    private function setPhotos(array $photos): void
+    private function updatePhotos(array $photos): void
     {
         foreach($photos as $i => $photo) {
             $photo->setSort($i);
@@ -399,10 +399,12 @@ class Product extends  ActiveRecord
     {
         $photos = $this->photos;
         foreach ($photos as $i => $photo) {
-            if($photo->isIdEqualTo($id) && ($prev = $photos[$i - 1] ?? null)) {
-                $photos[$i] = $prev;       // current -> prev
-                $photos[$i - 1] = $photo; //  prev -> current
-                $this->setPhotos($photos);
+            if($photo->isIdEqualTo($id)) {
+                if($prev = $photos[$i - 1] ?? null) {
+                    $photos[$i] = $prev;       // current -> prev
+                    $photos[$i - 1] = $photo; //  prev -> current
+                    $this->updatePhotos($photos);
+                }
                 return;
             }
         }
@@ -418,10 +420,12 @@ class Product extends  ActiveRecord
     {
         $photos = $this->photos;
         foreach ($photos as $i => $photo) {
-            if($photo->isIdEqualTo($id) && ($next = $photos[$i + 1] ?? null)) {
-                $photos[$i] = $next; // current -> next
-                $photos[$i + 1] = $photo; // next -> current
-                $this->setPhotos($photos);
+            if($photo->isIdEqualTo($id)) {
+                if($next = $photos[$i + 1] ?? null) {
+                    $photos[$i] = $next; // current -> next
+                    $photos[$i + 1] = $photo; // next -> current
+                    $this->updatePhotos($photos);
+                }
                 return;
             }
         }
@@ -526,7 +530,7 @@ class Product extends  ActiveRecord
      */
     public function getCategoryAssignments(): ActiveQuery
     {
-        return $this->hasOne(CategoryAssignment::class, ['product_id' => 'id']);
+        return $this->hasMany(CategoryAssignment::class, ['product_id' => 'id']);
     }
 
     /**
@@ -534,7 +538,7 @@ class Product extends  ActiveRecord
      */
     public function getValues(): ActiveQuery
     {
-        return $this->hasOne(Value::class, ['product_id' => 'id']);
+        return $this->hasMany(Value::class, ['product_id' => 'id']);
     }
 
     /**
@@ -542,7 +546,7 @@ class Product extends  ActiveRecord
      */
     public function getPhotos(): ActiveQuery
     {
-        return $this->hasOne(Photo::class, ['product_id' => 'id'])->orderBy('sort');
+        return $this->hasMany(Photo::class, ['product_id' => 'id'])->orderBy('sort');
     }
 
     /**
@@ -558,7 +562,7 @@ class Product extends  ActiveRecord
      */
     public function getRelatedAssignments(): ActiveQuery
     {
-        return $this->hasOne(RelatedAssignment::class, ['product_id' => 'id']);
+        return $this->hasMany(RelatedAssignment::class, ['product_id' => 'id']);
     }
 
     /**
@@ -566,7 +570,7 @@ class Product extends  ActiveRecord
      */
     public function getModifications(): ActiveQuery
     {
-        return $this->hasOne(Modification::class, ['product_id' => 'id']);
+        return $this->hasMany(Modification::class, ['product_id' => 'id']);
     }
 
     /**

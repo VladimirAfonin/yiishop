@@ -2,6 +2,7 @@
 namespace shop\services\manage\Shop;
 
 use shop\collections\CategoryCollection;
+use shop\collections\ProductCollection;
 use shop\forms\manage\Shop\CategoryForm;
 use shop\entities\Shop\Category;
 use shop\entities\Meta;
@@ -10,10 +11,12 @@ class CategoryManageService
 {
     /* Коллекция категорий */
     private $_categoriesCollect;
+    private $_productsCollection;
 
-    public function __construct(CategoryCollection $catCollect)
+    public function __construct(CategoryCollection $catCollect, ProductCollection $productsCollection)
     {
         $this->_categoriesCollect = $catCollect;
+        $this->_productsCollection = $productsCollection;
     }
 
     /**
@@ -64,6 +67,9 @@ class CategoryManageService
     {
         $category = $this->_categoriesCollect->get($id);
         $this->assertIsNotRoot($category);
+        if($this->_productsCollection->existsByMainCategory($category->id)) {
+            throw new \RuntimeException('unable to remove category with products.');
+        }
         $this->_categoriesCollect->remove($category);
     }
 

@@ -34,7 +34,7 @@ class ProductCollection
     }
 
     /**
-     * Does we have product with certain brand
+     * Do we have product with certain brand
      *
      * @param $brandId
      * @return bool|bool
@@ -42,5 +42,16 @@ class ProductCollection
     public function existsByBrand($brandId): bool
     {
         return Product::find()->andWhere(['brand_id' => $brandId])->exists();
+    }
+
+    /**
+     * Do we have product in category
+     *
+     * @param $categoryid
+     * @return bool
+     */
+    public function existsByMainCategory($categoryid): bool
+    {
+        return Product::find()->andWhere(['category_id' => $categoryid])->exists();
     }
 }

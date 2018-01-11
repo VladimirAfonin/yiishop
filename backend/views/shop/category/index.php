@@ -1,0 +1,35 @@
+<?php
+use kartik\helpers\Html;
+use yii\grid\GridView;
+use shop\entities\Shop\Category;
+
+$this->title = 'Category';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+
+<div class="user-index">
+    <p>
+        <?= Html::a('create category', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <div class="box">
+        <div class="box-body">
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    'id',
+                    [
+                        'attribute' => 'name',
+                        'value' => function(Category $model) {
+                            $indent = ($model->depth > 1 ? str_repeat('&nbsp;&nbsp;', $model->depth - 1) . ' ' : '');
+                            return $indent . Html::a(Html::encode($model->name), ['view', 'id' => $model->id]) ;
+                        },
+                        'format' => 'html'
+                    ],
+                    'slug',
+                    ['class' => \yii\grid\ActionColumn::class]
+                ]
+            ]) ?>
+        </div>
+    </div>
+</div>

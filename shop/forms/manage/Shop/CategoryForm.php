@@ -6,6 +6,7 @@ use shop\validators\SlugValidator;
 use yii\base\Model;
 use shop\entities\Shop\Category;
 use shop\forms\manage\MetaForm;
+use yii\helpers\ArrayHelper;
 
 class CategoryForm extends CompositeForm
 {
@@ -46,7 +47,7 @@ class CategoryForm extends CompositeForm
     {
         return [
             [['name', 'slug'], 'required'],
-            [['parent_id'], 'integer'],
+            [['parentId'], 'integer'],
             [['name', 'slug', 'title'], 'string', 'max' => 255],
             [['description'], 'string'],
             ['slug', SlugValidator::class],
@@ -60,5 +61,15 @@ class CategoryForm extends CompositeForm
     public function internalForms(): array
     {
         return ['meta'];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function parentCategoriesList(): array
+    {
+        return ArrayHelper::map(Category::find()->orderBy('lft')->asArray()->all(), 'id', function(array $category) { // 'id' -> the key in array
+            return ($category['depth'] > 1 ? str_repeat('--', $category['depth'] - 1) . ' ' : '') . $category['name'];
+        });
     }
 }

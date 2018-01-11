@@ -85,4 +85,30 @@ class CategoryManageService
         }
     }
 
+    /**
+     * @param $id
+     */
+    public function moveUp($id): void
+    {
+        $category = $this->_categoriesCollect->get($id);
+        $this->assertIsNotRoot($category);
+        if ($prev = $category->prev) { // nestedSetbehavior action
+            $category->insertBefore($prev); // nestedSetbehavior action
+        }
+        $this->_categoriesCollect->save($category);
+    }
+
+    /**
+     * @param $id
+     */
+    public function moveDown($id): void
+    {
+        $category = $this->_categoriesCollect->get($id);
+        $this->assertIsNotRoot($category);
+        if ($next = $category->next ){ // nestedSetbehavior action
+            $category->insertAfter($next); // nestedSetbehavior action
+        }
+        $this->_categoriesCollect->save($category);
+    }
+
 }

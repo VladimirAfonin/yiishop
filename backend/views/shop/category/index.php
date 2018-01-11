@@ -26,7 +26,17 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'format' => 'html'
                     ],
+                    [
+                        'value' => function(Category $model) {
+                            return
+                                   Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['move-up', 'id' => $model->id]/*, ['data-method' => 'post']*/) .
+                                   Html::a('<span class="glyphicon glyphicon-arrow-down"></span>', ['move-down', 'id' => $model->id]/*, ['data-method' => 'post']*/);
+                        },
+                        'format' => 'html',
+                        'contentOptions' => ['style' => 'text-align: center'],
+                    ],
                     'slug',
+                    'title',
                     ['class' => \yii\grid\ActionColumn::class]
                 ]
             ]) ?>

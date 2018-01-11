@@ -35,6 +35,7 @@
                             ['label' => 'Brands', 'icon' => 'file-o', 'url' => ['/shop/brand/index'], 'active' => Yii::$app->controller->id == 'shop/brand'],
                             ['label' => 'Tags', 'icon' => 'file-o', 'url' => ['/shop/tag/index'], 'active' => Yii::$app->controller->id == 'shop/tag'],
                             ['label' => 'Categories', 'icon' => 'file-o', 'url' => ['/shop/category/index'], 'active' => Yii::$app->controller->id == 'shop/tag'],
+                            ['label' => 'Characteristics', 'icon' => 'file-o', 'url' => ['/shop/characteristic/index'], 'active' => $this->context->id == 'shop/characteristic'],
                         ]
                     ],
                     ['label' => 'Пользователи', 'icon' => '', 'url' => ['/user'], 'active' => Yii::$app->controller->id == 'user'],

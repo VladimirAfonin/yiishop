@@ -1,7 +1,6 @@
 <?php
 namespace shop\services\manage\Shop;
 
-
 use shop\collections\CharacteristicCollection;
 use shop\entities\Shop\Characteristic;
 use shop\forms\manage\Shop\CharacteristicForm;

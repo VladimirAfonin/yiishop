@@ -581,4 +581,25 @@ class Product extends  ActiveRecord
         return $this->hasMany(Review::class, ['product_id' => 'id']);
     }
 
+    /**
+     * @return ActiveQuery
+     */
+    public function getMainPhoto(): ActiveQuery
+    {
+        return $this->hasOne(Photo::class, ['id' => 'main_photo_id']);
+    }
+
+    /**
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes): void
+    {
+        $related = $this->getRelatedRecords();
+        if(array_key_exists('mainPhoto', $related)) {
+            $this->updateAttributes(['main_photo_id' => ($related['mainPhoto'] ? $related['mainPhoto']->id : null)]);
+        }
+        parent::afterSave($insert, $changedAttributes);
+    }
+
 }

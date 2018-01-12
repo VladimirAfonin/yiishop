@@ -590,6 +590,8 @@ class Product extends  ActiveRecord
     }
 
     /**
+     * set main photo in product
+     *
      * @param bool $insert
      * @param array $changedAttributes
      */

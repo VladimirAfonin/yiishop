@@ -5,7 +5,9 @@ namespace shop\services\manage\Shop;
 use shop\collections\{BrandCollection, CategoryCollection, TagCollection, ProductCollection};
 use shop\entities\Shop\Product\Product;
 use shop\entities\Shop\Product\Tag;
-use shop\forms\manage\Shop\Product\{PhotosForm, CategoriesForm, ProductCreateForm};
+use shop\forms\manage\Shop\Product\{
+    PhotosForm, CategoriesForm, ProductCreateForm, ProductEditForm
+};
 use shop\entities\Meta;
 use shop\services\manage\TransactionManager;
 
@@ -88,6 +90,55 @@ class ProductManageService
 //        $this->_products->save($product);
 
         return $product;
+    }
+
+    public function edit($id, ProductEditForm $form): void
+    {
+        $product = $this->_products->get($id);
+        $brand = $this->_brands->get($form->brandId);
+        $category = $this->_categories->get($form->categories->main);
+        $product->edit(
+            $brand->id,
+            $form->code,
+            $form->name,
+            $form->description,
+            new Meta(
+                $form->meta->title,
+                $form->meta->description,
+                $form->meta->keywords
+            )
+        );
+        $product->changeMainCategory($category->id);
+
+        $this->_transaction->wrap(function () use ($product, $form) {
+            $product->revokeCategories();
+            $product->revokeTags();
+            $this->_products->save($product);
+
+            foreach ($form->categories->others as $otherId) {
+                $category = $this->_categories->get($otherId);
+                $product->assignCategory($category->id);
+            }
+
+            foreach ($form->values as $value) {
+                $product->setValue($value->id, $value->value);
+            }
+
+            foreach ($form->tags->existing as $tagId) {
+                $tag = $this->_tags->get($tagId);
+                $product->assignTag($tag->id);
+            }
+
+            foreach ($form->tags->newNames as $tagName) {
+                if (!$tag = $this->_tags->findByName($tagName)) {
+                    $tag = Tag::create($tagName, $tagName);
+                    $this->_tags->save($tag);
+                }
+                $product->assignTag($tag->id);
+            }
+
+            $this->_products->save($product);
+        });
     }
 
     /**

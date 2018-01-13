@@ -3,6 +3,7 @@ namespace shop\entities\Shop\Product;
 
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
+use yiidreamteam\upload\ImageUploadBehavior;
 
 /*
  * @property integer $id
@@ -17,6 +18,25 @@ class Photo extends ActiveRecord
     public static function tableName(): string
     {
         return 'shop_photos';
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => ImageUploadBehavior::className(),
+                'attribute'=> 'file',
+                'createThumbsOnRequest' => true,
+                'filePath' => '@backend/web/upload/origin/products/[[attribute_product_id]]/[[id]].[[extension]]',
+                'fileUrl' => '@web/upload/origin/products/[[attribute_product_id]]/[[id]].[[extension]]',
+                'thumbPath' => '@backend/web/upload/cache/products/[[attribute_product_id]]/[[profile]]_[[id]].[[extension]]',
+                'thumbUrl' => '@web/upload/cache/products/[[attribute_product_id]]/[[profile]]_[[id]].[[extension]]',
+                'thumbs' => [
+                    'admin' => ['width' => 100, 'height' => 70],
+                    'thumb'=> ['width' => 640, 'height' => 480]
+                ]
+            ]
+        ];
     }
 
     /**

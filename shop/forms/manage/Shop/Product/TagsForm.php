@@ -4,6 +4,7 @@ namespace shop\forms\manage\Shop\Product;
 use yii\base\Model;
 use shop\entities\Shop\Product\Product;
 use yii\helpers\ArrayHelper;
+use shop\entities\Shop\Product\Tag;
 
 class TagsForm extends Model
 {
@@ -32,5 +33,13 @@ class TagsForm extends Model
     public function getNewNames(): array
     {
         return array_map('trim', preg_split('#\s*,\s*#i', $this->textNew));
+    }
+
+    /**
+     * @return array
+     */
+    public function tagsList(): array
+    {
+        return ArrayHelper::map(Tag::find()->orderBy('name')->asArray()->all(), 'id', 'name');
     }
 }

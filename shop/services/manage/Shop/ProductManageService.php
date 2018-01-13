@@ -6,7 +6,7 @@ use shop\collections\{BrandCollection, CategoryCollection, TagCollection, Produc
 use shop\entities\Shop\Product\Product;
 use shop\entities\Shop\Product\Tag;
 use shop\forms\manage\Shop\Product\{
-    PhotosForm, CategoriesForm, ProductCreateForm, ProductEditForm
+    PhotosForm, CategoriesForm, ProductCreateForm, ProductEditForm, PriceForm
 };
 use shop\entities\Meta;
 use shop\services\manage\TransactionManager;
@@ -45,7 +45,7 @@ class ProductManageService
         $product = Product::create(
             $brand->id,
             $category->id,
-            $form->code, // articul.
+            $form->code, // артикул.
             $form->name,
             new Meta( $form->meta->title, $form->meta->description, $form->meta->keywords )
         );
@@ -169,6 +169,17 @@ class ProductManageService
             $product->addPhoto($file);
         }
         $this->_products->save($product);
+    }
+
+    /**
+     * @param $id
+     * @param PriceForm $form
+     */
+    public function changePrice($id, PriceForm $form): void
+    {
+        $product = $this->products->get($id);
+        $product->setPrice($form->new, $form->old);
+        $this->products->save($product);
     }
 
     /**

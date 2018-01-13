@@ -6,6 +6,6 @@ return [
     'cookieDomain' => '.example.com',
     'frontendHostInfo' => 'http://localhost',
     'backendHostInfo' => 'http://localhost',
-    'staticHostInfo' => 'http://localhost',
-    'staticPath' => dirname(__DIR__) . '/../static',
+//    'staticHostInfo' => 'http://localhost/common',
+//    'staticPath' => dirname(__DIR__) . '/../static',
 ];

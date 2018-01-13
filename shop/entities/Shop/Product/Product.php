@@ -16,11 +16,11 @@ class Product extends  ActiveRecord
     public $meta;
 
     /**
-     * @return array
+     * @return string
      */
-    public static function tableName()
+    public static function tableName(): string
     {
-        return ['shop_products'];
+        return 'shop_products';
     }
 
     /**
@@ -528,6 +528,14 @@ class Product extends  ActiveRecord
     /**
      * @return ActiveQuery
      */
+    public function getCategories(): ActiveQuery
+    {
+        return $this->hasMany(Category::class, ['id' => 'category_id'])->via('categoryAssignments');
+    }
+
+    /**
+     * @return ActiveQuery
+     */
     public function getCategoryAssignments(): ActiveQuery
     {
         return $this->hasMany(CategoryAssignment::class, ['product_id' => 'id']);
@@ -560,9 +568,25 @@ class Product extends  ActiveRecord
     /**
      * @return ActiveQuery
      */
+    public function getTags(): ActiveQuery
+    {
+        return $this->hasMany(Tag::class, ['id' => 'tag_id'])->via('tagAssignments');
+    }
+
+    /**
+     * @return ActiveQuery
+     */
     public function getRelatedAssignments(): ActiveQuery
     {
         return $this->hasMany(RelatedAssignment::class, ['product_id' => 'id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getRelateds(): ActiveQuery
+    {
+        return $this->hasMany(Product::class, ['id' => 'related_id'])->via('relatedAssignments');
     }
 
     /**
@@ -602,6 +626,17 @@ class Product extends  ActiveRecord
             $this->updateAttributes(['main_photo_id' => ($related['mainPhoto'] ? $related['mainPhoto']->id : null)]);
         }
         parent::afterSave($insert, $changedAttributes);
+    }
+
+    public function beforeDelete(): bool
+    {
+        if (parent::beforeDelete()) {
+            foreach ($this->photos as $photo) {
+                $photo->delete();
+            }
+            return true;
+        }
+        return false;
     }
 
 }

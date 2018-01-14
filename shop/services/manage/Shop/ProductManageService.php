@@ -10,6 +10,7 @@ use shop\forms\manage\Shop\Product\{
 };
 use shop\entities\Meta;
 use shop\services\manage\TransactionManager;
+use shop\services\ProductReader;
 
 class ProductManageService
 {
@@ -18,12 +19,22 @@ class ProductManageService
     private $_categories;
     private $_tags;
     private $_transaction;
+    private $_reader;
+
+    /**
+     * @return BrandCollection
+     */
+    public function getBrands(): BrandCollection
+    {
+        return $this->_brands;
+    }
 
     public function __construct(
         ProductCollection $products,
         BrandCollection $brands,
         CategoryCollection $categoryCollection,
         TagCollection $tags,
+        ProductReader $reader,
         TransactionManager $transaction)
     {
         $this->_products = $products;
@@ -31,6 +42,7 @@ class ProductManageService
         $this->_categories = $categoryCollection;
         $this->_tags = $tags;
         $this->_transaction = $transaction;
+        $this->_reader = $reader;
     }
 
     /**
@@ -177,9 +189,9 @@ class ProductManageService
      */
     public function changePrice($id, PriceForm $form): void
     {
-        $product = $this->products->get($id);
+        $product = $this->_products->get($id);
         $product->setPrice($form->new, $form->old);
-        $this->products->save($product);
+        $this->_products->save($product);
     }
 
     /**
@@ -263,6 +275,17 @@ class ProductManageService
         $otherProduct = $this->_products->get($id);
         $product->revokeRelatedProduct($otherProduct->id);
         $this->_products->save($product);
+    }
+
+    public function import($id, ImportForm $form): void
+    {
+        $this->_transaction->wrap(function() use($form) {
+            $results = $this->_reader->readCsv($form->file->tmpName);
+            foreach($results as $result) {
+                $product = $this->_products->getByCode($result->code);
+                $this->_products->save($product);
+            }
+        });
     }
 
 }

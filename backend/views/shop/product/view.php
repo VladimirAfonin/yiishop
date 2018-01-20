@@ -21,6 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-view">
 
     <p>
+        <?php if ($product->isActive()): ?>
+            <?= Html::a('draft', ['draft', 'id' => $product->id], ['class' => 'btn btn-primary', 'data-method' => 'post']) ?>
+            <?php else : ?>
+            <?= Html::a('activate', ['activate', 'id' => $product->id], ['class' => 'btn btn-success', 'data-method' => 'post']) ?>
+        <?php endif; ?>
         <?= Html::a('Update', ['update', 'id' => $product->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $product->id], [
             'class' => 'btn btn-danger',
@@ -40,6 +45,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'model' => $product,
                         'attributes' => [
                             'id',
+                            [
+                                'attribute' => 'status',
+                                'value' => \shop\helpers\ProductHelper::statusLabel($product->status),
+                                'format' => 'raw'
+                            ],
                             [
                                 'attribute' => 'brand_id',
                                 'value' => ArrayHelper::getValue($product, 'brand.name'), // -> $product->brand->name
@@ -195,7 +205,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'multiple' => true,
                 ]
             ]) ?>
-
             <div class="form-group">
                 <?= Html::submitButton('Upload', ['class' => 'btn btn-success']) ?>
             </div>

@@ -288,4 +288,24 @@ class ProductManageService
         });
     }
 
+    /**
+     * @param $id
+     */
+    public function activate($id): void
+    {
+        $product = $this->_products->get($id);
+        $product->activate();
+        $this->_products->save($product);
+    }
+
+    /**
+     * @param $id
+     */
+    public function draft($id): void
+    {
+        $product = $this->_products->get($id);
+        $product->activate();
+        $this->_products->save($product);
+    }
+
 }

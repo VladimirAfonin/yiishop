@@ -1,6 +1,7 @@
 <?php
 namespace backend\forms\shop;
 
+use shop\helpers\ProductHelper;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use shop\entities\Shop\Product\Product;
@@ -14,13 +15,22 @@ class ProductSearch extends Model
     public $name;
     public $category_id;
     public $brand_id;
+    public $status;
 
     public function rules()
     {
         return [
-            [['id', 'category_id', 'brand_id'], 'integer'],
+            [['id', 'category_id', 'brand_id', 'status'], 'integer'],
             [['code', 'name'], 'safe']
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function statusList()
+    {
+        return ProductHelper::statusList();
     }
 
 
@@ -48,7 +58,8 @@ class ProductSearch extends Model
         $query->andFilterWhere([
             'id' => $this->id,
             'category_id' => $this->category_id,
-            'brand_id' => $this->brand_id
+            'brand_id' => $this->brand_id,
+            'status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])

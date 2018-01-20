@@ -1,9 +1,12 @@
 <?php
-$this->title = 'Products';
-$this->params['breadcrumbs'][] = $this->title;
 use yii\helpers\Html;
 use shop\entities\Shop\Product\Product;
 use shop\helpers\PriceHelper;
+use shop\helpers\ProductHelper;
+
+$this->title = 'Products';
+$this->params['breadcrumbs'][] = $this->title;
+
 
 ?>
 <div class="user-index">
@@ -41,6 +44,14 @@ use shop\helpers\PriceHelper;
                         return PriceHelper::format($model->price_new);
                     },
                 ],
+                [
+                    'attribute' => 'status',
+                    'value' => function (Product $model) {
+                        return ProductHelper::statusLabel($model->status);
+                    },
+                    'filter' => $searchModel->statusList(),
+                    'format' => 'html'
+                ]
             ]
         ]) ?>
     </div>

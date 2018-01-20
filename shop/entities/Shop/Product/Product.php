@@ -4,6 +4,7 @@ namespace shop\entities\Shop\Product;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use SebastianBergmann\CodeCoverage\RuntimeException;
 use shop\behaviors\MetaBehavior;
+use shop\queries\ProductQuery;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use shop\entities\Meta;
@@ -13,6 +14,9 @@ use yii\web\UploadedFile;
 
 class Product extends  ActiveRecord
 {
+    const STATUS_DRAFT = 0;
+    const STATUS_ACTIVE = 1;
+
     public $meta;
 
     /**
@@ -71,6 +75,7 @@ class Product extends  ActiveRecord
         $product->code = $code;
         $product->name = $name;
         $product->meta = $meta;
+        $product->status = self::STATUS_DRAFT;
         $product->created_at = time();
         return $product;
     }
@@ -97,6 +102,44 @@ class Product extends  ActiveRecord
     {
         $this->price_new = $new;
         $this->price_old = $old;
+    }
+
+    /**
+     * status product to 'active'
+     */
+    public function activate(): void
+    {
+        if ($this->isActive()) {
+            throw new \RuntimeException('product is already active.');
+        }
+        $this->status = self::STATUS_ACTIVE;
+    }
+
+    /**
+     * product status to 'draft'
+     */
+    public function draft(): void
+    {
+        if ($this->isDraft()) {
+            throw new \RuntimeException('product is already in draft.');
+        }
+        $this->status = self::STATUS_DRAFT;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isActive(): bool
+    {
+        return $this->status == self::STATUS_ACTIVE;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isDraft(): bool
+    {
+        return $this->status == self::STATUS_DRAFT;
     }
 
     /**
@@ -313,7 +356,7 @@ class Product extends  ActiveRecord
                 return;
             }
         }
-        $assignments[] = CategoryAssignment::create($id);
+        $assignments[] = CategoryAssiegnment::create($id);
         $this->categoryAssignments = $assignments;
     }
 
@@ -622,10 +665,11 @@ class Product extends  ActiveRecord
     public function afterSave($insert, $changedAttributes): void
     {
         $related = $this->getRelatedRecords();
+        parent::afterSave($insert, $changedAttributes);
         if(array_key_exists('mainPhoto', $related)) {
             $this->updateAttributes(['main_photo_id' => ($related['mainPhoto'] ? $related['mainPhoto']->id : null)]);
         }
-        parent::afterSave($insert, $changedAttributes);
+
     }
 
     public function beforeDelete(): bool
@@ -637,6 +681,16 @@ class Product extends  ActiveRecord
             return true;
         }
         return false;
+    }
+
+    /**
+     * change default method 'find' with our custom method with filter.
+     *
+     * @return ProductQuery
+     */
+    public static function find(): ProductQuery
+    {
+        return new ProductQuery(static::class);
     }
 
 }

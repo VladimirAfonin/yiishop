@@ -11,7 +11,8 @@ return [
         '<action:signup>' => 'auth/signup/<action>',
         'contact' => 'contact/index',
         'about' => 'site/about',
-        'cabinet' => '/cabinet/default/index'
+        'cabinet' => '/cabinet/default/index',
+        'catalog' => 'catalog/index'
 
 
     ]

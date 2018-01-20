@@ -37,6 +37,8 @@ class ProductController extends Controller
                     'delete-photo' => ['POST'],
                     'move-photo-up' => ['POST'],
                     'move-photo-down' => ['POST'],
+                    'activate' => ['POST'],
+                    'draft' => ['POST'],
                 ]
             ]
         ];
@@ -212,5 +214,35 @@ class ProductController extends Controller
             return $model;
         }
         throw new NotFoundHttpException('the requested page doesnot exists');
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function actionActivate($id)
+    {
+        try {
+            $this->_service->activate($id);
+            Yii::$app->session->setFlash('success', 'statuc has been successfully changed!');
+        } catch (\RuntimeException $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function actionDraft($id)
+    {
+        try {
+            $this->_service->draft($id);
+            Yii::$app->session->setFlash('success', 'statuc has been successfully changed!');
+        } catch (\RuntimeException $e) {
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+        return $this->redirect(['view', 'id' => $id]);
     }
 }

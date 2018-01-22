@@ -75,7 +75,7 @@ class ProductReadCollections
      * @param $id
      * @return null|Product
      */
-    public function find($id): ?Product
+    public function find($id): Product
     {
         return Product::find()->active()->andWhere(['id' => $id])->one();
     }

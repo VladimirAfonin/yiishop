@@ -5,10 +5,14 @@ use backend\forms\shop\BrandSearch;
 use shop\forms\manage\Shop\BrandForm;
 use shop\services\manage\Shop\BrandManageService;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\base\Module;
 use Yii;
 use shop\entities\Shop\Brand;
+use backend\entities\WebPage;
+use backend\entities\{ProxyRequest, ProxyList};
+
 
 class BrandController extends Controller
 {
@@ -41,6 +45,13 @@ class BrandController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', compact('searchModel', 'dataProvider'));
+    }
+
+    public function actionTest()
+    {
+        $html = WebPage::get('https://www.google.ru/search', ['q' => 'Universidad de Montevideo'], [], true);
+//        $htmlDom = WebPage::urlDom($html); //->query('//*[@id="rhs_block"]');
+        return $this->render('test', compact('html'  /*, 'htmlDom', 'proxy'*/ ));
     }
 
     /**

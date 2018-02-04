@@ -108,6 +108,9 @@ class ProductReadCollections
                         'desc' => ['p.rating' => SORT_DESC],
                     ],
                 ]
+            ],
+            'pagination' => [
+                'pageSizeLimit' => [15, 100],
             ]
         ]);
     }

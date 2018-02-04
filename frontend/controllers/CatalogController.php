@@ -5,6 +5,7 @@ use shop\readCollections\BrandReadCollection;
 use shop\readCollections\CategoryReadCollections;
 use shop\readCollections\ProductReadCollections;
 use shop\readCollections\TagReadCollections;
+use yii\data\SqlDataProvider;
 use yii\web\Controller;
 use yii\base\Module;
 
@@ -42,6 +43,49 @@ class CatalogController extends Controller
 
         // our custom ProductQuery!!!
 //        Product::find()->active('p')/* but doesnot work with: ->alias('p')->joinWith('categoryAssignments c')->andWhere(['category_id' => $id])->all() */->all();
+
+        // --- without dataprovider --- //
+        /*$query = Product::find()->active(); //  вместо использования DataProvider
+        $pagination = new Pagination([
+            'totalCount' => $query->count(),
+        ]);
+        $query->limit($pagination->getLimit())->offset($pagination->getOffset());
+        $sort = new Sort([
+            'attributes' => [
+                'id',
+                'price',
+                'rating'
+            ]
+        ]);
+        $query->orderBy($sort->getOrders());
+        $products = $query->all();*/
+        // ---  --- //
+
+        // --- example 'SqlDataProvider' --- //
+        /*$dataProvider = new SqlDataProvider([
+            'sql' => 'SELECT * FROM ...',
+            'sort' => [
+                'attributes' => [
+                    'id',
+                    'price',
+                    'rating'
+                ]
+            ]
+        ]);*/
+        // --- --- //
+
+        // --- example 'ArrayDataProvider' --- //
+        /*$dataProvider = new ArrayDataProvider([
+            'allModels' => file(),
+            'sort' => [
+                'attributes' => [
+                    'id',
+                    'price',
+                    'rating'
+                ]
+            ]
+        ]);*/
+        // --- --- //
 
        $dataProvider = $this->_products->getAll();
        $category = $this->_categories->getRoot();

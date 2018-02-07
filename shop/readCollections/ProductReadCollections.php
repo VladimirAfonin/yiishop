@@ -25,6 +25,17 @@ class ProductReadCollections
     }
 
     /**
+     * get product by 'limit'
+     *
+     * @param $limit
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getFeatured($limit)
+    {
+        return Product::find()->with('mainPhoto')->orderBy(['id' => SORT_DESC])->limit($limit)->all();
+    }
+
+    /**
      * get all products in category and subcategories
      *
      * @param Category $category

@@ -93,6 +93,21 @@ class WebPage extends ActiveRecord
         return $m->desc;
     }
 
+    public static function getWiki($endpoint, $params = [])
+    {
+        $url = self::makeUrl($endpoint, $params);
+//        var_dump($url);exit();
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, 0); // 1
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
+    }
+
     /**
      * get ip&port in response from api.
      *

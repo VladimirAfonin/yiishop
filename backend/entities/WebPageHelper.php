@@ -37,6 +37,17 @@ class WebPageHelper
     }
 
     /**
+     * get final 'website' info
+     *
+     * @param $matches
+     * @return string
+     */
+    public static function getFinalWebsiteInfo($matches)
+    {
+        return (isset($matches[0])) ? substr($matches[0], 0, -3) : 'not_found';
+    }
+
+    /**
      * detail info for budget
      *
      * @param $arr

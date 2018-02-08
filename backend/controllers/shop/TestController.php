@@ -29,6 +29,18 @@ class TestController extends Controller
      */
     public function actionTest()
     {
+        /* get website from wiki */
+        // get id of item in wiki from db.
+        $wikiId = 'Q13371'; // harvard for example
+        // property for 'website'
+        $propertyWiki = 'P856';
+        $websiteWiki = WebPage::getWiki('https://www.wikidata.org/w/api.php', ['action' => 'wbgetclaims', 'entity' => $wikiId, 'property' => $propertyWiki, 'format' => 'json']);
+        $arr = json_decode($websiteWiki);
+
+
+        $websiteWiki = $arr->claims->$propertyWiki[0]->mainsnak->datavalue->value;
+        $websiteFromDB = 'http://www.harvard.edu';
+
         // get names of univ from csv file
         $path = dirname(__FILE__);
         $fh = fopen($path . '/../../entities/universities.csv', 'r');
@@ -37,12 +49,13 @@ class TestController extends Controller
             $namesOfUniversities[] = $row[1];
         }
 
-        $nameUni = $namesOfUniversities[313];
+        $nameUni = $namesOfUniversities[67];
 //        $website = 'http://www.uniroma1.it'; // 81
 //        $website = 'http://www.kaznu.kz'; // 77
 //        $website = 'http://www.raj.ru'; // 72
 //        $website = 'http://www.unimi.it'; // 78
-        $website = 'http://www.unikin.cd'; // 85
+//        $website = 'http://www.unikin.cd'; // 85
+//        $website = 'http://www.mdx.ac.uk'; // 322
 
         $html = WebPage::get('https://www.google.ru/search', ['q' => $nameUni, 'gl => US', 'hl' => 'en'], [], false);
 
@@ -135,6 +148,6 @@ class TestController extends Controller
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'harvard university'], [], true);
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'Lomonosov University'], [], true);
 
-        return $this->render('test', compact('html', 'website'));
+        return $this->render('test', compact('html', 'websiteFromDB', 'websiteWiki'));
     }
 }

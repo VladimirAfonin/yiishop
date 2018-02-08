@@ -38,6 +38,7 @@ class CatalogController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'blank';
         // we use as default, but we have ProductQuery with custom 'find' method
 //        Product::find()->andWhere(['status' => Product::STATUS_ACTIVE]);
 

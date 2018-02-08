@@ -5,7 +5,12 @@ use backend\entities\WebPage;
 $htmlDom = WebPage::dom($html);
 $elem = $htmlDom->query('//div[@class="mod"]/following-sibling::div[1]');
 
-// elements sometime may change with google
+// get 'website' info from Knowledge Panel of google
+$websiteFromKP = $htmlDom->query('//a[2][@class="fl"]/@href')->item(0)->nodeValue ?? null;
+preg_match('#http(s?):\/\/(w{3}\.{1})?(.+)\.(.+)\/#i', $websiteFromKP, $matchesKP);
+
+
+// elements sometime can change with google
 if ( ($elem->length) < 1) {
     $elem = $htmlDom->query('//div[@class="_o0d"]/following-sibling::div[1]');
 }
@@ -51,12 +56,14 @@ foreach ($resultItems as $items) {
                 $output_array[3][0],
                 $output_array[4][0],
             ];
-            $key2 = strtolower(str_replace(' ', '_', $output_array[1][1]));
-            $data['detailed_tuition_fees'][$key2] = [
-                $output_array[2][1],
-                $output_array[3][1],
-                $output_array[4][1],
-            ];
+            if(isset($output_array[1][1])) {
+                $key2 = strtolower(str_replace(' ', '_', ($output_array[1][1])));
+                $data['detailed_tuition_fees'][$key2] = [
+                    $output_array[2][1],
+                    $output_array[3][1],
+                    $output_array[4][1],
+                ];
+            }
         } else {
             if ((strripos('ternational', ($arr[1] ?? null)) != false) || (strripos('omestic', ($arr[1] ?? null))) != false) {
                 $data['detailed_tuition_fees'] = explode(':', $arr[1]);
@@ -88,8 +95,18 @@ foreach ($resultItems as $items) {
     // create $data['detailed_budget']
     if (stripos($arr[0], 'udget') != false) {
         $data['detailed_budget'] = explode(' ', $arr[1]);
+
+        if (count($data['detailed_budget']) == 5) {
+            $dataStr = implode(' ', $data['detailed_budget']);
+            preg_match('#([0-9]+[,.]?[0-9]+)+\s(illion)?([a-zA-Z])+([0-9]{4})?#', $dataStr, $matches);
+            $data['detailed_budget'][0] = $matches[0];
+            $data['detailed_budget'][1] = trim(str_replace( [$matches[0]], '', $dataStr));
+            $data['detailed_budget'][2] = '-';
+            $data['detailed_budget'] = array_slice($data['detailed_budget'], 0, 3);
+        }
         $countDetailBudgetItems = count($data['detailed_budget']);
     }
+
 
     // create $data['detailed_doctoral_students']
     if ((stripos($arr[0], 'octoral')) != false && (stripos($arr[0], 'students')) != false) {
@@ -145,22 +162,26 @@ $data['detailed_graduation_rate'] = WebPageHelper::addDetailInfo($data, 'detaile
 $data['detailed_endowment'] = WebPageHelper::addDetailInfo($data, 'detailed_endowment', 'detailResultItemInfo', ['value', 'currency']);
 
 if (isset($data['detailed_budget'])) {
-    $data['detailed_budget'] = (WebPageHelper::addDetailInfo($data, 'detailed_budget', 'detailResultItemInfo', ($countDetailBudgetItems == 4) ? ['value', 'currency', 'year'] : ['value', 'year'])); // : ($this->addDetailInfo($data, 'detailed_budget', 'detailResultItemInfo', ['value',  'year']));
+    $data['detailed_budget'] = (WebPageHelper::addDetailInfo($data, 'detailed_budget', 'detailBudget', ($countDetailBudgetItems >= 3) ? ['value', 'currency', 'year'] : ['value', 'year']));
 }
 if (isset($data['detailed_doctoral_students'])) {
-    $data['detailed_doctoral_students'] = (WebPageHelper::addDetailInfo($data, 'detailed_doctoral_students', 'detailResultItemInfo', ($countDoctoralStudentsItems == 2) ? ['value'] : ['value', 'year'])); // : ($this->addDetailInfo($data, 'detailed_doctoral_students', 'detailResultItemInfo', ['value',  'year']));
+    $data['detailed_doctoral_students'] = (WebPageHelper::addDetailInfo($data, 'detailed_doctoral_students', 'detailResultItemInfo', ($countDoctoralStudentsItems == 2) ? ['value'] : ['value', 'year']));
 }
 if (isset($data['detailed_postgraduates'])) {
-    $data['detailed_postgraduates'] = (WebPageHelper::addDetailInfo($data, 'detailed_postgraduates', 'detailResultItemInfo', ($countPostgraduatesItems == 2) ? ['value'] : ['value', 'year'])); // : ($this->addDetailInfo($data, 'detailed_postgraduates', 'detailResultItemInfo', ['value',  'year']));
+    $data['detailed_postgraduates'] = (WebPageHelper::addDetailInfo($data, 'detailed_postgraduates', 'detailResultItemInfo', ($countPostgraduatesItems == 2) ? ['value'] : ['value', 'year']));
 }
 if (isset($data['detailed_tuition_fees'])) {
-    $data['detailed_tuition_fees'] = (count($data['detailed_tuition_fees']) > 1) ? WebPageHelper::detailTuitionFees($data['detailed_tuition_fees']) : WebPageHelper::detailResultItemInfo($data['detailed_tuition_fees'][0], ['value', 'currency', 'year']);
+    $data['detailed_tuition_fees'] = (count($data['detailed_tuition_fees']) > 1) ? WebPageHelper::detailTuitionFees($data['detailed_tuition_fees']) : WebPageHelper::detailOneTuitionFees( $data['detailed_tuition_fees'][0] ?? $data['detailed_tuition_fees'], ['value', 'currency', 'year']);
 }
+// get website info of item
+$datgit a['detailed_website_info']['from_db'] = $website;
+$data['detailed_website_info']['from_parsing'] = $matchesKP[0] ?? 'not_found';
+$data['detailed_website_info']['is_equal'] = WebPageHelper::isWebsiteInfoEqual($matchesKP[0] ?? null, $website);
 
 $data['short_desc'] = $shortDesc;
 ?>
 
-<!-- view part -->
+<!-- VIEW PART -->
 <?php
 echo '<hr>';
 var_dump($html);
@@ -178,4 +199,6 @@ echo '</pre>';
 ?>
 <!--short desc of item -->
 <p><?= $shortDesc ?></p>
+
+
 

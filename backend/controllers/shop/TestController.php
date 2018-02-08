@@ -1,25 +1,13 @@
 <?php
 namespace backend\controllers\shop;
 
-use backend\forms\shop\BrandSearch;
-use shop\forms\manage\Shop\BrandForm;
-use shop\services\manage\Shop\BrandManageService;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
-use yii\base\Module;
 use Yii;
-use shop\entities\Shop\Brand;
 use backend\entities\WebPage;
 
-class BrandController extends Controller
+class TestController extends Controller
 {
-    private $_service;
-
-    public function __construct($id, Module $module, BrandManageService $service, array $config = [])
-    {
-        parent::__construct($id, $module, $config);
-        $this->_service = $service;
-    }
 
     public function behaviors(): array
     {
@@ -41,11 +29,40 @@ class BrandController extends Controller
      */
     public function actionTest()
     {
-        $html = WebPage::get('https://www.google.ru/search', ['q' => 'Tohoku University', 'gl => US', 'hl' => 'en'], [], false);
+        // get names of univ from csv file
+        $path = dirname(__FILE__);
+        $fh = fopen($path . '/../../entities/universities.csv', 'r');
+        $namesOfUniversities = [];
+        while ($row = fgetcsv($fh, 10000, ',', 'r')) {
+            $namesOfUniversities[] = $row[1];
+        }
+
+        $nameUni = $namesOfUniversities[313];
+//        $website = 'http://www.uniroma1.it'; // 81
+//        $website = 'http://www.kaznu.kz'; // 77
+//        $website = 'http://www.raj.ru'; // 72
+//        $website = 'http://www.unimi.it'; // 78
+        $website = 'http://www.unikin.cd'; // 85
+
+        $html = WebPage::get('https://www.google.ru/search', ['q' => $nameUni, 'gl => US', 'hl' => 'en'], [], false);
+
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => $summaryArr[1], 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => $queryArr[8], 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => $queryArr[7], 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => $queryArr[6], 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => $queryArr[5], 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => $queryArr[4], 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => $queryArr[3], 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => $queryArr[2], 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => $queryArr[1], 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => $queryArr[0], 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => 'University of Western Australia', 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => 'University of Zurich', 'gl => US', 'hl' => 'en'], [], false);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => 'Tohoku University', 'gl => US', 'hl' => 'en'], [], false);
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'Rice University', 'gl => US', 'hl' => 'en'], [], false);
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'Ivan Franko National University of Lviv', 'gl => US', 'hl' => 'en'], [], false);
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'Illinois Institute of Technology', 'gl => US', 'hl' => 'en'], [], false);
-//        $html = WebPage::get('https://www.google.ru/search', ['q' => 'University of California, Office of The President', 'gl => US', 'hl' => 'en'], [], true);
+//        $html = WebPage::get('https://www.google.ru/search', ['q' => 'University of California, Office of The President', 'gl => US', 'hl' => 'en'], [], false);
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'University of Tehran', 'gl => US', 'hl' => 'en'], [], true);
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'University of Gothenburg', 'gl => US', 'hl' => 'en'], [], true);
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'Russian Academy of Justice', 'gl => US', 'hl' => 'en'], [], false);
@@ -118,96 +135,6 @@ class BrandController extends Controller
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'harvard university'], [], true);
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'Lomonosov University'], [], true);
 
-        return $this->render('test', compact('html'));
-    }
-
-    /**
-     * @return string
-     */
-    public function actionIndex()
-    {
-        $searchModel = new BrandSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', compact('searchModel', 'dataProvider'));
-    }
-
-    /**
-     * @param $id
-     * @return string
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', ['brand' => $this->findModel($id)]);
-    }
-
-    /**
-     * @return \yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $form = new BrandForm();
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $brand = $this->_service->create($form);
-                return $this->redirect(['view', 'id' => $brand->id]);
-            } catch(\RuntimeException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
-        return $this->render('create', ['model' => $form]);
-    }
-
-    /**
-     * @param $id
-     * @return \yii\web\Response
-     */
-    public function actionUpdate($id)
-    {
-        $brand = $this->findModel($id);
-        $form = new BrandForm($brand);
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->_service->edit($id, $form);
-                Yii::$app->session->setFlash('success', 'brand successfully edit');
-                return $this->redirect(['view', 'id' => $brand->id]);
-            } catch (\RuntimeException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
-        return $this->render('update', [
-            'model' => $form,
-            'brand' => $brand
-        ]);
-    }
-
-    /**
-     * @param $id
-     */
-    public function actionDelete($id)
-    {
-        try {
-            $this->_service->remove($id);
-            return $this->redirect(['index']);
-        } catch(\RuntimeException $e) {
-            Yii::$app->errorHandler->logException($e);
-            Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-        return $this->redirect(['view', 'id' => $id]);
-    }
-
-    /**
-     * @param $id
-     * @return Brand
-     */
-    public function findModel($id): Brand
-    {
-        if (($model = Brand::findOne($id)) !== null) {
-            return $model;
-        }
-        throw new \RuntimeException('The requested brand does not exist.');
-
+        return $this->render('test', compact('html', 'website'));
     }
 }

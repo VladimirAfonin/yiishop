@@ -27,13 +27,144 @@ class WebPageHelper
      * compare 'website' info:
      * db against parsing
      *
-     * @param $haystack
-     * @param $needle
+     * @param $websiteGoogle
+     * @param $websiteFromDB
+     * @param $websiteWiki
      * @return bool
      */
-    public static function isWebsiteInfoEqual($haystack, $needle)
+    public static function isWebsiteInfoEqual($websiteGoogle, $websiteFromDB, $websiteWiki)
     {
-        return (strpos($haystack, $needle) === false ? 0 : 1);
+        $websiteGoogle = self::getBaseUrl($websiteGoogle);
+        $websiteFromDB = self::getBaseUrl($websiteFromDB);
+        $websiteWiki = self::getBaseUrl($websiteWiki);
+
+        similar_text($websiteGoogle, $websiteFromDB, $percent1);
+        similar_text($websiteGoogle, $websiteWiki, $percent2);
+        similar_text($websiteFromDB, $websiteWiki, $percent3);
+        $summaryResult = round(($percent1 + $percent2 + $percent3) / 3, 3);
+        return $summaryResult;
+    }
+
+    /**
+     * cut prefix of url
+     *
+     * @param string $link
+     * @return string
+     */
+    public static function getBaseUrl(string $link): string
+    {
+        $prefixes = self::prefixesArray();
+        $url =  preg_replace("/((http(s)?\:\/\/)((www\.)?(.+?)))\/(.+?)?$/", '$6', $link);
+        $url =  preg_replace("/((http(s)?\:\/\/)((www\.)?(.+)))$/", '$6', $url);
+        $parts = explode('.', $url);
+        if (count($parts) > 2) {
+            foreach ($prefixes as $prefix) {
+                if (substr($url, 0, strlen($prefix)) == $prefix) {
+                    $newUrl = substr($url, strlen($prefix));
+                }
+            }
+        }
+        return $newUrl ?? $url;
+    }
+
+    /**
+     * @return array
+     */
+    public static function prefixesArray()
+    {
+        return [
+            'www-en.',
+            'welcome.',
+            'www-eng.',
+            'ewww.',
+            'wwww.',
+            'www.en.',
+            'w.',
+            'wp.',
+            'ww.',
+            'wwwp.',
+            'www.',
+            'www1.',
+            'ww1.',
+            'www2.',
+            'ww2.',
+            'www3.',
+            'www4.',
+            'www5.',
+            'www6.',
+            'www7.',
+            'www8.',
+            'www9.',
+            'www10.',
+            'www11.',
+            'www12.',
+            'www13.',
+            'www14.',
+            'www15.',
+            'www16.',
+            'www17.',
+            'www18.',
+            'www19.',
+            'www20.',
+            'w3.',
+            'ww3.',
+            'www4.',
+            'ww4.',
+            'www5.',
+            'www6.',
+            'www10',
+            'wwwen.',
+            'webs.',
+            'web.',
+            'int.',
+            'internacional.',
+            'international.',
+            'inter.',
+            'university.',
+            'intraweb.',
+            'staryweb.',
+            'about.',
+            'global.',
+            'portal.',
+            'portale.',
+            'portail.',
+            'portale.',
+            'portal2.',
+            'portal3.',
+            'portal4.',
+            '2014.',
+            'v.',
+            'v1.',
+            'v2.',
+            'v3.',
+            'v4.',
+            'public.',
+            'cms1.',
+            'cms2.',
+            'cms3.',
+            'cms4.',
+            'cms5.',
+            'old.',
+            'new.',
+            'site.',
+            'website.',
+            'english.',
+            'englishweb.',
+            'home.',
+            'sites.',
+            'site.',
+            'cms.',
+            'wiz.',
+            'homepage.',
+            'eweb.',
+            'eng.',
+            'en.',
+            'in.',
+            'dl.',
+            'a.',
+            'ou.',
+            'e.',
+        ];
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers\shop;
 
+use backend\entities\WebPageHelper;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use Yii;
@@ -24,40 +25,45 @@ class TestController extends Controller
     /**
      * get raw html data,
      * scrap data
-     *
+     * @param $needParser
      * @return string
      */
-    public function actionTest()
+    public function actionTest(int $needParser = 0)
     {
-        /* get website from wiki */
-        // get id of item in wiki from db.
-        $wikiId = 'Q13371'; // harvard for example
-        // property for 'website'
-        $propertyWiki = 'P856';
-        $websiteWiki = WebPage::getWiki('https://www.wikidata.org/w/api.php', ['action' => 'wbgetclaims', 'entity' => $wikiId, 'property' => $propertyWiki, 'format' => 'json']);
-        $arr = json_decode($websiteWiki);
-
-
-        $websiteWiki = $arr->claims->$propertyWiki[0]->mainsnak->datavalue->value;
-        $websiteFromDB = 'http://www.harvard.edu';
-
-        // get names of univ from csv file
+        // get names of items from csv file
         $path = dirname(__FILE__);
         $fh = fopen($path . '/../../entities/universities.csv', 'r');
         $namesOfUniversities = [];
         while ($row = fgetcsv($fh, 10000, ',', 'r')) {
             $namesOfUniversities[] = $row[1];
         }
+        $nameUni = $namesOfUniversities[67]; // for harvard
+//        $nameUni = $namesOfUniversities[73]; // for tokyo
 
-        $nameUni = $namesOfUniversities[67];
-//        $website = 'http://www.uniroma1.it'; // 81
-//        $website = 'http://www.kaznu.kz'; // 77
-//        $website = 'http://www.raj.ru'; // 72
-//        $website = 'http://www.unimi.it'; // 78
-//        $website = 'http://www.unikin.cd'; // 85
-//        $website = 'http://www.mdx.ac.uk'; // 322
+        $googleApiKey = 'AIzaSyDdQ2h8pTul-FVW89x4vMN6mL7xn-N7Ms4';
+        /* get website from wiki */
+        // get id of item in wiki from db.
+//        $wikiId = 'Q7842'; // tokyo for example
+        $wikiId = 'Q13371'; // harvard for example
+        $linkToWiki = 'http://en.wikipedia.org/wiki/Harvard_University';
+        // property for 'website'
+        $propertyWiki = 'P856';
 
-        $html = WebPage::get('https://www.google.ru/search', ['q' => $nameUni, 'gl => US', 'hl' => 'en'], [], false);
+
+        $websiteWiki = WebPage::getDataFromApi('https://www.wikidata.org/w/api.php', ['action' => 'wbgetclaims', 'entity' => $wikiId, 'property' => $propertyWiki, 'format' => 'json']);
+        $websiteFromGoogleApi = WebPage::getDataFromApi('https://kgsearch.googleapis.com/v1/entities:search', ['query' => $nameUni, 'key' => $googleApiKey, 'types' => 'CollegeOrUniversity', 'limit' => 1]);
+
+        $arrFromGoogleApi = json_decode($websiteFromGoogleApi);
+        $websiteFromGoogleApi = $arrFromGoogleApi->itemListElement[0]->result->url;
+        $arrFromWiki = json_decode($websiteWiki);
+        $websiteWiki = $arrFromWiki->claims->$propertyWiki[0]->mainsnak->datavalue->value;
+         $websiteFromDB = 'http://www.harvard.edu'; // for harvard
+//        $websiteFromDB = 'http://www.u-tokyo.ac.jp'; // for tokyo
+
+        if($needParser == 1) {
+            $html = WebPage::get('https://www.google.ru/search', ['q' => $nameUni, 'gl => US', 'hl' => 'en'], [], false);
+        }
+
 
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => $summaryArr[1], 'gl => US', 'hl' => 'en'], [], false);
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => $queryArr[8], 'gl => US', 'hl' => 'en'], [], false);
@@ -148,6 +154,12 @@ class TestController extends Controller
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'harvard university'], [], true);
 //        $html = WebPage::get('https://www.google.ru/search', ['q' => 'Lomonosov University'], [], true);
 
-        return $this->render('test', compact('html', 'websiteFromDB', 'websiteWiki'));
+        return $this->render('test', compact(
+            'html',
+            'websiteFromDB',
+            'websiteWiki',
+            'nameUni',
+            'linkToWiki',
+            'websiteFromGoogleApi'));
     }
 }

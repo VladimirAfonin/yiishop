@@ -93,10 +93,16 @@ class WebPage extends ActiveRecord
         return $m->desc;
     }
 
-    public static function getWiki($endpoint, $params = [])
+    /**
+     * for wiki or google api
+     *
+     * @param $endpoint
+     * @param array $params
+     * @return mixed
+     */
+    public static function getDataFromApi($endpoint, $params = [])
     {
         $url = self::makeUrl($endpoint, $params);
-//        var_dump($url);exit();
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HEADER, 0); // 1
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

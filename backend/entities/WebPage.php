@@ -27,7 +27,7 @@ class WebPage extends ActiveRecord
         return 'academic_webpage';
     }
 
-    const CHECK_TIME = 1800; // sec. -> 15 min
+    const CHECK_TIME = 1200; // sec.
     const GIMMEPROXY_API_URL = 'http://gimmeproxy.com/api/getProxy';
     const GETPROXYLIST_API_URL = 'https://api.getproxylist.com/proxy';
     const PUBPROXY_API_URL = 'http://pubproxy.com/api/proxy';
@@ -94,6 +94,27 @@ class WebPage extends ActiveRecord
     }
 
     /**
+     * for wiki or google api
+     *
+     * @param $endpoint
+     * @param array $params
+     * @return mixed
+     */
+    public static function getDataFromApi($endpoint, $params = [])
+    {
+        $url = self::makeUrl($endpoint, $params);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, 0); // 1
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
+    }
+
+    /**
      * get ip&port in response from api.
      *
      * @param string $nameOfService
@@ -105,7 +126,8 @@ class WebPage extends ActiveRecord
             self::GIMMEPROXY_API_URL => [
                 'supportsHttps' => true,
                 'user-agent' => true,
-//                'anonymityLevel' => 1,
+                'anonymityLevel' => 1,
+                'country' => 'US'
             ],
             self::GETPROXYLIST_API_URL => [
                 'allowsHttps' => true,
@@ -119,7 +141,8 @@ class WebPage extends ActiveRecord
                 'user_agent' => true,
                 'cookies' => true,
                 'https' => 1,
-//                'limit' => 20 // from 0 to 20
+                'limit' => 20, // from 0 to 20 for this API
+                'country' => 'US',
             ],
         ];
 
@@ -187,7 +210,6 @@ class WebPage extends ActiveRecord
         return $proxy->address;
     }
 
-
     /**
      * @param $url
      * @param $withProxy
@@ -197,7 +219,7 @@ class WebPage extends ActiveRecord
     public function connect($url, $withProxy = false)
     {
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_HEADER, 1); // 1
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
@@ -205,13 +227,13 @@ class WebPage extends ActiveRecord
 
         if($withProxy) {
             $try = true;
-            $steps = 30;
+            $steps = 20; // api response 20 request
             $step = 0;
 
             if(($answer = self::checkProxyValidation()) == false) {
                 $proxy = file('../entities/proxy.txt');
                 // for api call
-//                $proxy = (array) self::getProxyResponse(self::PUBPROXY_API_URL); // self::GETPROXYLIST_API_URL | self::GIMMEPROXY_API_URL | self::PUBPROXY_API_URL
+//                $proxy = (array) self::getProxyResponse(self::GIMMEPROXY_API_URL); // self::GETPROXYLIST_API_URL | self::GIMMEPROXY_API_URL | self::PUBPROXY_API_URL
             } else {
                 $proxy = (array) $answer;
             }
@@ -228,28 +250,32 @@ class WebPage extends ActiveRecord
                 }
 
                 $step++;
-                if($step == $steps && $http_code != 200) { throw new \RuntimeException('попытки закончились, попробуйте снова!') ;}
+                if($step == $steps && $http_code != 200) { throw new \RuntimeException("{$steps} попыток закончилось, попробуйте снова!") ;}
                 $try = (($step < $steps) && ($http_code != 200));
             }
 
             $newProxy = ((count($proxy) > 1) ? $proxy[$step-1] : implode('', $proxy));
 
             curl_setopt($ch, CURLOPT_PROXY, $newProxy);
+            curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
+            curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_REFERER, 'http://www.google.ru/');
             curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
             curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
             curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
             curl_setopt($ch, CURLOPT_USERAGENT, $code = $userAgent[rand(0, $userAgentsCount)]);
+
         }
 
-        $response = curl_exec($ch);
+        $response = iconv('CP1251', 'UTF-8', curl_exec($ch));
         $http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
-        if(preg_match('/302\s[a-z]{5}/i', $response)) {
-            throw new \RuntimeException('we got 302 answer, try again.');
+        if(preg_match('/302\s[a-z]{5}|blue coat/i', $response)) {
+            throw new \RuntimeException('we got 302 answer and bad proxy, try again.');
         }
 
-        $this->desc = $response;
+        $this->desc = $response; //(count($response) > 5000) ? $response : '';
         $this->path = $url;
         $this->http_code = $http_code;
         $this->redirect_count = curl_getinfo($ch, CURLINFO_REDIRECT_COUNT);
@@ -280,8 +306,7 @@ class WebPage extends ActiveRecord
     {
         $userAgent = file('../entities/user_agents_list.txt');
         $userAgentsCount = count($userAgent) - 1;
-        $checkUrl = 'https://google.ru';
-//        $checkUrl = 'https://m.google.com/robots.txt';
+        $checkUrl = 'https://m.google.com/robots.txt';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $checkUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -292,7 +317,8 @@ class WebPage extends ActiveRecord
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 7);
         curl_setopt($ch, CURLOPT_TIMEOUT, 20);
         curl_setopt($ch, CURLOPT_PROXY, ( is_array($proxyUrl) ? (implode('', $proxyUrl))  :  $proxyUrl ));
-        $response = curl_exec($ch);
+        curl_exec($ch);
+
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         return $http_code;

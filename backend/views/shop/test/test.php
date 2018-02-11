@@ -3,7 +3,6 @@ use backend\entities\WebPageHelper;
 use backend\entities\WebPage;
 use yii\helpers\Url;
 
-//var_dump($html);exit(); // todo
 
 if(isset($html) && $html == true) {
     $htmlDom = WebPage::dom($html);
@@ -52,26 +51,41 @@ if(isset($html) && $html == true) {
 
         // create $data['detailed_tuition_fees']
         if (strpos($arr[0], 'tuition') != false || strpos($arr[0], 'fees' != false)) {
-//        WebPageHelper::prettyPrint($arr);exit(); //todo
             if (count($arr) > 3) {
                 $arr = array_slice($arr, 1);
                 $arr = trim(implode(' ', $arr));
-//            WebPageHelper::prettyPrint($arr);exit(); //todo
                 preg_match_all('~(\w+\s\w+){1}\s+([0-9]{1,}\,?\.?[0-9]{1,}\.*[0-9]{1,})\s+([A-Z]{2,})\s+(\([0-9]{4}\))~u', $arr, $output_array, PREG_PATTERN_ORDER);
-//            WebPageHelper::prettyPrint($output_array);exit(); //todo
-                $key1 = strtolower(str_replace(' ', '_', $output_array[1][0]));
-                $data['detailed_tuition_fees'][$key1] = [
-                    $output_array[2][0],
-                    $output_array[3][0],
-                    $output_array[4][0],
-                ];
-                if (isset($output_array[1][1])) {
-                    $key2 = strtolower(str_replace(' ', '_', ($output_array[1][1])));
-                    $data['detailed_tuition_fees'][$key2] = [
-                        $output_array[2][1],
-                        $output_array[3][1],
-                        $output_array[4][1],
+                if(empty($output_array[1][0])) {
+                    preg_match_all('~(\w+\s+\w+)\s+([0-9]{1,}\.?\,?([0-9]{1,})?)\s+([a-zA-Z]+)~ui', $arr, $output_array);
+                    $key1 = strtolower(str_replace(' ', '_', $output_array[1][0]));
+                    $data['detailed_tuition_fees'][$key1] = [
+                        $output_array[2][0],
+                        $output_array[4][0],
+                        null,
                     ];
+                    if (isset($output_array[1][1])) {
+                        $key2 = strtolower(str_replace(' ', '_', ($output_array[1][1])));
+                        $data['detailed_tuition_fees'][$key2] = [
+                            $output_array[2][1],
+                            $output_array[4][1],
+                            null,
+                        ];
+                    }
+                } else {
+                    $key1 = strtolower(str_replace(' ', '_', $output_array[1][0]));
+                    $data['detailed_tuition_fees'][$key1] = [
+                        $output_array[2][0],
+                        $output_array[3][0],
+                        $output_array[4][0],
+                    ];
+                    if (isset($output_array[1][1])) {
+                        $key2 = strtolower(str_replace(' ', '_', ($output_array[1][1])));
+                        $data['detailed_tuition_fees'][$key2] = [
+                            $output_array[2][1],
+                            $output_array[3][1],
+                            $output_array[4][1],
+                        ];
+                    }
                 }
             } else {
                 if ((strripos('ternational', ($arr[1] ?? null)) != false) || (strripos('omestic', ($arr[1] ?? null))) != false) {
@@ -117,11 +131,6 @@ if(isset($html) && $html == true) {
                 $data['detailed_endowment'][0] = $matches[2];
                 $data['detailed_endowment'][1] = $matches[1];
             }
-//        if (count($data['detailed_endowment']) == 3) {
-//            $str = implode(' ', $data['detailed_endowment']);
-//            preg_match('#\s?(\S*[0-9]{1,}\s+[a-zA-Z]+)\s+([a-zA-Z]+)\s+(\([0-9]{4}\))?#u', $str, $matches);
-//            $data['detailed_endowment'] = array_slice($matches, 1);
-//        }
             $countDetailEndowmentItems = count($data['detailed_endowment']);
         }
 
@@ -143,13 +152,6 @@ if(isset($html) && $html == true) {
                 }
             }
             $countDetailBudgetItems = count($data['detailed_budget']);
-        }
-
-
-        // create $data['detailed_doctoral_students']
-        if ((stripos($arr[0], 'octoral')) != false && (stripos($arr[0], 'students')) != false) {
-            $data['detailed_doctoral_students'] = explode(' ', $arr[1]);
-            $countDoctoralStudentsItems = count($data['detailed_doctoral_students']);
         }
 
         // create $data['detailed_postgraduates']
@@ -199,17 +201,13 @@ if(isset($html) && $html == true) {
     $data['detailed_graduation_rate'] = WebPageHelper::addDetailInfo($data, 'detailed_graduation_rate', 'detailResultItemInfo', ['rate', 'year']);
 
     if (isset($data['detailed_endowment'])) {
-//        WebPageHelper::prettyPrint($data['detailed_endowment']);exit(); // todo
         $data['detailed_endowment'] = WebPageHelper::addDetailInfo($data, 'detailed_endowment', 'detailResultItemInfo', ($countDetailEndowmentItems == 3) ? ['value', 'currency', 'year'] : ['value', 'currency']);
     }
     if (isset($data['detailed_budget'])) {
         $data['detailed_budget'] = (WebPageHelper::addDetailInfo($data, 'detailed_budget', 'detailBudget', ($countDetailBudgetItems >= 3) ? ['value', 'currency', 'year'] : ['value', 'year']));
     }
-    if (isset($data['detailed_doctoral_students'])) {
-        $data['detailed_doctoral_students'] = (WebPageHelper::addDetailInfo($data, 'detailed_doctoral_students', 'detailResultItemInfo', ($countDoctoralStudentsItems == 2) ? ['value'] : ['value', 'year']));
-    }
     if (isset($data['detailed_postgraduates'])) {
-        $data['detailed_postgraduates'] = (WebPageHelper::addDetailInfo($data, 'detailed_postgraduates', 'detailResultItemInfo', ($countPostgraduatesItems == 2) ? ['value'] : ['value', 'year']));
+        $data['detailed_postgraduates'] = (WebPageHelper::addDetailInfo($data, 'detailed_postgraduates', 'detailPostgraduates', ($countPostgraduatesItems == 2) ? ['value'] : ['value', 'year']));
     }
     if (isset($data['detailed_tuition_fees'])) {
         $data['detailed_tuition_fees'] = (count($data['detailed_tuition_fees']) > 1) ? WebPageHelper::detailTuitionFees($data['detailed_tuition_fees']) : WebPageHelper::detailOneTuitionFees($data['detailed_tuition_fees'][0] ?? $data['detailed_tuition_fees'], ['value', 'currency', 'year']);
@@ -264,8 +262,8 @@ if(!isset($html)) {
     'data' => $dataResult
 ]);
 ?>
-<a class="btn btn-success" href="<?= Url::to(['/shop/test/test', 'needParser' => 1]) ?>" role="button">load parser data</a>
-<a class="btn btn-default" href="<?= Url::to(['/shop/test/test', 'needParser' => 0]) ?>" role="button">without parser</a>
+<a class="btn btn-success" href="<?= Url::to(['/shop/test/detail-view', 'needParser' => 1]) ?>" role="button">load parser data</a>
+<a class="btn btn-default" href="<?= Url::to(['/shop/test/detail-view', 'needParser' => 0]) ?>" role="button">without parser</a>
 
 
 

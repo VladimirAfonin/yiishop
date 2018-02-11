@@ -232,6 +232,29 @@ class WebPageHelper
         return $res;
     }
 
+    public static function detailPostgraduates(array $arr, array $params = [])
+    {
+        $arr = array_diff($arr,['', ' ']);
+        $countOfArr = count($arr);
+        if ($countOfArr != count($params)) {
+            $str = implode(' ', $arr);
+            preg_match_all('~([0-9]{1,}\,?\.?[0-9]{1,}).+?([0-9]{4})+~ui', $str, $matches);
+            if(!empty($matches[1][0]) & !empty($matches[2][0])) {
+                $arr = array_slice($matches, 1);
+                $arr[0] = $arr[0][0];
+                $arr[1] = $arr[1][0];
+            }
+            if($countOfArr > 4) {
+                $arr = array_shift($arr);
+            }
+            $res = array_combine(array_slice($params, 0 , count($arr)), (array) $arr);
+        } else {
+            $res = array_combine($params, array_values($arr));
+        }
+        $res['year'] = (isset($res['year'])) ? str_replace(['(', ')', ','], '', $res['year'] ) : null;
+        return $res;
+    }
+
     /**
      * get detail for more than one tuition and fees
      *
@@ -267,7 +290,11 @@ class WebPageHelper
             $res = array_combine($params, array_values($res[0]));
         } else {
             $arr = array_diff($arr, ['']);
-            $res = array_combine($params, array_values($arr));
+            if(count(array_values($arr)) != count($params)) {
+                $res = array_combine(array_slice($params, 0, 2), array_values($arr));
+            } else {
+                $res = array_combine($params, array_values($arr));
+            }
         }
         $res['year'] = (isset($res['year'])) ? str_replace(['(', ')', ','], '', $res['year']) : null;
 

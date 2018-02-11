@@ -42,12 +42,12 @@ class WebPage extends ActiveRecord
             'private' => '@-cache/page/',
         ]
     ];
+    public static $SLEEP_TIMER = 35;
 
     public $queue = [];
     public $files = [];
     public $proxyList = [];
     public $filename = 'proxy.txt';
-
 
     public function rules()
     {
@@ -69,12 +69,13 @@ class WebPage extends ActiveRecord
      * @param array $ignoreParams
      * @return string
      */
-    public static function get($endpoint, $urlParams = [], $attributes = [], $withProxy = false,  &$m = null, $ignoreParams = []): string
+    public static function get($endpoint, $urlParams = [], $attributes = [], $withProxy = false,  &$m = null, $ignoreParams = [])
     {
         $path = self::makeUrl($endpoint, $urlParams, $ignoreParams);
         $path_hash = hash('sha256', $path);
         $m = WebPage::find()->filterWhere(['path_hash' => $path_hash])->one();
         if ($m !== null) {
+//            exit('yes'); // todo
             return $m->desc;
         }
         $url = self::makeUrl($endpoint, $urlParams);
@@ -89,6 +90,8 @@ class WebPage extends ActiveRecord
             $m->url = $url;
             $m->attributes = $attributes;
             $m->save(false);
+
+            sleep(self::$SLEEP_TIMER);
         }
         return $m->desc;
     }
@@ -272,17 +275,28 @@ class WebPage extends ActiveRecord
         $http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
         if(preg_match('/302\s[a-z]{5}|blue coat/i', $response)) {
-            throw new \RuntimeException('we got 302 answer and bad proxy, try again.');
+            sleep(90); // 120
+            $this->setUpSleepTimer(5); // 20
+//            throw new \RuntimeException('we got 302 answer and bad proxy, try again.');
+        } else {
+            $this->desc = (strlen($response) > 10000) ? $response : '';
+            $this->path = $url;
+            $this->http_code = $http_code;
+            $this->redirect_count = curl_getinfo($ch, CURLINFO_REDIRECT_COUNT);
+            $this->direct = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
         }
-
-        $this->desc = $response; //(count($response) > 5000) ? $response : '';
-        $this->path = $url;
-        $this->http_code = $http_code;
-        $this->redirect_count = curl_getinfo($ch, CURLINFO_REDIRECT_COUNT);
-        $this->direct = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
         curl_close($ch);
 
         return ((!empty($newProxy)) ? $newProxy : null);
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function setUpSleepTimer(int $value)
+    {
+        return self::$SLEEP_TIMER += $value;
     }
 
     /**

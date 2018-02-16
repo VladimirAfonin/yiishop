@@ -239,9 +239,6 @@ print_r($data ?? null);
 echo '</pre><br><br>';
 ?>
 <!-- TABLE VIEW -->
-<?= $websiteFromGoogleApi ?><br>
-<?= $websiteFromDB ?><br>
-<?= $websiteWiki ?><br>
 
 <?php
 if(!isset($html)) {

@@ -41,11 +41,7 @@ class WebRanking
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-//        curl_pause ($ch , 5); // todo
         $response = curl_exec($ch);
-//        if(preg_match('/301\s[a-z]{5}|blue coat/i', $response)) { // todo
-//            sleep(10);
-//        }
         curl_close($ch);
         return $response;
     }

@@ -573,7 +573,7 @@ class RankingController extends Controller
      * @param $url
      * @return null
      */
-    public function getYear($url)
+    public function getYear($url):
     {
         preg_match('#[0-9]{4}?#ui', $url, $matches);
         if ( ! empty($matches[0])) {

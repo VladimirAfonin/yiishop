@@ -35,7 +35,7 @@ class WebRanking
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, $code = $userAgent[rand(0, $userAgentsCount)]);
-        curl_setopt($ch, CURLOPT_HEADER, 1); // 1
+        curl_setopt($ch, CURLOPT_HEADER, 0); // 1
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // added
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // added
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

@@ -1,17 +1,8 @@
 <?php
-return [
-    'id' => 'app-backend-tests',
-    'components' => [
-        'assetManager' => [
-            'basePath' => __DIR__ . '/../web/assets',
-        ],
-        'urlManager' => [
-            'showScriptName' => true,
-        ],
-    ],
 
+return [
     'subjectsUrls' => [
-       'mathematics' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/mathematics.html',
+        'mathematics' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/mathematics.html',
         'physicts' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/physics.html',
         'chemistry' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/chemistry.html',
         'earth_sciences' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/earth-sciences.html',
@@ -64,5 +55,4 @@ return [
         'hospitality_tourism_management' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/hospitality-tourism-management.html',
         'library_information_science' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/library-information-science.html'
     ],
-
 ];

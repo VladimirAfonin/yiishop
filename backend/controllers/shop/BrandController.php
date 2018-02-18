@@ -198,11 +198,12 @@ class BrandController extends Controller
         return $this->redirect(['view', 'id' => $id]);
     }
 
+
     /**
-     * @param $id
+     * @param  $id
      * @return Brand
      */
-    public function findModel($id): Brand
+    public function findModel( $id): Brand
     {
         if (($model = Brand::findOne($id)) !== null) {
             return $model;

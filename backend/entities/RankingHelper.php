@@ -1,49 +1,153 @@
-<?
+<?php
 namespace backend\entities;
 
-use DOMDocument;
-use DOMXPath;
-use yii\helpers\FileHelper;
-use yii\helpers\Json;
-use yii\helpers\Url;
-use yii\db\ActiveRecord;
+use Yii;
+use app\models\MainRankings;
+use app\models\UniversitySubjectRankings;
 
-/**
- * @property string $id
- * @property string $hl #language code: en,ru
- * @property string $node #node name: Country/City/Course/School/Uni
- * @property integer $nid #node id from table
- * @property integer $source #source name: google/wikipedia/geonames
- * @property string $name #html title
- * @property string $path #url without ignore attributes
- * @property string $http_code #curl response code
- * @property string $desc #responce
- * @property string $proxy_list
- */
-class WebRankingHelper
+class RankingHelper
 {
     /**
-     * for QS ranking
-     *
+     * get main rating
+     * @param array $arrRankings
+     */
+    public static function runGetMainRatings(array $arrRankings = [])
+    {
+        foreach ($arrRankings as $k => $value) {
+            $univRank = self::createDataFile("$k"."_r", self::getItemUrl("$k")['r'], self::getItemUrl("$k")['base']);
+            $univIndicators = self::createDataFile("$k"."_i", self::getItemUrl($k)['i']);
+            self::saveToDb($univRank, $value);
+            sleep(1);
+        }
+    }
+
+    /**
+     * create json file with all data
+     * @param $name
      * @param $url
+     * @param string $baseUrl
      * @return mixed
      */
-    public static function getRequestToUrl($url)
+    public static function createDataFile($name, $url, $baseUrl = '')
     {
-        $userAgent = file('../entities/user_agents_list.txt');
-        $userAgentsCount = count($userAgent) - 1;
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_USERAGENT, $code = $userAgent[rand(0, $userAgentsCount)]);
-        curl_setopt($ch, CURLOPT_HEADER, 0); // 1
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // added
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // added
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        return $response;
+        $year = self::getYear($baseUrl);
+        if(!file_exists("rankings/$name.json")) {
+            $univIndicators = WebPage::getRequestToUrl($url);
+            $fp = fopen("rankings/$name.json", "w");
+            fwrite($fp, $univIndicators);
+            fclose($fp);
+        }
+        $univIndicators = json_decode(file_get_contents("rankings/$name.json"), true);
+        $univIndicators['year'] = $year;
+        return $univIndicators;
+    }
+
+    /**
+     * get year from url
+     * @param $url
+     * @return null
+     */
+    public static function getYear($url)
+    {
+        preg_match('#[0-9]{4}?#ui', $url, $matches);
+        if ( ! empty($matches[0])) {
+            $year = $matches[0];
+        }
+        return $year ?? null;
+    }
+
+    /**
+     * get url for some rating for json response
+     * 'r' - rating response, 'i' - indicator response
+     * @param $key
+     * @return mixed
+     */
+    public static function getItemUrl($key = false)
+    {
+        $urlsOfRanking = Yii::$app->params['urlsOfRanking'];
+        if($key != false) {
+            return $urlsOfRanking[$key];
+        }
+        return $urlsOfRanking;
+    }
+
+    /**
+     * save info to db
+     *
+     * @param $data
+     * @param string $rankingName
+     */
+    public static function saveToDb($data, $rankingName)
+    {
+        $year = $data['year'];
+        $data = $data['data'];
+        foreach ($data as $item) {
+            $ranking = MainRankings::findOne(['nid' => $item['nid']]);
+            if ( ! $ranking) {
+                $m = new MainRankings();
+                $m->nid = $item['nid'];
+                $m->name = $item['title'];
+                $m->$rankingName = $item['rank_display'];
+                $m->year = $year;
+                $m->save(false);
+            } else {
+                $ranking->$rankingName = $item['rank_display'];
+                $ranking->save(false);
+            }
+        }
+    }
+
+    /**
+     * get url for sub rankings
+     * @param bool|false $key
+     * @return array
+     */
+    public  static function getItemSubUrl($key = false)
+    {
+        $arr = Yii::$app->params['urlsOfSubjectRanking'];
+        if($key != false) {
+            return $arr[$key];
+        } else {
+            return $arr;
+        }
+    }
+
+    /**
+     * @param $data
+     * @param $field
+     */
+    public static function updateToDbWithSubject($data, $field)
+    {
+        $year = $data['year'];
+        $finalData = $data['data'];
+        foreach ($finalData as $item) {
+            $obj = UniversitySubjectRankings::find()->where(['core_id' => $item['core_id']])->one();
+            if($obj) {
+                $obj->$field = $item['rank_display'];
+                $obj->save(false);
+            } else {
+                $obj = self::addItemsToDb($item, $year);
+                $obj->$field = $item['rank_display'];
+                $obj->save(false);
+            }
+        }
+    }
+
+    /**
+     * @param $data
+     * @param $year
+     * @return \UniversitySubjectRankings
+     */
+    public static function addItemsToDb($data, $year)
+    {
+        $m = new UniversitySubjectRankings();
+        $m->nid = $data['nid'];
+        $m->name = $data['title'];
+        $m->country = $data['country'];
+        $m->core_id = $data['core_id'];
+        $m->year = $year;
+        $m->save(false);
+        return $m;
     }
 
     /**
@@ -132,16 +236,5 @@ class WebRankingHelper
         $resultArr['students_info']['international']['number_students_undergraduate'] = $number_students_undergraduate = $htmlDom->query('//div[@class="total inter"]/div[@class="cirlce clearfix"]/div[@class="stat"]/div[@class="grad"]/span[@class="perc"]/text()')->item(0)->nodeValue ?? null;
 
         return $resultArr;
-    }
-
-    /**
-     * @param $content
-     * @return DOMXPath
-     */
-    public static function dom($content): DOMXPath
-    {
-        $doc = new DOMDocument();
-        @$doc->loadHTML($content);
-        return new DOMXpath($doc);
     }
 }

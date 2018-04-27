@@ -1,6 +1,8 @@
 <?php
 namespace common\bootstrap;
 
+use app\models\Email;
+use common\services\EmailService;
 use shop\collections\UserCollection;
 use shop\services\auth\AuthService;
 use shop\services\auth\PasswordResetService;
@@ -49,9 +51,13 @@ class SetUp implements BootstrapInterface
             );
         });
 
-
-
-
+        // set 'EmailService'
+        $container->setSingleton(EmailService::class, function() use ($app) {
+            return new EmailService(
+                $app->user->identity->email ?? null,
+                $app->mailer
+            );
+        });
 
         /* --- set 'contactService' -> second variant  --- */
         $container->setSingleton(MailerInterface::class, function() use ($app) {
@@ -64,8 +70,5 @@ class SetUp implements BootstrapInterface
 //            Instance::of(MailerInterface::class)
 //        ]);
         /* ---  /.set 'contactService' -> second variant --- */
-
-
-
     }
 }

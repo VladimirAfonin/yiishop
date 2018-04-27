@@ -59,6 +59,7 @@ return [
 
 
     // global config auth filter for all app.
+    /*
     'as access' => [
         'class' => 'yii\filters\AccessControl',
             'except' => ['site/login', 'site/error'],
@@ -70,6 +71,7 @@ return [
             ],
         ],
     ],
+    */
 
     'params' => $params,
 ];

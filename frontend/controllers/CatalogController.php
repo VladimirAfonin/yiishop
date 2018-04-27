@@ -6,6 +6,7 @@ use shop\readCollections\CategoryReadCollections;
 use shop\readCollections\ProductReadCollections;
 use shop\readCollections\TagReadCollections;
 use yii\data\SqlDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\base\Module;
 
@@ -31,6 +32,24 @@ class CatalogController extends Controller
         $this->_categories = $categories;
         $this->_tags = $tags;
         $this->_products = $products;
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index'],
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['?']
+                    ]
+                ]
+            ]
+
+        ];
     }
 
     /**

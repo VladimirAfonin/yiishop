@@ -1,13 +1,11 @@
 <?php
 namespace backend\controllers\shop;
 
-use backend\entities\WebRankingHelper;
 use yii\web\Controller;
-use Yii;
-use app\models\{MainRankings, UniversitySubjectRankings, QsRankings};
 
-ini_set('max_execution_time', 70);
-ini_set('memory_limit', '256M');
+ini_set('max_execution_time', -1);
+ini_set('memory_limit', -1);
+
 class RankingController extends Controller
 {
     /**

@@ -1,0 +1,269 @@
+in.form	in.admin	in.specs	style	category_color	category	category_en	category_ru	code	admin	title_en	short_en	title_ru	units_en	units_ru	scale	description_ru	example_ru	comment_ru	description_en
+				#efefef	general	General	Основное	drbmx1r	type	Type	Type	Тип				Основная категория к которой относится устройство	Сматрфон, Умные часы, Фитнес браслет		
+				#efefef	general	General	Основное	w81a9u0	brand	Brand	Brand	Бренд				Главный разработчик устройства, под брендом, которого выпускается товар	Samsung, Apple, Xiaomi		
+1	1			#efefef	general	General	Основное	33fksng	model	Model	Model	Модель					iPhone X, Mi Band 2		
+				#efefef	general	General	Основное	3n68sce	price	Minimum price	Price	Минимальная цена							
+1	1			#efefef	general	General	Основное	zgxvylx	announced	Announced date		Дата анонсирования				Дата представления товара компанией производителем			
+1	1			#efefef	general	General	Основное	2lbcv9f	release	Release date		Дата выпуска				Дата когда товар поступил в продажу			
+1	1			#efefef	general	General	Основное	qsmxy90	manufacturer	Manufacturer		Производитель				Организация, которая непосредственно производит устройство			
+1	1			#efefef	general	General	Основное	1dan76c	made.in	Country of production		Страна производства				Страна, в которой происходит непосредственно производство товара			
+1	1			#efefef	general	General	Основное	vh0iqm2	website	Official website		Официальный сайт				Официальный сайт разработчика	mi.com, huawei.com, fitbit.com	Адрес указывается без http и www	
+		1	rating	#f4cccc	indicator	Indicator	Показатель	mnfrlet	motivat.	Motivation	Motiv.	Мотивация			0-10				
+		1	rating	#f4cccc	indicator	Indicator	Показатель	bkaqn4m	u.rating	User rating	U.Rating	Отзывы			0-10				
+		1	rating	#f4cccc	indicator	Indicator	Показатель	uw8mqnl	funct.	Functionality	Functi	Функциональность			0-10				
+		1	rating	#f4cccc	indicator	Indicator	Показатель	0x0vrnr	comfort	Comfortable	Comfort	Комфорт			0-10				
+		1	rating	#f4cccc	indicator	Indicator	Показатель	xct0067	g.rating	General rating	G.Rating	Общий рейтинг			0-10				
+		1	rating	#f4cccc	indicator	Indicator	Показатель	4iups22	value	Value for money	Value	Выгодность			0-10				
+		1	rating	#f4cccc	indicator	Indicator	Показатель	50wydm5	general	Sesors accuracy	A.Gen.	Точность сенсоров			0-10				
+		1	rating	#f4cdb1	sensor	Sensors	Сенсоры	ctwc1qc	puls	Pulsometer	A.Puls.	Пульсометр			0-10				
+		1	rating	#f4cdb1	sensor	Sensors	Сенсоры	h1ddzrt	pedom.	Accelerometer	A.Pedom.	Шагомер			0-10				
+		1	rating	#f4cdb1	sensor	Sensors	Сенсоры	e61kgyj	sleep	Sleep Analysis	A.Sleep	Анализ сна			0-10				
+		1	rating	#f4cdb1	sensor	Sensors	Сенсоры	x399jxz	barometer	Barometr		Барометр							
+		1	rating	#d0e0e3	sensor	Sensors	Сенсоры	fpfb4xc	altimeter	Altimeter		Высотомер							
+		1	rating	#f4cdb1	sensor	Sensors	Сенсоры	h88pkmdy	light	Light sensor		Датчик освещённости							
+		1	rating	#f4cdb1	sensor	Sensors	Сенсоры	k626aelh	thermometer	Thermometer		Термометр							
+1	1	1		#ecfffb	communication	Communication	Связь	p4zld5l	bluetooth	Bluetooth	Bluetooth	Bluetooth							
+1	1	1		#ecfffb	communication	Communication	Связь	mdmfh57	sim	SIM		SIM							
+1	1	1		#ecfffb	communication	Communication	Связь	es77mka	2g	2G Bands		2G Сети							
+1	1	1		#ecfffb	communication	Communication	Связь	lfy3yhr	3g	3G Networks		3G Сети							
+1	1	1		#ecfffb	communication	Communication	Связь	w77yz4j	4g	4G Networks		4G Сети							
+1	1	1		#ecfffb	communication	Communication	Связь	6me3pwq	gsm	GSM		GSM							
+1	1	1		#ecfffb	communication	Communication	Связь	de60w8u	gprs	GPRS		GPRS							
+1	1	1		#ecfffb	communication	Communication	Связь	o3kmrtz	edge	EDGE		EDGE							
+1	1	1		#ecfffb	communication	Communication	Связь	k6ddojx	lte	LTE		LTE							
+1	1	1		#ecfffb	communication	Communication	Связь	2pinrcv	wifi	Wi-Fi version		Wi-Fi Версия							
+1	1	1		#ecfffb	communication	Communication	Связь	9ee4viy	NFC	NFC		NFC							
+1	1	1		#ecfffb	communication	Communication	Связь	tix99ot	radio	Radio		Радио							
+1	1	1		#ecfffb	communication	Communication	Связь	hwst1n7	infrared	Infrared port		Инфракрасный порт							
+1	1	1		#ecfffb	communication	Communication	Связь	2q8o92fk	usb	USB		USB							
+1	1	1		#ecfffb	communication	Communication	Связь	p7s2uenu	usb 3	USB 3.0		USB 3.0							
+1	1	1		#ecfffb	communication	Communication	Связь	0arcae64	usb 2	USB 2.0		USB 2.0							
+1	1	1		#f4efd3	navigation	Navigation	Навигация	7ri9whh	outGPS	Connected GPS	Connected GPS	Подключенный GPS							
+1	1	1		#f4efd3	navigation	Navigation	Навигация	yfvshn2	inGPS	GPS	Build in GPS	GPS							
+1	1	1		#f4efd3	navigation	Navigation	Навигация	39ji8mm	glonass	GLONASS		ГЛОНАСС							
+1	1	1		#f4efd3	navigation	Navigation	Навигация	x0xgsbn	compass	Compass		Компас							
+1	1	1		#fbffe2	design	Design	Дизайн	rt0qxrl	material.sensor	Material sensor		Материал датчика							
+1	1	1		#fbffe2	design	Design	Дизайн	3bjbzrk	material.strap	Material strap		Материал ремешка							
+1	1	1		#fbffe2	design	Design	Дизайн	ly7hk3b	dimensions	Dimensions		Габариты	mm.	мм.		(ШхВхТ)			(WxHxD)
+1	1	1		#fbffe2	design	Design	Дизайн	65ihv16	width	Item width	Width	Ширина товара	mm.	мм.					
+1	1	1		#fbffe2	design	Design	Дизайн	qorav98	height	Item height	Height	Высота товара	mm.	мм.					
+1	1	1		#fbffe2	design	Design	Дизайн	vbryix7	depth	Item depth	Depth	Глубина товара	mm.	мм.					
+1	1	1		#fbffe2	design	Design	Дизайн	uanzwi8	weight	Item weight	Weight	Вес предмета	gram	грам					
+1	1	1		#fbffe2	design	Design	Дизайн	cc1cqt0	re.strap	Replaceable straps		Сменные ремешки							
+1	1	1		#fbffe2	design	Design	Дизайн	yln26cd	strap.size	Strap dimensions		Размеры ремешка							
+1	1	1		#fbffe2	design	Design	Дизайн	s8j8g7h	buttons	Buttons		Кнопки							
+1	1	1		#e8ecd1	package	Package	Упаковка	r393dad	weight	Package weight	P.weight	Вес упаковки	gram	грам					
+1	1	1		#e8ecd1	package	Package	Упаковка	i9scmdd	width	Package width	P.width	Ширина упаковки	mm.	мм.					
+1	1	1		#e8ecd1	package	Package	Упаковка	r1qovw5	height	Package height	P.height	Высота упаковки	mm.	мм.					
+1	1	1		#e8ecd1	package	Package	Упаковка	vw1xwnp	depth	Package depth	depth	Глубина упаковки	mm.	мм.					
+1	1	1		#d9d2e9	display	Display	Дисплей	xxyv5nx	type	Display type	Size	Тип дисплея							
+1	1	1		#d9d2e9	display	Display	Дисплей	1n820fz	size	Display size		Размер дисплея	Inches	Дюймов					
+1	1	1		#d9d2e9	display	Display	Дисплей	zq2ektp	ratio	Screen-to-body ratio		Screen-to-body ratio	%	%					
+1	1	1		#d9d2e9	display	Display	Дисплей	pcao0re	touchscreen	Touchscreen		Сенсорный экран							
+1	1	1		#d9d2e9	display	Display	Дисплей	alrhep0	multitouch	Multitouch		Мультитач							
+1	1	1		#d9d2e9	display	Display	Дисплей	efre410	slides	Support slides		Распознавание слайдов							
+1	1	1		#d9d2e9	display	Display	Дисплей	bhmg3f1	light	Display backlight		Подсветка дисплея							
+1	1	1		#d9d2e9	display	Display	Дисплей	8vzzca7	colors	Display colors		Цвет дисплея							
+1	1	1		#d9d2e9	display	Display	Дисплей	djrp53w	const.	Constantly working screen		Постоянно работающий экран							
+1	1	1		#d9d2e9	display	Display	Дисплей	nggks18	width	Display width		Ширина дисплея	px	px					
+1	1	1		#d9d2e9	display	Display	Дисплей	j2p7bju	height	Display height		Высота дисплея	px	px					
+1	1	1		#d9d2e9	display	Display	Дисплей	7x8x76o	ppi	Pixel density	PPI	Плотность пикселей	ppi	px					
+1	1	1		#d9d2e9	display	Display	Дисплей	4p3xh0r	a.adjusted	Auto adjust brightness		Автоматическая настройка яркости							
+1	1	1		#d9d2e9	display	Display	Дисплей	um01wxa	m.adjusted	Manually adjust brightness		Ручная настройка яркости							
+1	1	1		#d9d2e9	display	Display	Дисплей	59e6c9r	protection	Protection		Защита							
+1	1	1		#ead1dc	protection	Protection	Защита	cxeplx1	water	Water Resistant	IP	Водонепроницаемый							
+1	1	1		#ead1dc	protection	Protection	Защита	fjl10v4	t.min	Temperature minimum	t.min	Минимальная температура	°C	°C					
+1	1	1		#ead1dc	protection	Protection	Защита	1qwpm99	t.max	Temperature max	t.max	Максимальная температура	°C	°C					
+1	1	1		#ead1dc	protection	Protection	Защита	5zj3yam0	miltary.g.d	Military-grade durability		Долговечность военного класса							
+1	1	1		#d9d2e9	battery	Battery	Батарея	63r9r99	type	Battery type	Battery type	Тип батареи							
+1	1	1		#d9d2e9	battery	Battery	Батарея	wbswcml	capacity	Battery capacity		Емкость батареи	mAh	мА-ч					
+1	1	1		#d9d2e9	battery	Battery	Батарея	c220c9j	replace.	Replaceable battery		Сменный аккумулятор							
+1	1	1		#d9d2e9	battery	Battery	Батарея	qldrwtm	waiting	Battery life - Waiting	Battery life - Waiting	Срок службы батареи - Ожидание	hours	часов					
+1	1	1		#d9d2e9	battery	Battery	Батарея	gsqav1h	active	Battery life - Tested	Battery life - Waiting	Срок службы батареи - Тестированно	hours	часов					
+1	1	1		#d9d2e9	battery	Battery	Батарея	zuqqmwi3	talk.time	Talk time		Время разговора	hours	часов					
+1	1	1		#d9d2e9	battery	Battery	Батарея	6ojsm29w	music.time	Music time		Прослушивание музыки	hours	часов					
+1	1	1		#c6bfd5	charger	Charger	Зарядка	99rtfuj	magnetic	Magnetic Charger		Магнитное зарядное устройство							
+1	1	1		#c6bfd5	charger	Charger	Зарядка	xc2onhy	wireless	Wireless Charger		Беспроводная зарядка							
+1	1	1		#c6bfd5	charger	Charger	Зарядка	kvdjylj	in.voltage	Input voltage		Входное напряжение	volt	вольт					
+1	1	1		#c6bfd5	charger	Charger	Зарядка	wfypeww	in.current	Input current		Входной ток	mA	mA					
+1	1	1		#c6bfd5	charger	Charger	Зарядка	27s8wl4	fast	Fast charging		Быстрая зарядка							
+1	1	1		#c6bfd5	charger	Charger	Зарядка	le00i0c	charge	Charging time		Время зарядки	hours	часов					
+				#efefef	statistics	Statistics	Статистика	q4x1lci	reviews	Total reviews		Всего отзывов							
+1	1	1		#fce5cd	synchronization	Synchronization	Синхронизация	llulwif	android	Android version	Android	Версия для Android							
+1	1	1		#fce5cd	synchronization	Synchronization	Синхронизация	0v8w2sz	iOS	iOS version	iOS	Версия iOS							
+1	1	1		#fce5cd	synchronization	Synchronization	Синхронизация	vxq3g1f	bl.berry	Blackberry	Blackberry	Blackberry							
+1	1	1		#fce5cd	synchronization	Synchronization	Синхронизация	a5sj3l2	win	Windows	Windows	Windows							
+1	1	1		#fce5cd	synchronization	Synchronization	Синхронизация	m7mkat1	mac	Mac OS		Mac OS							
+1	1	1		#fce5cd	synchronization	Synchronization	Синхронизация	v3igy2n	web	Web	Desktop	Веб							
+1	1	1		#efefef	notifications	Notifications	Уведомления	u8sj5wc	vibro	Vibration		Вибрация							
+1	1	1		#efefef	notifications	Notifications	Уведомления	xdet6dq	light	Light		Светоиндефикация							
+1	1	1		#efefef	notifications	Notifications	Уведомления	rdxjplx	in.call	Incoming call		Входящий звонок							
+1	1	1		#efefef	notifications	Notifications	Уведомления	893edxr	in.message	Incoming message		Входящие сообщения							
+1	1	1		#efefef	notifications	Notifications	Уведомления	58ue5nd	call.id	Call ID display		Отображение имени звонящего							
+1	1	1		#efefef	notifications	Notifications	Уведомления	h3dd5mg	calendar	Calendar		Календарь							
+1	1	1		#efefef	notifications	Notifications	Уведомления	jbsxi9o	apps	Apps		Приложения							
+1	1	1		#efefef	watch	Watch	Часы	ih6ss8o	digital	Digital faces		Цифровой циферблат							
+1	1	1		#efefef	watch	Watch	Часы	zspoi2q	analog.digit	Analog-digital faces		Аналого-цифровой циферблат							
+1	1	1		#efefef	watch	Watch	Часы	7nk80pp	analog	Analog face		Аналоговый циферблат							
+1	1	1		#efefef	watch	Watch	Часы	zdsda7a	weather	Display weather		Отображение погоды							
+1	1	1		#efefef	system	System	Система	ej4wq1y	RAM	RAM		RAM							
+1	1	1		#efefef	system	System	Система	5exn648	ROM	ROM		ROM							
+1	1	1		#efefef	system	System	Система	y5xo6x4	CPU	CPU		CPU							
+1	1	1		#efefef	system	System	Система	4kzmswo	GPU	GPU		GPU							
+1	1	1		#efefef	system	System	Система	7aadfmc	Flash	Flash	Flash	Flash							
+1	1	1		#efefef	system	System	Система	dkg7n4e	chipset	Chipset		Чипсет							
+1	1	1		#efefef	system	System	Система	ui65qcn	op.system	Operating System		Операционная система							
+1	1	1		#efefef	system	System	Система	bmpc3f3j	3.apps	Third-Party Applications		Установка сторонних приложений							
+1	1	1		#efefef	system	System	Система	ia0bsr7	updates	Support updates		Поддерживает обновления							
+1	1	1		#efefef	system	System	Система	q85w6qmq	benchmark	Benchmark		Benchmark							
+1	1	1		#efefef	system	System	Система	zs77mmlu	languages	Languages		Языки							
+1	1	1		#f4e0e0	security	Security	Безопасность	rsub3l9c	Fingerprint	Fingerprint		Отпечаток пальца							
+1	1	1		#f4e0e0	security	Security	Безопасность	c4awfagk	face.id	Face ID		Face ID							
+1	1	1		#fce5cd	wearing	Wearing	Ношение	mxt5u80	any	Anywhere		В любом месте							
+1	1	1		#fce5cd	wearing	Wearing	Ношение	spywapr	wrist	Wrist		Запястье							
+1	1	1		#fce5cd	wearing	Wearing	Ношение	ihjgnv4	neck	Neck		Шея							
+1	1	1		#fce5cd	wearing	Wearing	Ношение	r2x9zah	chest	Chest		Грудь							
+1	1	1		#fce5cd	wearing	Wearing	Ношение	g991don	pocket	Pocket		Карман							
+1	1	1		#fce5cd	wearing	Wearing	Ношение	qjq0hxa	ears	Ears		Уши							
+1	1	1		#fce5cd	wearing	Wearing	Ношение	zwbq081	arm	Arm		Рука							
+1	1	1		#fce5cd	wearing	Wearing	Ношение	peqe0h9	waist	Waist		Талия							
+1	1	1		#cadadd	camera	Camera	Камера	lggn0m2	camera	Camera		Камера							
+1	1	1		#cadadd	camera	Camera	Камера	t9q0h7hd	video	Video		Видео							
+1	1	1		#cadadd	camera	Camera	Камера	06wzu4yz	camera2	Camera 2		Камера 2							
+1	1	1		#cadadd	camera	Camera	Камера	8041luk6	video2	Video 2		Видео 2							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	yh7xh3q	3.5mm.jack	Headphone input 3.5mm		Вход для наушников 3.5mm							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	yz90cwl	card	Card slot		Карта памяти							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	b9pp7xq	dictaphone	Dictaphone		Диктофон							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	yq2jcrll	microphone	Microphone		Микрофон							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	qlsq9yh	audio	Play audio		Воспроизведение аудио							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	t1x5zo6	music	Music control		Управление музыкой							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	a7j5c0b	photo	Photo viewer		Просмотр фото							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	ja7w3sb	video	Play video		Воспроизведение видео							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	64uuts8	java	Java		Java							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	fdfoul1	browser	Browser		Browser							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	8l2ljo2	loudspeaker	Loudspeaker		Громкий динамик							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	3t8uo9z6	noise	Noise		Crosstalk							
+1	1	1		#e3d4d4	multimedia	Multimedia	Мультимедиа	m93am75k	crosstalk	Noise		Crosstalk							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	f7lsmmw9	mp3	MP3		MP3							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	x055z520	mp4	MP4		MP4							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	8j6be1ko	dvix	DVIX		DVIX							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	xc4bb9kc	xvid	XVID		XVID							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	crrbpcar	h.265	H.265		H.265							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	xd942mit	wmv	WMV		WMV							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	am1zgml8	wav	WAV		WAV							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	t1inmosa	flac	FLAC		FLAC							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	lnk8dr8h	eAAc	eAAc		eAAc							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	7zq7neoh	WMA	WMA		WMA							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	tfuq45ng	AAX	AAX		AAX							
+1	1			#e9d1ea	codecs	Codecs	Кодеки	f3n8nqp4	AIFF	AIFF		AIFF							
+1	1	1		#efefef	contents	Contents	Комплектация	v464xz6	manual	Manuals		Инструкция							
+1	1	1		#efefef	contents	Contents	Комплектация	1uacljh	cable	USB cable		USB Кабель							
+1	1	1		#efefef	contents	Contents	Комплектация	h1btbtw	charger	Charger		Зарядка							
+1	1	1		#d0e0e3	feature	Features	Функции	rd3kh2w	find.phone	Find My Phone		Поиск телефона							
+1	1	1		#d0e0e3	feature	Features	Функции	f69tb7v	unlock	Unlock identity		Идентификатор для разблокировки							
+1	1	1		#d0e0e3	feature	Features	Функции	2exqey7	find.itself	Find My Device		Поиск устройства							
+1	1	1		#d0e0e3	feature	Features	Функции	q8qmknk	camera.control	Camera shoot control		Управление камерой							
+1	1	1		#d0e0e3	feature	Features	Функции	4oy2fmz	sm.alarm	Smart alarm		Умный будильник							
+1	1	1		#d0e0e3	feature	Features	Функции	19xflic	si.alarm	Silence alarm		Тихий будильник							
+1	1	1		#d0e0e3	feature	Features	Функции	75qbtsy	call.initial	Call initialization		Инициализация вызова							
+1	1	1		#d0e0e3	feature	Features	Функции	2q53kqi	read.sms	Read SMS		Чтение СМС							
+1	1	1		#d0e0e3	feature	Features	Функции	aq2fyq5	emails	Read Email		Чтение Email							
+1	1	1		#d0e0e3	feature	Features	Функции	pj29fyr	IM	IM		Мгновенные сообщения							
+1	1	1		#d0e0e3	feature	Features	Функции	hpfw2wc	turn.off	Ability to turn off		Можно выключить							
+1	1	1		#d0e0e3	feature	Features	Функции	f2ido7u	rotate.on	Rotate to switch		Поворот для включения	%	%					
+1	1	1		#d0e0e3	feature	Features	Функции	gny9uz9	stopwatch	Stopwatch		Секундомер							
+1	1	1		#d0e0e3	feature	Features	Функции	1rez7re	timer	Timer		Таймер							
+1	1	1		#d0e0e3	feature	Features	Функции	c534jxf	voice	Voice control		Голосовое управление							
+1	1	1		#d0e0e3	feature	Features	Функции	8g970j37	sos	SOS		SOS							
+1	1	1		#d0e0e3	feature	Features	Функции	wnqjx4j9	samsung.pay	Samsung Pay		Samsung Pay							
+1	1	1		#d0e0e3	fitness	Fitness	Фитнес	nh7sleo	hr.dynamic	Dynamic heart rate		Динамический сердечный ритм							
+1	1	1		#d0e0e3	fitness	Fitness	Фитнес	pvce5e2	tranning	Training mode		Режим тренировки							
+1	1	1		#d0e0e3	fitness	Fitness	Фитнес	vubpb9d	to.move	Reminder to move		Напоминания об активности							
+1	1	1		#d0e0e3	fitness	Fitness	Фитнес	v5yj54a	breathing	Guided breathing sessions		Дыхательные сеансы							
+1	1	1		#d0e0e3	fitness	Fitness	Фитнес	bjlwf02	calories	Calorie consumption		Расход калорий							
+1	1	1		#d0e0e3	fitness	Fitness	Фитнес	t3l89qq	distance	Distance covered		Пройденное расстояние							
+1	1	1		#d0e0e3	fitness	Fitness	Фитнес	1i8kxut	active.minutes	Active Minutes		Активные минуты				Active Minutes with strenuous activity			Active Minutes with strenuous activity
+1	1	1		#d6f1f4	log	Log	Дневник	hvvjrls	food	Food log		Журнал питания							
+1	1	1		#d6f1f4	log	Log	Дневник	kcjqu5x	water	Water log		Журнал воды							
+1	1	1		#d6f1f4	log	Log	Дневник	xdw2oaf	weight	Weight log		Журнал веса							
+1	1	1		#d6f1f4	log	Log	Дневник	15nq5ws	scan.barcode	Scan barcode		Сканирование баркодов							
+1	1	1		#d0e0e3	app.feature	Applicatio feature	Фитнес	cj2b5mg	add.friend	Add friend		Добавление друга							
+1	1	1		#d0e0e3	app.feature	Applicatio feature	Фитнес	aducxlc	share	Share results		Поделиться результатами							
+1	1	1		#d9ead3	sport	Sport	Спорт	9haky35	run	Runing		Бег							
+1	1	1		#d9ead3	sport	Sport	Спорт	npym2s0	workout	Workout		Разминка							
+1	1	1		#d9ead3	sport	Sport	Спорт	kewt1bc	treadmill	Treadmill		Беговая дорожка							
+1	1	1		#d9ead3	sport	Sport	Спорт	1cpqpev	walk	Walking		Ходьба							
+1	1	1		#d9ead3	sport	Sport	Спорт	80x21gr	weights	Weight training		Силовые тренировки							
+1	1	1		#d9ead3	sport	Sport	Спорт	xpff407	cycling	Cycling		Езда на велосипеде							
+1	1	1		#d9ead3	sport	Sport	Спорт	m6y7ses	soccer	Soccer		Футбол							
+1	1	1		#d9ead3	sport	Sport	Спорт	hhgpyqm	cricket	Cricket		Крикет							
+1	1	1		#d9ead3	sport	Sport	Спорт	q6ii9zm	tennis	Tennis		Большой теннис							
+1	1	1		#d9ead3	sport	Sport	Спорт	ym9c000	volleyball	Volleyball		Волейбол							
+1	1	1		#d9ead3	sport	Sport	Спорт	v5pu4ro	t.tennis	Table Tennis		Настольный теннис							
+1	1	1		#d9ead3	sport	Sport	Спорт	dlvk3ty	f.hockey	Field Hockey		Хоккей на траве							
+1	1	1		#d9ead3	sport	Sport	Спорт	xsbt44z	baseball	Baseball		Бейсбол							
+1	1	1		#d9ead3	sport	Sport	Спорт	2wb37pk	golf	Golf		Гольф							
+1	1	1		#d9ead3	sport	Sport	Спорт	zgsn7w3	a.football	American Football		Американский футбол							
+1	1	1		#d9ead3	sport	Sport	Спорт	hj9i5sw	basketball	Basketball		Баскетбол							
+1	1	1		#d9ead3	sport	Sport	Спорт	v13161t	badminton	Badminton		Бадминтон							
+1	1	1		#d9ead3	sport	Sport	Спорт	rh91wnk	rugby	Rugby		Регби							
+1	1	1		#d9ead3	sport	Sport	Спорт	f07rvk2	box	Box		Бокс							
+1	1	1		#d9ead3	sport	Sport	Спорт	u9q7bep	i.hockey	Ice Hockey		Хоккей							
+1	1	1		#d9ead3	sport	Sport	Спорт	7ue2z84	swimming 	Swimming 		Плавание							
+1	1	1		#d9ead3	sport	Sport	Спорт	gsa0073	snooker 	Snooker 		Бильярд							
+1	1	1		#d9ead3	sport	Sport	Спорт	lbh0dvr	elliptical 	Elliptical		Эллиптические упражнения							
+1	1	1		#d9ead3	sport	Sport	Спорт	mr67q3e	rope	Skipping rope		Скакалка							
+1	1	1		#d9ead3	sport	Sport	Спорт	n3yafqk	skating	Ice skating		Коньки							
+1	1	1		#d9ead3	sport	Sport	Спорт	w96s8pr	bowling	Bowling		Боулинг							
+1	1	1		#d9ead3	sport	Sport	Спорт	581d8u2	ski	Ski		Лыжи							
+1	1	1		#d9ead3	sport	Sport	Спорт	ncdsgv5	dancing	Dancing		Танцы							
+1	1	1		#d9ead3	sport	Sport	Спорт	lk65iq6	yoga	Yoga		Йога							
+1	1	1		#d9ead3	sport	Sport	Спорт	ry3lmsa	aerobics	Aerobics		Аэробика							
+1	1	1		#d9ead3	sport	Sport	Спорт	02qii5h	plank	Plank		Планка							
+1	1	1		#d9ead3	sport	Sport	Спорт	4vrgnih	mountain	Mountaineering		Альпинизм							
+1	1	1		#d9ead3	sport	Sport	Спорт	sicux2c	climbing	Rock climbing		Скалолазание							
+1	1	1		#d9ead3	sport	Sport	Спорт	zrxr18ut	rowing	Rowing machine		Гребной тренажер							
+1	1	1		#e8ead1	integration	Integration	Интеграция	af8qazx	compatible	Compatible apps		Совместимые приложения							
+1	1	1		#e8ead1	integration	Integration	Интеграция	z8qs5ip	g.fit	Google Fit		Google Fit							
+1	1	1		#e8ead1	integration	Integration	Интеграция	03q1rg3	f.pal	MyFitnessPal		MyFitnessPal							
+1	1	1		#e8ead1	integration	Integration	Интеграция	96upajl	jawbone	UP by Jawbone		UP by Jawbone							
+				#d0e0e3	polysomnography	Sleep tracking	Качество сна	nxkpz9i	sensitivity.wake	Registering awakenings		Регистрация пробуждений	min.	мин.		Точность регистрации пробуждений			
+				#d0e0e3	polysomnography	Sleep tracking	Качество сна	0e51ra4	sensitivity.sleep	Mean error of falling asleep		Средняя погрешность засыпания	min.	мин.		Среднее отклонение времени засыпания			
+				#d0e0e3	polysomnography	Sleep tracking	Качество сна	myof5la	auto.sleep	Automatic sleep recording		Автоматическая регистрация сна	%	%					
+				#d0e0e3	polysomnography	Sleep tracking	Качество сна	eqrqg7y	check.removal	Recognition of the removal of a bracelet		Распознование снятия браслета	%	%					
+				#d0e0e3	polysomnography	Sleep tracking	Качество сна	pjthco2	err.sleep.rem	Recognition of REM sleep		Распознование REM сна	%	%					
+				#efdddb	pulsometer	Pulsometer	Пульсометр	nx6ywkn	pul.type	Type of heart rate monitor		Тип датчика пульса				фотоплетизмограф плетизмограф			
+				#efdddb	pulsometer	Pulsometer	Пульсометр	codlvtm	hr.brand	Sensor brand		Производитель							
+				#efdddb	pulsometer	Pulsometer	Пульсометр	ihybfc2	pul.err.minor	Minor errors		Незначительные ошибки	%	%					
+				#efdddb	pulsometer	Pulsometer	Пульсометр	x44zuj7	pul.err.major	Major errors		Значительные ошибки	%	%					
+				#efdddb	pulsometer	Pulsometer	Пульсометр	8ngr47n	pul.err.critical	Critical errors		Критические ошибки	%	%					
+				#efdddb	pulsometer	Pulsometer	Пульсометр	nk1mn8j	pul.err.initial	Initial errors		Ошибки при надевании	%	%		Процент ошибок превышающих 10 при первых секундах измерения после надевания браслета			
+				#efdddb	pulsometer	Pulsometer	Пульсометр	kkyg34d	pul.removal.check	Recognition of removal		Распознование снятия 	%	%		0 = датчик продолжает менять значения			
+				#efdddb	pulsometer	Pulsometer	Пульсометр	2xxtdz6	pul.removal.time	Instant Recognition Removal		Мгновенное распознавание снятия	%	%		0 = датчик застывает на последнем значении			
+				#efdddb	pulsometer	Pulsometer	Пульсометр	sytaq6h	pul.err.max	Maximum error		Максимальная погрешность							
+				#efefef	pedometer	Pedometer	Шагомер	guoawdo	1x.step	Recognition of small steps		Распознование мелких шагов	%	%		Распознавание мелкого шага. Длина шага 34 см. Запястье прилегает к груди испытуемого. Рост испытуемых 170-180 см. Количество шагов не менее 500. Средняя скорость шага 0.4-0.5 секунд.			
+				#efefef	pedometer	Pedometer	Шагомер	36t0m10	2x.step	Recognition of major steps		Распознование крупных шагов	%	%		Распознавание крупного шага. Длина шага 68 см. Средняя скорость шага 0.45-0.55 секунд. Запястье прилегает к груди испытуемого. Рост испытуемых 170-180 см. Количество шагов не менее 500. 			
+				#efefef	pedometer	Pedometer	Шагомер	q6i5igb	1x.run	Recognition of small runs		Распознование мелкого бега	%	%		Распознавание бега 1. Длина шага 34 см. Средняя скорость шага 0.4-0.5 секунд. Запястье прилегает к груди испытуемого. Рост испытуемых 170-180 см. Количество шагов не менее 500. 			
+				#efefef	pedometer	Pedometer	Шагомер	nfexpuj	1x.run	Recognition of a large run		Распознование крупного бега	%	%		Распознавание бега 2. Длина шага 68 см. Средняя скорость шага 0.45-0.55 секунд. Запястье прилегает к груди испытуемого. Рост испытуемых 170-180 см. Количество шагов не менее 500.			
+				#efefef	pedometer	Pedometer	Шагомер	l7x0j9m	hands.up	Filtration of lifting hands up		Фильтрация поднимания рук вверх	%	%		Точность распознания движения рук вверх из состояния вися ладонями внутрь через стороны, до вертикального положения ладонями внутрь. Рост испытуемого 180 см. Количество повторений не менее 100 с разной скоростью.			
+				#efefef	pedometer	Pedometer	Шагомер	dpaqdtz	hands.fw	Filtration of lifting hands forward		Фильтрация поднимания рук вперёд	%	%		Точность распознания движения рук вперёд из состояния вися ладонями внутрь до горизонтального положения ладонями вниз. Рост испытуемого 180 см. Количество повторений не менее 100 с разной скоростью.			
+				#efefef	pedometer	Pedometer	Шагомер	ol23hu6	wheel	Steering wheel rotation filtration		Фильтрация вращение руля	%	%		Точность распознавания вращения автомобильного руля при различной скорости. Число повторений не менее 200			
+1	1	1		#ecfffb	communication	Communication	Связь	rmjj6m5t	usb type-c	USB type-c		USB type-c							
+1	1	1		#ecfffb	communication	Communication	Связь	p85t8s8z	microUSB	microUSB		microUSB							
+1	1	1		#ecfffb	communication	Communication	Связь	9qsw0l7d	usb on-the-o	OTG		OTG							
+1	1	1		#ecfffb	communication	Communication	Связь	8q7wrlul	nano-sim	Nano-SIM		Nano-SIM							
+1	1	1		#ecfffb	communication	Communication	Связь	0q3ucnsi	dual-stand-by	Dual SIM Stand-By		Dual SIM Stand-By							
+1	1	1		#ecfffb	communication	Communication	Связь	lawrulap	micro-sim	Micro-SIM		Micro-SIM							
+1	1	1		#ecfffb	communication	Communication	Связь	uointeq3	HSPA speed	HSPA speed		HSPA speed							
+1	1	1		#ecfffb	communication	Communication	Связь	p2tqrwex	LTE speed	LTE speed		LTE speed							
+1	1	1		#cadadd	camera	Camera	Камера	gn4gn6xk	autofocus	Autofocus		Автофокус							
+1	1	1		#cadadd	camera	Camera	Камера	zrru3eek	camera_flash	Camera Flash		Вспышка							
+1	1	1		#cadadd	camera	Camera	Камера	jefetfa2	led flash	LED falsh		LED вспышка							
+1	1	1		#cadadd				5cp2ol9j	SAR head	SAR head		SAR head							
+1	1	1		#cadadd				owpcmmmy	SAR body	SAR body		SAR body							
+1	1	1		#cadadd				psbzu2e9	SAR EU head	SAR EU head		SAR EU head							
+1	1	1		#cadadd				uuapl9gw	SAR EU body	SAR EU body		SAR EU body							
+1	1	1		#d0e0e3	feature	Features	Функции	iw93r5f8	alarm	Alarm		Будильник							
+1	1	1		#d0e0e3	feature	Features	Функции	qfkph10b	clock	Clock		Часы							
+		1	rating	#f4cdb1	sensor	Sensors	Сенсоры	ywtcejg	gyrosсope	Gyrosсope		Гироскоп							
+1	1			#efefef	general	General	Основное	ywkph10b	colors	Colors		Доступные цвета							

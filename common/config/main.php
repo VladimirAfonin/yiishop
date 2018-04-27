@@ -9,7 +9,8 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     // our container class
     'bootstrap' => [
-        'common\bootstrap\SetUp'
+        'common\bootstrap\SetUp',
+        'log'
     ],
 
     'components' => [

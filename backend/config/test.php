@@ -11,7 +11,7 @@ return [
     ],
 
     'subjectsUrls' => [
-       'mathematics' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/mathematics.html',
+        'mathematics' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/mathematics.html',
         'physicts' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/physics.html',
         'chemistry' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/chemistry.html',
         'earth_sciences' => 'http://www.shanghairanking.com/Shanghairanking-Subject-Rankings/earth-sciences.html',
@@ -413,4 +413,52 @@ return [
         'sub_veterinary_science' => 'veterinary_science'
     ],
 
+    'urlsOfWur' => [
+        2018 => [
+            'arts_of_humanities' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/arts_humanities_rankings_2018_limit0_4bee3cebae739cc402e7b4a967cf7c8c.json',
+            'education' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/education_rankings_2018_limit0_ec13ba2d6063cffd2b5c10c2059c7383.json',
+            'law' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/law_rankings_2018_limit0_c55e23a8af1c78e749071c336cf4ff72.json',
+            'psychology' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/psychology_rankings_2018_limit0_d1dde666909fb41e2d8f2b6a131814d6.json',
+            'business_economics' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/business_economics_rankings_2018_limit0_27b5aaf003e4d4b79991cea1907f3b8b.json',
+            'clinical_health' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/clinical_pre_clinical_health_ran_2018_limit0_50247ea21966014ad31d102ccbab1996.json',
+            'computer_science' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/computer_science_rankings_2018_limit0_db5c467dc277aad05d42ae3a67b582d7.json',
+            'engineering_technology' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/engineering_technology_rankings_2018_limit0_b0ec3679df4d477192d5ae8bd98aa65d.json',
+            'life_sciences' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/life_sciences_rankings_2018_limit0_a15c7023e4eb514e554ff6cba913ab7f.json',
+            'physical_sciences' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/physical_sciences_rankings_2018_limit0_e8ae4556a7905890f7d9170fe2f28c39.json',
+            'social_sciences' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/social_sciences_rankings_2018_limit0_58c1abf0cdeab0df538e07c9459ce954.json',
+        ],
+        2017 => [
+            'arts_of_humanities' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/arts_humanities_rankings_2017_limit0_9d29cdd8a2a9c1938536422da5615266.json',
+            'business_economics' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/business_economics_rankings_2017_limit0_5e4513317dd00db6296ebbae24a33d64.json',
+            'clinical_health' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/clinical_pre_clinical_health_ran_2017_limit0_89ba2f9e2c382f9594a6b8d5e4be5990.json',
+            'computer_science' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/computer_science_rankings_2017_limit0_4516931838992206229b45900bd0edde.json',
+            'engineering_technology' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/engineering_technology_rankings_2017_limit0_34ca0ef746e983ea67551043ac598c51.json',
+            'life_sciences' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/life_sciences_rankings_2017_limit0_0066fdd53dd3543b2f82c298c137c4e2.json',
+            'physical_sciences' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/physical_sciences_rankings_2017_limit0_392a73847192320bcde3849130c31c6f.json',
+            'social_sciences' => 'https://www.timeshighereducation.com/sites/default/files/the_data_rankings/social_sciences_rankings_2017_limit0_9022022cd6e2f22c73b7b4d073f74390.json',
+        ],
+
+    ],
+
+    'mailgun' => [
+        'api' => 'key-579977450cd6ab90dceca5ba2ebb179d',
+        'domain' => 'https://api.mailgun.net/v3/margaritaskripkina.ru',
+    ],
+
+    'accounts' => [
+       1 => ['email' => 'info@margaritaskripkina.ru', 'password' => 'Va989126', 'host' => '{imap.yandex.com:993/imap/ssl}', 'folder' => ['inbox' => '{imap.yandex.com:993/imap/ssl}INBOX']],
+       10 => ['email' => 'svetlana@margaritaskripkina.ru', 'password' => 'Va989126', 'host' => '{imap.yandex.com:993/imap/ssl}', 'folder' => [ 'inbox' => '{imap.yandex.com:993/imap/ssl}INBOX']],
+    ],
+
+    'imap.sinc.interval' => 600,
+
+    'email_folders' => [
+        'yandex' => [0 =>'sent', 1 => 'unknown', 2 => 'spam',3 =>  'deleted', 4 => 'draft', 5 => 'inbox'],
+    ],
+
+    'level_one' => [
+        'level_two' => [
+            'level_three' => 3
+        ]
+    ]
 ];

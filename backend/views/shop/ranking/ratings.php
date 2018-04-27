@@ -6,10 +6,15 @@ use backend\entities\RankingHelper;
 /** @var $univIndicators array */
 
 $arrOfMainRatings = Yii::$app->params['dataMainRankings'];
+
+$result = [];
 foreach ($arrOfMainRatings as $k => $value) {
     $univRank = RankingHelper::createDataFile("$k"."_r", RankingHelper::getItemUrl("$k")['r'], RankingHelper::getItemUrl("$k")['base']);
     $univIndicators = RankingHelper::createDataFile("$k"."_i", RankingHelper::getItemUrl($k)['i']);
-    RankingHelper::saveToDb($univRank, $value);
+    $result[] = RankingHelper::saveToArr($univRank, $value);
     sleep(1);
 }
-echo "<div class='alert alert-success' role='alert'>all data save in 'main_rankings' table!</div>";
+
+echo '<pre>';
+print_r($result);
+echo '</pre>';

@@ -13,7 +13,7 @@ class MetaBehavior extends Behavior
     public $attribute = 'meta';
     public $attributeJson = 'meta_json';
 
-    public function events(): array
+    public function events()
     {
         return [
             ActiveRecord::EVENT_AFTER_FIND => 'onAfterFind',

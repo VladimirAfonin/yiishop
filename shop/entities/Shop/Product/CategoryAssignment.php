@@ -3,10 +3,8 @@ namespace shop\entities\Shop\Product;
 
 use yii\db\ActiveRecord;
 
-/*
- * @property integer $product_id
- * @property integer $category_id
- * */
+/*  @property integer $product_id */
+/* @property integer $category_id */
 class CategoryAssignment extends ActiveRecord
 {
     public static function tableName(): string

@@ -8,6 +8,13 @@ use shop\entities\Shop\Product\Product;
 use shop\entities\Shop\Brand;
 use yii\helpers\ArrayHelper;
 
+/* @property ValueForm[] $values
+ * @property PriceForm price
+ * @property MetaForm meta
+ * @property CategoriesForm categories
+ * @property PhotosForm photos
+ * @property TagsForm tags
+ */
 class ProductCreateForm extends CompositeForm
 {
     public $brandId;

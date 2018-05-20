@@ -10,6 +10,7 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * @property string $file
  * @property integer $sort
  */
+
 class Photo extends ActiveRecord
 {
     /**
@@ -52,7 +53,7 @@ class Photo extends ActiveRecord
     }
 
     /**
-     * @param $sort
+     * @param int $sort
      */
     public function setSort($sort): void
     {

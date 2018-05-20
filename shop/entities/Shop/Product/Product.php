@@ -12,6 +12,11 @@ use shop\entities\Shop\Brand;
 use shop\entities\Shop\Category;
 use yii\web\UploadedFile;
 
+/**
+ * @property  categoryAssignment $categoryAssignments
+ * @property Value[] $values
+ * @property Photo $photo
+ */
 class Product extends  ActiveRecord
 {
     const STATUS_DRAFT = 0;
@@ -261,8 +266,8 @@ class Product extends  ActiveRecord
     public function setValue($id, $value): void
     {
         $values = $this->values;
-        foreach($values as $item) {
-            if($item->isForCharacteristic($id)) {
+        foreach($values as $val) {
+            if($val->isForCharacteristic($id)) {
                 return;
             }
         }
@@ -352,11 +357,11 @@ class Product extends  ActiveRecord
     {
         $assignments = $this->categoryAssignments;
         foreach($assignments as $assignment) {
-            if($assignment->isForCategory($id)) {
+            if($assignment->isForCategory($id)) {   // if 'Object row' ['product_id', 'category_id'] 'category_id' == $id : bool
                 return;
             }
         }
-        $assignments[] = CategoryAssiegnment::create($id);
+        $assignments[] = CategoryAssignment::create($id);
         $this->categoryAssignments = $assignments;
     }
 
@@ -395,6 +400,7 @@ class Product extends  ActiveRecord
     {
         $photos = $this->photos;
         $photos[] = Photo::create($file);
+        $this->photos = $photos;
         $this->updatePhotos($photos);
     }
 

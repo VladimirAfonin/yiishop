@@ -68,7 +68,7 @@ class CategoryForm extends CompositeForm
      */
     public function parentCategoriesList(): array
     {
-        return ArrayHelper::map(Category::find()->orderBy('lft')->asArray()->all(), 'id', function(array $category) { // 'id' -> the key in array
+        return ArrayHelper::map(Category::find()->orderBy('lft')->asArray()->all(), 'id', function(array $category) { // 'id' -> the key in array ----> ['id' => '-- computers]
             return ($category['depth'] > 1 ? str_repeat('--', $category['depth'] - 1) . ' ' : '') . $category['name'];
         });
     }

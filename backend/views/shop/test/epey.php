@@ -1069,11 +1069,11 @@ function getLinksFromEpey($categoryId)
 {
     $url = 'https://www.epey.com/kat/listele/';
     $result_links = [];
-    for($i = 1; $i <= 45; $i++ ) { // page // todo uncomment '45'
+    for($i = 1; $i <= 30; $i++ ) { // page // todo uncomment '45'
         $html_turkish = getDataFromApiWithCategory($url, ['sayfa' => $i], $categoryId);
         $htmlDom2 = dom($html_turkish);
 
-        for($k = 0; $k <= 60; $k++) { // item per page todo uncomment '60'
+        for($k = 0; $k <= 2; $k++) { // item per page todo uncomment '60'
             $links = $htmlDom2->query('//div[@class="detay cell"]/a/@href')->item($k)->nodeValue ?? null;
             if($links) $result_links[] = $links;
         }

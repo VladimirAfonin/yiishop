@@ -71,8 +71,8 @@ class ProductManageService
         }
 
         // values
-        foreach($form->values as $value) {
-            $product->setValue($value->id, $value->value);
+        foreach($form->values as $value) { // loop: ValueForm[] as $value
+            $product->setValue($value->id, $value->value); // ValueForm(), 'id' -> characteristic_id, $value -> Value(.)
         }
 
         // photos

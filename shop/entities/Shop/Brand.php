@@ -2,6 +2,7 @@
 namespace shop\entities\Shop;
 
 use shop\behaviors\MetaBehavior;
+use yii\base\Event;
 use yii\db\ActiveRecord;
 use shop\entities\Meta;
 use yii\helpers\Json;
@@ -9,6 +10,8 @@ use yii\helpers\Json;
 class Brand extends  ActiveRecord
 {
     public $meta;
+
+//    const EDIT_EVENT = 'edit';
 
     public static function tableName(): string
     {
@@ -24,7 +27,7 @@ class Brand extends  ActiveRecord
             /*
             [
                 'class' => MetaBehavior::class,
-                'jsonAttribute' => 'meta_serialize'
+                'attributeJson' => 'meta_serialize'
             ]
             */
         ];
@@ -75,5 +78,11 @@ class Brand extends  ActiveRecord
         $this->name = $name;
         $this->slug = $slug;
         $this->meta = $meta;
+
+       /* $this->trigger(self::EDIT_EVENT, new Event([
+            'data' => [
+                'name' => $name
+            ]
+        ]));*/
     }
 }

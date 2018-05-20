@@ -10,6 +10,7 @@ use shop\entities\Meta;
 
 class Category extends ActiveRecord
 {
+    /** @var  Meta $meta */
     public $meta;
 
     public static function tableName(): string

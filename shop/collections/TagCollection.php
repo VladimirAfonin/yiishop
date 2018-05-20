@@ -11,7 +11,8 @@ class TagCollection
      */
     public function get($id): Tag
     {
-        return Tag::findOne($id);
+        if(!$tag = Tag::findOne($id)) throw new NotFoundException('tag not found.');
+        return $tag;
     }
 
     /**

@@ -400,7 +400,6 @@ class Product extends  ActiveRecord
     {
         $photos = $this->photos;
         $photos[] = Photo::create($file);
-        $this->photos = $photos;
         $this->updatePhotos($photos);
     }
 
@@ -492,7 +491,7 @@ class Product extends  ActiveRecord
                 return;
             }
         }
-        $assignments[] = CategoryAssignment::create($id);
+        $assignments[] = TagAssignment::create($id);
         $this->tagAssignments = $assignments;
     }
 
@@ -611,7 +610,7 @@ class Product extends  ActiveRecord
      */
     public function getTagAssignments(): ActiveQuery
     {
-        return $this->hasMany(Tag::class, ['product_id' => 'id']);
+        return $this->hasMany(TagAssignment::class, ['product_id' => 'id']);
     }
 
     /**

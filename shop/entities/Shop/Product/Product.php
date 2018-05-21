@@ -260,18 +260,18 @@ class Product extends  ActiveRecord
     }
 
     /**
-     * @param $id
+     * @param $charactId
      * @param $value
      */
-    public function setValue($id, $value): void
+    public function setValue($charactId, $value): void
     {
         $values = $this->values;
         foreach($values as $val) {
-            if($val->isForCharacteristic($id)) {
+            if($val->isForCharacteristic($charactId)) {
                 return;
             }
         }
-        $values[] = Value::create($id, $value);
+        $values[] = Value::create($charactId, $value);
         $this->values = $values;
     }
 

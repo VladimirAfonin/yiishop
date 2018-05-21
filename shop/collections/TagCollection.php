@@ -30,4 +30,13 @@ class TagCollection
     {
         if(!$tag->delete()) { throw new NotFoundException('delete error.'); }
     }
+
+    /**
+     * @param $tagName
+     * @return Tag
+     */
+    public function findByName($tagName): ?Tag
+    {
+       return Tag::findOne(['name' => $tagName]);
+    }
 }

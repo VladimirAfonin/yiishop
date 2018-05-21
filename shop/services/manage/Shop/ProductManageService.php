@@ -88,7 +88,7 @@ class ProductManageService
 
         $this->_transaction->wrap(function() use($form, $product) {
             // new tags
-            foreach ($form->tags->newName as $tagName) {
+            foreach ($form->tags->newNames as $tagName) {
                 if ( ! $tag = $this->_tags->findByName($tagName)) {
                     $tag = Tag::create($tagName);
                     $this->_tags->save($tag);
@@ -97,18 +97,20 @@ class ProductManageService
             }
             $this->_products->save($product);
         });
-
-
 //        $this->_products->save($product);
-
         return $product;
     }
 
+    /**
+     * @param $id
+     * @param ProductEditForm $form
+     */
     public function edit($id, ProductEditForm $form): void
     {
         $product = $this->_products->get($id);
         $brand = $this->_brands->get($form->brandId);
         $category = $this->_categories->get($form->categories->main);
+
         $product->edit(
             $brand->id,
             $form->code,
@@ -120,6 +122,7 @@ class ProductManageService
                 $form->meta->keywords
             )
         );
+
         $product->changeMainCategory($category->id);
 
         $this->_transaction->wrap(function () use ($product, $form) {

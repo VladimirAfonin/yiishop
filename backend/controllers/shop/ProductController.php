@@ -7,6 +7,7 @@ use shop\forms\manage\Shop\Product\PhotosForm;
 use shop\forms\manage\Shop\Product\PriceForm;
 use shop\forms\manage\Shop\Product\ProductCreateForm;
 use shop\forms\manage\Shop\Product\ProductEditForm;
+use shop\forms\manage\Shop\Product\TagsForm;
 use shop\services\manage\Shop\ProductManageService;
 use yii\base\Controller;
 use yii\base\Module;

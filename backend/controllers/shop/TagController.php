@@ -9,6 +9,7 @@ use yii\base\Module;
 use Yii;
 use shop\entities\Shop\Tag;
 use backend\forms\shop\TagSearch;
+use yii\web\Response;
 
 class TagController extends Controller
 {
@@ -53,7 +54,7 @@ class TagController extends Controller
     }
 
     /**
-     * @return \yii\web\Response
+     * @return Response
      */
     public function actionCreate()
     {
@@ -72,7 +73,7 @@ class TagController extends Controller
 
     /**
      * @param $id
-     * @return \yii\web\Response
+     * @return string|Response
      */
     public function actionUpdate($id)
     {
@@ -96,6 +97,7 @@ class TagController extends Controller
 
     /**
      * @param $id
+     * @return Response
      */
     public function actionDelete($id)
     {

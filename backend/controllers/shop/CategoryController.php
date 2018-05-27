@@ -126,4 +126,24 @@ class CategoryController extends Controller
         throw new \RuntimeException('The requested category does not exist.');
 
     }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     */
+    public function actionMoveUp($id)
+    {
+        $this->_service->moveUp($id);
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     */
+    public function actionMoveDown($id)
+    {
+        $this->_service->moveDown($id);
+        return $this->redirect(['index']);
+    }
 }

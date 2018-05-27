@@ -245,8 +245,8 @@ class Product extends  ActiveRecord
      */
     private function updateReviews(array $reviews): void
     {
-        $amount = 0;
-        $total = 0;
+        $amount = 0; // общее кол-во голосов
+        $total = 0;  // оценка
 
         foreach ($reviews as $review) {
             if ($review->isActive()) {

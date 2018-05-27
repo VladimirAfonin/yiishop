@@ -26,7 +26,7 @@ abstract class CompositeForm extends  Model
         $success = parent::load($data, $formName);
         foreach($this->forms as $name => $form) {
             if(is_array($form)) {
-               $success = Model::loadMultiple($form, $data, $formName ? null : $name);
+               $success = Model::loadMultiple($form, $data, $formName === null ? null : $name) && $success;
             } else {
                 $success = $form->load($data, $formName === '' ? $name : null) && $success;
             }
@@ -53,7 +53,7 @@ abstract class CompositeForm extends  Model
 //                }
                  $success = Model::validateMultiple($form) && $success;
             } else {
-                $innerNames = ArrayHelper::getValue($attributeNames, $name);
+                $innerNames = ($attributeNames !== null) ? ArrayHelper::getValue($attributeNames, $name) : null;
                 $success = $form->validate($innerNames ?: null, $clearErrors) && $success;
             }
         }

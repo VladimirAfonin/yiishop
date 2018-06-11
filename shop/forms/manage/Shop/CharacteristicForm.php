@@ -29,7 +29,7 @@ class CharacteristicForm extends Model
 
             $this->_charactObj = $characteristic;
         } else {
-            $this->sort = Characteristic::find()->max('sort') + 1;
+            $this->sort = Characteristic::find()->max('sort') + 1; // if new record we set sort
         }
         parent::__construct($config);
     }

@@ -52,7 +52,6 @@ class ProductController extends Controller
     {
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', compact('searchModel', 'dataProvider'));
     }
 
@@ -60,12 +59,13 @@ class ProductController extends Controller
      * @param $id
      * @return string
      */
-    public function actionView($id)
+    public function actionView($id=1) // todo delete
     {
         $product = $this->findModel($id);
+
         $modificationsProvider = new ActiveDataProvider([
             'query' => $product->getModifications()->orderBy('name'),
-            'key' => function(Modification $modification) use($product) { // по умолчанию берутся ключи id меня на свои, котрые будут на button's
+            'key' => function(Modification $modification) use($product) { // по умолчанию берутся ключи id меняем на свои, котрые будут на button's
                 return [
                     'product_id' => $product->id,
                     'id' => $modification->id,
@@ -225,7 +225,7 @@ class ProductController extends Controller
     {
         try {
             $this->_service->activate($id);
-            Yii::$app->session->setFlash('success', 'statuc has been successfully changed!');
+            Yii::$app->session->setFlash('success', 'status has been successfully changed!');
         } catch (\RuntimeException $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
         }

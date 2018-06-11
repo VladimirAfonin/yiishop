@@ -10,4 +10,3 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?=  $this->render('_subcategories', compact('category')) ?>
 <?=  $this->render('_list', compact('dataProvider')) ?>
-

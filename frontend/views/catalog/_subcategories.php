@@ -1,5 +1,5 @@
 <?php
-use yii\helpers\{Html, Url};
+use yii\helpers\{Html,Url};
 ?>
 <?php if (($category->children)) : ?>
     <div class="panel panel-default">

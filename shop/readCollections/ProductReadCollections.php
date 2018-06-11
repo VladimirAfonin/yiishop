@@ -44,7 +44,8 @@ class ProductReadCollections
     public function getAllByCategory(Category $category): DataProviderInterface
     {
         $query = Product::find()->alias('p')->active('p')->with('mainPhoto', 'category');
-        $ids = ArrayHelper::merge([$category->id], $category->getLeaves()->select('id')->column()); // get children 'ids' with NestedSetBehavior method -> 'getDescendants()'
+//        $ids = ArrayHelper::merge([$category->id], $category->getLeaves()->select('id')->column());// get children 'ids' with NestedSetBehavior method -> 'getDescendants()'
+        $ids = $category->getDescendants(null, true)->select('id')->column(); // второй вариант записи
         $query->joinWith(['categoryAssignments ca'], false);
         $query->andWhere(['or', ['p.category_id' => $ids], ['ca.category_id' => $ids]]);
         $query->groupBy('p.id');
@@ -120,7 +121,7 @@ class ProductReadCollections
                     ],
                 ]
             ],
-            'pagination' => [
+            'pagination' => [ // new Pagination() имеет по умолчанию $pageSileLimit = [1,50]
                 'pageSizeLimit' => [15, 100],
             ]
         ]);

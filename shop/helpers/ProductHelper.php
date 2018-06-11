@@ -13,8 +13,8 @@ class ProductHelper
     public static function statusList(): array
     {
         return [
-            Product::STATUS_ACTIVE => 'status',
-            Product::STATUS_DRAFT => 'draft'
+            Product::STATUS_ACTIVE => 'active',
+            Product::STATUS_DRAFT  => 'draft'
         ];
     }
 
@@ -33,7 +33,7 @@ class ProductHelper
      */
     public static function statusLabel($status)
     {
-        switch($status) {
+        switch ($status) {
             case Product::STATUS_ACTIVE:
                 $class = 'label label-success';
                 break;

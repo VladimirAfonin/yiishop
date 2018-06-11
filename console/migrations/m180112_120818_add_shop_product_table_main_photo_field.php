@@ -16,7 +16,9 @@ class m180112_120818_add_shop_product_table_main_photo_field extends Migration
 
         $this->createIndex('idx-shop_products-main_photo_id', 'shop_products', 'main_photo_id');
 
-        $this->addForeignKey('fk-shop_products-main_photo_id', 'shop_products', 'main_photo_id', 'shop_photos', 'id', 'SET NULL', 'RESTRICT');
+        $this->addForeignKey('fk-shop_products-main_photo_id', 'shop_products', 'main_photo_id',
+            'shop_photos', 'id',
+            'SET NULL', 'RESTRICT');
     }
 
     /**

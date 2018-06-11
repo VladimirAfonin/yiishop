@@ -41,6 +41,11 @@ class Brand extends  ActiveRecord
 //        parent::afterFind();
 //    }
 
+    public function getSeoTitle()
+    {
+        return $this->meta->title ?: $this->name;
+    }
+
     /**
      * before save
      *

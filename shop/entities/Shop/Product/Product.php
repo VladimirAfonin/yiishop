@@ -134,7 +134,7 @@ class Product extends  ActiveRecord
     /**
      * @return bool
      */
-    private function isActive(): bool
+    public function isActive(): bool
     {
         return $this->status == self::STATUS_ACTIVE;
     }
@@ -145,6 +145,11 @@ class Product extends  ActiveRecord
     private function isDraft(): bool
     {
         return $this->status == self::STATUS_DRAFT;
+    }
+
+    public function getSeoTitle(): string
+    {
+        return $this->meta->title ?: $this->name;
     }
 
     /**
@@ -185,7 +190,7 @@ class Product extends  ActiveRecord
      * отзывы редактирование
      *
      * @param $id
-     * @param $vote
+     * @param $votef
      * @param $text
      */
     public function editReview($id, $vote, $text): void
@@ -357,6 +362,7 @@ class Product extends  ActiveRecord
     {
         $assignments = $this->categoryAssignments;
         foreach($assignments as $assignment) {
+            /** @var CategoryAssignment $assignment */
             if($assignment->isForCategory($id)) {   // if 'Object row' ['product_id', 'category_id'] 'category_id' == $id : bool
                 return;
             }
@@ -433,9 +439,12 @@ class Product extends  ActiveRecord
     private function updatePhotos(array $photos): void
     {
         foreach($photos as $i => $photo) {
+            /** @var Photo $photo */
             $photo->setSort($i);
         }
         $this->photos = $photos;
+        /** @var Product $this */
+//        $this->populateRelation('mainPhoto', reset($photos));
     }
 
     /**
@@ -674,13 +683,16 @@ class Product extends  ActiveRecord
         if(array_key_exists('mainPhoto', $related)) {
             $this->updateAttributes(['main_photo_id' => ($related['mainPhoto'] ? $related['mainPhoto']->id : null)]);
         }
-
     }
 
+    /**
+     * @return bool
+     */
     public function beforeDelete(): bool
     {
         if (parent::beforeDelete()) {
             foreach ($this->photos as $photo) {
+                /** @var Photo $photo */
                 $photo->delete();
             }
             return true;
@@ -697,5 +709,15 @@ class Product extends  ActiveRecord
     {
         return new ProductQuery(static::class);
     }
+
+    /*
+    жадная загрузка, когда анонимка; исполняется только тогда когда дергается
+    Product::find()->with(['photos' => function($query) {
+        $query->andWhere(['main' => 1])
+    }])
+    $product->updateAttributes([
+        'main_photo_id' => $this->photos[0]->id // первая фотография
+    ])
+    */
 
 }

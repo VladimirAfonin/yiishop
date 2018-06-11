@@ -22,9 +22,10 @@ use yii\helpers\Html;
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
-<!--            --><?//= $form->field($model, 'description')->textarea(['rows' => 10]) ?>
+            <?= $form->field($model, 'description')->textarea(['rows' => 10]) ?>
         </div>
     </div>
+
 </div>
 <div class="box box-default">
     <div class="box-header with-border">Price</div>
@@ -39,16 +40,18 @@ use yii\helpers\Html;
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-6">
         <div class="box box-default">
             <div class="box-header with-border">Categories</div>
             <div class="box-body">
-                <?= $form->field($model->categories, 'main')->dropDownList($model->categories->categoriesList(), ['prompt' => '']) ?>
+                <?= $form->field($model->categories, 'main')->dropDownList($model->categories->categoriesList(), ['prompt' => '-- выберите']) ?>
                 <?= $form->field($model->categories, 'others')->checkboxList($model->categories->categoriesList()) ?>
             </div>
         </div>
     </div>
+
     <div class="col-md-6">
         <div class="box box-default">
             <div class="box-header with-border">Tags</div>
@@ -59,6 +62,7 @@ use yii\helpers\Html;
         </div>
     </div>
 </div>
+
 <div class="box box-default">
     <div class="box-header with-border">Characteristics</div>
     <div class="box-body">
@@ -71,6 +75,7 @@ use yii\helpers\Html;
         <?php endforeach; ?>
     </div>
 </div>
+
 <div class="box box-default">
     <div class="box-header with-border">
         Photos
@@ -83,6 +88,7 @@ use yii\helpers\Html;
             ]
         ] ) ?>
     </div>
+
     <div class="box box-default">
         <div class="box-header with-border">
             SEO
@@ -93,6 +99,7 @@ use yii\helpers\Html;
             <?= $form->field($model->meta, 'keywords')->textInput() ?>
         </div>
     </div>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

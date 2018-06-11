@@ -1,5 +1,5 @@
 <?php
-/* @var \shop\entities\Shop\Category */
+/* @var \shop\entities\Shop\Category $category */
 use yii\helpers\Html;
 
 $this->title = $category->getSeoTitle();

@@ -20,6 +20,7 @@ class ProductCreateForm extends CompositeForm
     public $brandId;
     public $code;
     public $name;
+    public $description;
 
     public function __construct(array $config = [])
     {
@@ -42,7 +43,8 @@ class ProductCreateForm extends CompositeForm
             [['brandId', 'code', 'name'], 'required'],
             [['code', 'name'], 'string', 'max' => 255],
             [['brandId'], 'integer'],
-            [['code'], 'unique', 'targetClass' => Product::class]
+            [['code'], 'unique', 'targetClass' => Product::class],
+            [['description'], 'string']
         ];
     }
 

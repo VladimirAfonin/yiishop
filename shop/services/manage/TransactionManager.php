@@ -5,7 +5,7 @@ class TransactionManager
 {
     public function wrap(callable $function): void
     {
-        // \Yii::$app->db->transaction($function); // alternative
+        // \Yii::$app->db->transaction($function); // alternative short variant
         $tr = \Yii::$app->db->beginTransaction();
         try {
             $function();

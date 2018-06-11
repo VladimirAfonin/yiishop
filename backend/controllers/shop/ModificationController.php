@@ -2,6 +2,7 @@
 namespace backend\controllers\shop;
 
 use shop\entities\Shop\Product\Product;
+use shop\forms\manage\Shop\ModificationForm;
 use shop\services\manage\Shop\ProductManageService;
 use yii\base\Controller;
 use yii\base\Module;
@@ -28,7 +29,8 @@ class ModificationController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST']
+                    'delete' => ['POST'],
+                    'create' => ['post'],
                 ]
             ]
         ];
@@ -42,9 +44,16 @@ class ModificationController extends Controller
         return $this->redirect('shop/product');
     }
 
-    public function actionCreate($productId)
+    /**
+     * @param $product_id
+     * @return string
+     */
+    public function actionCreate($product_id)
     {
-        $product = $this->findModel($productId);
+//        $product_id = Yii::$app->request->get('product_id');
+//        var_dump($product_id);exit();
+
+        $product = $this->findModel($product_id);
         $form = new ModificationForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {

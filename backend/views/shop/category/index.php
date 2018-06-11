@@ -3,6 +3,9 @@ use kartik\helpers\Html;
 use yii\grid\GridView;
 use shop\entities\Shop\Category;
 
+/** @var \backend\forms\shop\CategorySearch $searchModel */
+
+
 $this->title = 'Category';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -13,7 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <div class="box">
         <div class="box-body">
-            <?= GridView::widget([
+            <?=
+            GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
@@ -33,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                    Html::a('<span class="glyphicon glyphicon-arrow-down"></span>', ['move-down', 'id' => $model->id]/*, ['data-method' => 'post']*/);
                         },
                         'format' => 'html',
-                        'contentOptions' => ['style' => 'text-align: center'],
+                        'contentOptions' => ['style' => 'text-align: center'], // форматирование по центру
                     ],
                     'slug',
                     'title',

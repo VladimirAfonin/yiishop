@@ -26,7 +26,7 @@ AppAsset::register($this);
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <link href="<?= Html::encode(Url::canonical()) ?>" rel="canonical"/>
-        <link href="<?= Yii::getAlias('@web/images/catalog/cart.png') ?>" rel="icon"/>
+        <link href="<?= Yii::getAlias('@web/image/cart.png') ?>" rel="icon"/>
         <?php $this->head() ?>
     </head>
     <body class="common-home">
@@ -93,7 +93,8 @@ AppAsset::register($this);
                 <div class="col-sm-4">
                     <div id="logo">
                         <a href="<?= Url::home() ?>"><img
-                                    src="<?= Yii::getAlias('@web/image/logo.png') ?>" title="Your Store" alt="Your Store"
+                                    src="<?= Yii::getAlias('@web/image/logo.png') ?>" title="Your Store"
+                                    alt="Your Store"
                                     class="img-responsive"/></a>
                     </div>
                 </div>
@@ -320,6 +321,12 @@ AppAsset::register($this);
     </div>
     <div class="container">
         <?= Breadcrumbs::widget([
+            'homeLink' => [
+                'label'  => '<i class="fa fa-home"></i>',
+                /* 'template' => "<li><span class='glyphicon glyphicon-home'>{link}</span></li>", */
+                'url'    => ['/'],
+                'encode' => false,
+            ],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>

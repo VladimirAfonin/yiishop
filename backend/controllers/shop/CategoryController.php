@@ -27,10 +27,10 @@ class CategoryController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    /*
-                    'move-up' => ['POST'],
-                    'move-down' => ['POST'],
-                    */
+
+//                    'move-up' => ['POST'],
+//                    'move-down' => ['POST'],
+
                 ]
             ]
         ];

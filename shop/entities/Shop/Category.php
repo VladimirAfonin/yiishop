@@ -98,10 +98,4 @@ class Category extends ActiveRecord
     {
          return $this->title ?: $this->name;
     }
-
-    public function isRoot(): bool
-    {
-        return $this->lft == 1;
-    }
-
 }

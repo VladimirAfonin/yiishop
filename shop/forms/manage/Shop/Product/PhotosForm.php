@@ -12,7 +12,7 @@ class PhotosForm extends Model
     {
         return [
             [['files'], 'each', 'rule' => ['image']], // ['files', 'image'] -> one image
-        ];
+        ];                                            //  ['primaryImage', 'file', 'extensions' => ['png', 'jpg', 'gif'], 'maxSize' => 1024*1024],
     }
 
     public function beforeValidate(): bool

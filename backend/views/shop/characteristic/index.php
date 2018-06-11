@@ -4,9 +4,12 @@ use shop\helpers\CharacteristicHelper;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use yii\grid\GridView;
+
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\forms\Shop\CharacteristicSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+
 $this->title = 'Characteristics';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Characteristic', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
     <div class="box">
         <div class="box-body">
             <?= GridView::widget([

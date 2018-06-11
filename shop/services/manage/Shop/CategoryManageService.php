@@ -88,8 +88,9 @@ class CategoryManageService
     /**
      * @param $id
      */
-    public function moveUp($id): void
+    public function moveDown($id): void
     {
+        /** @var Category $category */
         $category = $this->_categoriesCollect->get($id);
         $this->assertIsNotRoot($category);
         if ($prev = $category->prev) { // nestedSetbehavior action
@@ -101,7 +102,7 @@ class CategoryManageService
     /**
      * @param $id
      */
-    public function moveDown($id): void
+    public function moveUp($id): void
     {
         $category = $this->_categoriesCollect->get($id);
         $this->assertIsNotRoot($category);

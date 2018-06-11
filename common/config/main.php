@@ -3,8 +3,8 @@ return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
-//        '@staticRoot' => '@common/static/web',
-//        '@static' => '@common/static',
+//        '@staticRoot' => '@common/static/web', // $params['staticPath']
+//        '@static' =>  $params['staticHostInfo'],// '@common/static',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     // our container class

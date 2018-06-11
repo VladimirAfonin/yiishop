@@ -44,7 +44,7 @@ class ProductSearch extends Model
 
         $datProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
+            'sort'  => [
                 'defaultOrder' => ['id' => SORT_DESC]
             ]
         ]);

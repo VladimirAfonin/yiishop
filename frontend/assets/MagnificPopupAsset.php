@@ -5,7 +5,7 @@ use yii\web\AssetBundle;
 
 class MagnificPopupAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/magnific/dist';
+    public $sourcePath = '@bower/magnific-popup/dist';
     public $css = [
         '/magnific-popup.css',
     ];

@@ -30,7 +30,7 @@ class ModificationController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    'create' => ['post'],
+                    'create' => ['POST'],
                 ]
             ]
         ];
@@ -45,13 +45,13 @@ class ModificationController extends Controller
     }
 
     /**
-     * @param $product_id
+     * @param $id
      * @return string
      */
-    public function actionCreate($product_id)
+    public function actionCreate($id)
     {
 //        $product_id = Yii::$app->request->get('product_id');
-//        var_dump($product_id);exit();
+        var_dump($id);exit();
 
         $product = $this->findModel($product_id);
         $form = new ModificationForm();

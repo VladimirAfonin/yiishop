@@ -31,7 +31,27 @@ return [
                 'httpOnly' => true,
                 'domain' => $params['cookieDomain'],
             ],
+            'on AfterLogin' => function (\yii\web\UserEvent $event) { // (\yii\base\Event $event)
+                /** @var \shop\entities\User $user */
+                $user = $event->identity; // $event->sender->identity
+                $user->updateAttributes(['logget_at' => time()]);
+            },// обновление времени логина юзера
         ],
+        'myComponent' => [
+            'class' => 'app\components\MyComponent',
+            'name' => 'Petya', // public property: public $name; ... Yii::$app->myComponent->hello;
+        ],
+        /*
+         * class MyComponent extends \yii\base\Component
+         * {
+         *      public $name = 'Vasya';
+         *
+         *      public function getHello()
+         *      {
+         *         return 'hello' . '$this->name . '!';
+         *      }
+         * }
+         * */
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced',
@@ -55,6 +75,7 @@ return [
 
         'backendUrlManager' =>  require __DIR__ . '/urlManager.php',
         'frontendUrlManager' =>  require __DIR__ .  '/../../frontend/config/urlManager.php',
+        //    'defaultRoute' => 'site/index',
         'urlManager' => function() {
             return Yii::$app->get('backendUrlManager');
         }

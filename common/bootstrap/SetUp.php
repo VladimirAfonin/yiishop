@@ -8,6 +8,7 @@ use shop\services\auth\AuthService;
 use shop\services\auth\PasswordResetService;
 use shop\services\contact\ContactService;
 use yii\base\BootstrapInterface;
+use yii\db\ActiveRecord;
 use yii\di\Instance;
 use yii\helpers\ArrayHelper;
 use yii\mail\MailerInterface;
@@ -82,5 +83,12 @@ class SetUp implements BootstrapInterface
                 ]
             ], $args));
         });
+
+        // set common events for all class:
+//        Event::on(Order::class,ActiveRecord::EVENT_AFTER_INSERT,[$this,'orderCreated']);
+//        Event::on(Opinion::class, ActiveRecord::EVENT_AFTER_INSERT,[$this,'opinionCreated']);
     }
+
+//    public function orderCreated(Event $event) {}
+//    public function opinionCreated(Event $event) {}
 }

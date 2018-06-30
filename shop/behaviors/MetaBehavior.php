@@ -29,6 +29,11 @@ class MetaBehavior extends Behavior
 //        parent::attach($owner);
 //    }
 
+//      public function detach()
+//      {
+//          parent::detach();
+//      }
+
     public function onAfterFind(Event $event)
     {
         $brand = $event->sender;

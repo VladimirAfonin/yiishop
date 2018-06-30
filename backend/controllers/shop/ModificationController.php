@@ -51,7 +51,7 @@ class ModificationController extends Controller
     public function actionCreate($id)
     {
 //        $product_id = Yii::$app->request->get('product_id');
-        var_dump($id);exit();
+//        var_dump($id);exit();
 
         $product = $this->findModel($product_id);
         $form = new ModificationForm();

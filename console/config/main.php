@@ -30,6 +30,22 @@ return [
                 ],
             ],
         ],
+        'user' => [ // add config to console to rbac
+            'class' => 'yii\web\User',
+            'identityClass' => 'shop\entities\User',
+            'enableAutoLogin' => false,
+            'enableSession' => false,
+        ],
+        'authManager' => [ // for rbac add config ...
+            'class' => 'yii\rbac\PhpManager', // as default
+//            'class' => 'rbac/AuthManager', // our 'extended' class from PhpManager
+//            'defaultRoles' => ['guest'],
+            'defaultRoles' => ['admin'],
+            'itemFile' => '@app/rbac/items.php',
+//            'itemFile' => '@app'.DIRECTORY_SEPARATOR . 'rbac' . DIRECTORY_SEPARATOR . 'items.php',
+            'assignmentFile' => '@app/rbac/assignments.php',
+            'ruleFile' => '@app/rbac/rules.php'
+        ],
 
         'frontendUrlManager' =>  require __DIR__ . '/../../frontend/config/urlManager.php',
         'backendUrlManager' =>  require __DIR__ .  '/../../backend/config/urlManager.php',

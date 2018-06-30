@@ -15,7 +15,10 @@ return [
         '@static' => $params['staticPath'],// '@common/static',
     ],
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        '\common\bootstrap\SetUp',
+        ],
     'modules' => [],
     'components' => [
         'request' => [
@@ -36,6 +39,10 @@ return [
                 $user = $event->identity; // $event->sender->identity
                 $user->updateAttributes(['logget_at' => time()]);
             },// обновление времени логина юзера
+          /*  'as lastLogin' => [ //наше поведение  еще один способ подключения
+                'class' =>  'app\components\LastLoginBehavior',
+                'attribute' => 'logged_at',
+            ],*/
         ],
         'myComponent' => [
             'class' => 'app\components\MyComponent',
@@ -78,7 +85,11 @@ return [
         //    'defaultRoute' => 'site/index',
         'urlManager' => function() {
             return Yii::$app->get('backendUrlManager');
-        }
+        },
+        'authManager' => [ // for rbac add config ...
+            'class' => 'yii\rbac\PhpManager',
+            'defaultRoles' => ['guest'],
+        ],
 
     ],
 

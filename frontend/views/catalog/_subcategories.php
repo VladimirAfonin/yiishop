@@ -1,7 +1,8 @@
 <?php
 use yii\helpers\{Html,Url};
 ?>
-<?php if (($category->children)) : ?>
+<?php /** @var \shop\entities\Shop\Category $category */
+if (($category->children)) : ?>
     <div class="panel panel-default">
         <div class="panel-body">
             <?php foreach ($category->children as $child) : ?>

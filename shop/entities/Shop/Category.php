@@ -8,6 +8,9 @@ use yii\db\ActiveRecord;
 use shop\entities\Meta;
 
 
+/**
+ * @property mixed children
+ */
 class Category extends ActiveRecord
 {
     /** @var  Meta $meta */

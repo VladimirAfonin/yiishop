@@ -10,8 +10,6 @@ class SignupFormTest extends \Codeception\Test\Unit
      * @var \frontend\tests\UnitTester
      */
     protected $tester;
-
-
     public function _before()
     {
         $this->tester->haveFixtures([

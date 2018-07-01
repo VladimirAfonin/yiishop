@@ -2,11 +2,11 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url: http://yiielis.loc/
+            url: http://yiielis.loc/admin
             browser: chrome
         - Yii2:
             part: orm
-            entryScript: /index-test.php
+            entryScript: /
             cleanup: false
 env:
     screen:

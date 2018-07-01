@@ -20,6 +20,12 @@ return [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
           ],
+        'faker_fixture' => [
+            'class'           => 'yii\faker\FixtureController',
+            'namespace'       => 'common\fixtures',
+            'fixtureDataPath' => '@common/fixtures',
+            'templatePath'    => '@common/fixtures/templates',
+        ],
     ],
     'components' => [
         'log' => [

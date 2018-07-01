@@ -2,7 +2,9 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url: http://localhost:8080
-            browser: firefox
+            url: http://yiielis.loc/
+            browser: chrome
         - Yii2:
-            part: init
+            part: orm
+            entryScript: /
+            cleanup: false

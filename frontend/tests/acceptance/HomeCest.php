@@ -8,8 +8,8 @@ class HomeCest
 {
     public function checkHome(AcceptanceTester $I)
     {
-        $I->amOnPage(Url::toRoute('/site/index'));
-        $I->see('My Application');
+        $I->amOnPage(Url::toRoute('/site/'));
+        $I->see('Congratulations!','h1');
 
         $I->seeLink('About');
         $I->click('About');

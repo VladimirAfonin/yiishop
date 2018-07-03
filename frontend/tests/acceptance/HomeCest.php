@@ -3,6 +3,7 @@ namespace frontend\tests\acceptance;
 
 use frontend\tests\AcceptanceTester;
 use frontend\tests\Page\SearchPage;
+use shop\entities\User;
 use yii\helpers\Url;
 
 class HomeCest
@@ -20,6 +21,12 @@ class HomeCest
 
         $I->amOnPage(Url::toRoute('/site/'));
         $I->see('Congratulations!','h1');
+
+/*        $I->seeRecord(User::class, [
+            'username' => 'tester',
+            'email' => 'tester.email@example.com',
+            'status' => User::STATUS_WAIT
+        ]);*/
 
         $I->seeLink('About');
         $I->click('About');

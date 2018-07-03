@@ -43,15 +43,16 @@ class User extends ActiveRecord implements IdentityInterface
         $scenarios[self::SCENARIO_ADMIN_CREATE] = ['username','email','status','newPassword','newPasswordRepeat'];
         $scenarios[self::SCENARIO_ADMIN_UPDATE] = ['username','email','status','newPassword','newPasswordRepeat'];
     }
+    // $model = new User(['username' => 'testmane']); $model->scenario = User::SCENARIO_ADMIN_CREATE
 
-    public function rules()
+   /* public function rules()
     {
         return ArrayHelper::merge(parent::rules(),[
             [['newPassword','newPasswordRepeat'],'required','on' => self::SCENARIO_ADMIN_CREATE],
             [['newPassword'],'string','min' => 6],
             [['newPasswordRepeat'],'compare','compareAttribute' => 'newPassword'],
         ]);
-    }
+    }*/
 
     /*public function __construct(string $username = '', string $email = '', string $password = '')
     {

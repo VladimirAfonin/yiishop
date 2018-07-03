@@ -7,3 +7,21 @@ paths:
     log: console/runtime/logs
 settings:
     colors: true
+coverage:
+    enabled: true
+    whitelist:
+        include:
+          - ../components/*
+          - ../mail/*
+          - ../modules/*
+          - ../messages/en/*
+    blacklist:
+        include:
+          - ../assets/*
+          - ../config/*
+          - ../runtime/*
+          - ../environments/*
+          - ../vendor/*
+          - ../views/*
+          - ../web/*
+          - ../tests/*

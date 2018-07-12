@@ -37,12 +37,12 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_WAIT = 0;
     const STATUS_ACTIVE = 10;
 
-    public function scenarios()
+/*    public function scenarios()
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_ADMIN_CREATE] = ['username','email','status','newPassword','newPasswordRepeat'];
         $scenarios[self::SCENARIO_ADMIN_UPDATE] = ['username','email','status','newPassword','newPasswordRepeat'];
-    }
+    }*/
     // $model = new User(['username' => 'testmane']); $model->scenario = User::SCENARIO_ADMIN_CREATE
 
    /* public function rules()

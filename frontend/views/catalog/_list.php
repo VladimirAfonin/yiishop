@@ -66,3 +66,10 @@ use yii\widgets\LinkPager;
     </div>
     <div class="col-sm-6 text-right">Showing <?= $dataProvider->getCount() ?>  of <?= $dataProvider->getTotalCount() ?></div>
 </div>
+
+<hr>
+<?= \yii\widgets\ListView::widget([
+    'dataProvider' => $dataProvider,
+    'layout'       => "{items}\n{pager}",
+    'itemView'     => '_product',
+]) ?>

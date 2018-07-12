@@ -20,7 +20,7 @@ return [
 //            'class' => 'yii\caching\MemCache',
 //            'useMemcached' => true,
             // one dir for
-            'cachePath' => '@common/runtime/cache',
+//            'cachePath' => '@common/runtime/cache',
         ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',

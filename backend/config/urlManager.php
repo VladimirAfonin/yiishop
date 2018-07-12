@@ -9,18 +9,22 @@ return [
 //    'useStrictParsing' => true,
     'rules'           => [
         'GET modification/create/<id:\d+>' => 'shop/modification/create', // working!
-//        '<_a:login|logout>' => 'auth/<_a>',                   // login|logout => auth/login or auth/logout
-//        '<_c:[\w\-]+>' => '<_c>/index',                       // product => product/index
-//        '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',               // product/2 => product/view
-//        '<_c:[\w\-]+>/<_a:[\w-]+>' => '<_c>/<_a>',            // product/delete => product/delete
-//        '<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => '<_c>/<_a>',  // product/2/update => product/update,
+//        'admin/product' => 'admin/product/index', // working!
+        '<_m:debug>/<_c:\w+>/<_a:\w+>' => '<_m>/<_c>/<_a>',
+//        'GET modification/create/<id:\d+>' => 'shop/modification/create', // working!
+        '<_a:login|logout>' => 'auth/<_a>',                   // login|logout => auth/login or auth/logout
+        '<_c:[\w\-]+>' => '<_c>/index',                       // product => product/index
+        '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',               // product/2 => product/view
+        '<_c:[\w\-]+>/<_a:[\w-]+>' => '<_c>/<_a>',            // product/delete => product/delete
+        '<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => '<_c>/<_a>',  // product/2/update => product/update,
+//        '<_c:[\w\-]>' => '<>'
 
     // also we may from somewhere in app add our rule: Yii::$app->urlManager->addRules([...], true); // top or bottom
 
        /* [
             'class'   => 'yii\web\UrlManager',
             'pattern' => '<action:login>',
-            'route'   => 'site/login',
+            'route'   => 'site/login',F
             'suffix'  => '.html',
             'verb' => 'GET',
 

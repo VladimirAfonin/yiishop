@@ -1,0 +1,19 @@
+a:2:{i:0;a:2:{i:0;s:679:"
+        <div class="panel panel-default">
+    <div class="panel-heading">Categories</div>
+        <ul class="nav nav-pills nav-stacked"><li><a href="/admin/category?id=1">Computers</a>
+   <ul class='nav nav-pills nav-stacked'>
+<li><a href="/admin/category?id=5">Gaming</a></li>
+<li><a href="/admin/category?id=4">Office</a></li>
+<li><a href="/admin/category?id=6">Servers</a></li>
+</ul>
+</li>
+<li><a href="/admin/category?id=2">Notebooks</a>
+   <ul class='nav nav-pills nav-stacked'>
+<li><a href="/admin/category?id=7">FullSize</a></li>
+<li><a href="/admin/category?id=8">Netbook</a></li>
+</ul>
+</li>
+<li><a href="/admin/category?id=3">Tablets</a></li></ul></div>
+
+        ";i:1;N;}i:1;N;}

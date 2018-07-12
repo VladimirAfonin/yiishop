@@ -85,7 +85,7 @@ class ProductReadCollections
 
     /**
      * @param $id
-     * @return null|Product
+     * @return Product
      */
     public function find($id): Product
     {

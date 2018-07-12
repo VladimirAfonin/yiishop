@@ -1,12 +1,19 @@
 <?php
 namespace frontend\controllers;
 
+use backend\entities\Test;
+use shop\collections\NotFoundException;
+use shop\entities\Category;
+use shop\entities\Product;
+use shop\entities\TestTags;
 use shop\forms\manage\Shop\AddToCartForm;
 use shop\forms\manage\Shop\ReviewForm;
 use shop\readCollections\BrandReadCollection;
 use shop\readCollections\CategoryReadCollections;
 use shop\readCollections\ProductReadCollections;
 use shop\readCollections\TagReadCollections;
+use Yii;
+use yii\caching\DbDependency;
 use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
 use yii\filters\AccessControl;
@@ -50,8 +57,46 @@ class CatalogController extends Controller
                         'roles' => ['?']
                     ]
                 ]
-            ]
-
+            ],
+           /* [
+                'class'      => 'yii\filters\PageCache',
+                'duration'   => 60,
+                'dependency' => [
+                    'class' => 'yii\caching\DbDependency',
+                    'sql'   => "SELECT MAX(updated_at) FROM " . Product::tableName(),
+                ],
+            ],*/
+           [
+               'class'=> 'yii\filters\PageCache',
+               'duration' => 60,
+               'dependency' => [
+                   'class' => 'yii\caching\ChainedDependency',
+                   'dependencies' => [
+                       new DbDependency(['sql' => 'SELECT MAX(updated_at) FROM ' . Product::tableName()]),
+//                       new DbDependency(['sql' => 'SELECT MAX(updated_at) FROM ' . Category::tableName()]),
+//                       new DbDependency(['sql' => 'SELECT MAX(updated_at) FROM ' . TestTags::tableName()]),
+                   ],
+               ],
+           ],
+            [
+                'class' => 'yii\filters\HttpCache',
+                'only' => ['index'],
+                'lastModified' => function ($action, $params) {
+                    return  Product::find()->max('updated_at');
+                },
+            ],
+            [
+                'class'    => 'yii\filters\HttpCache',
+                'only'     => ['view'],
+                'etagSeed' => function () {
+                    $product = Product::findOne(Yii::$app->request->get('id'));
+                    return serialize([
+                        $product->updated_at,
+                        $product->getTags()->select('name')->column(),
+                        $product->getAttributeValue()->select('value')
+                    ]);
+                },
+            ],
         ];
     }
 
@@ -216,5 +261,14 @@ class CatalogController extends Controller
         $reviewForm = new ReviewForm();
 
         return $this->render('product', compact('product', 'cartForm', 'reviewForm'));
+    }
+
+    public function findTagModel($name)
+    {
+        if ($model = TestTags::findOne(['name' => $name]) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundException('the requested page doesnot exists');
+        }
     }
 }

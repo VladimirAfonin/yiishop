@@ -22,6 +22,13 @@ return [
             // one dir for
 //            'cachePath' => '@common/runtime/cache',
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\PhpManager',
+            'itemFile' => '@common/rbac/items/items.php',
+            'assignmentFile' => '@common/rbac/items/assignments.php',
+            'ruleFile' => '@common/rbac/items/rules.php',
+            'defaultRoles' => ['user'],
+        ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => [

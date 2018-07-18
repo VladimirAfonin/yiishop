@@ -1,6 +1,8 @@
 <?php
 namespace console\controllers;
 
+use common\rbac\Rbac;
+use common\rbac\rules\ProfileOwnerRule;
 use shop\entities\User;
 use yii\console\Controller;
 use Yii;
@@ -14,7 +16,7 @@ class RbacController extends Controller
      */
     public function actionInit()
     {
-        $auth = Yii::$app->getAuthManager();
+        /*$auth = Yii::$app->getAuthManager();
         $auth->removeAll();
 
         $rule = new AuthorRule();
@@ -43,7 +45,21 @@ class RbacController extends Controller
 
         $auth->addChild($admin, $user);
         $auth->addChild($admin, $createPost);
-        $this->stdout('Done!' . PHP_EOL,Console::FG_BLUE);
+        $this->stdout('Done!' . PHP_EOL,Console::FG_BLUE);*/
+
+        $auth = Yii::$app->authManager;
+        $auth->removeAll();
+
+        $rule = new ProfileOwnerRule();
+        $auth->add($rule);
+
+        $managerProfile = $auth->createPermission(Rbac::MANAGE_PROFILE);
+        $managerProfile->ruleName = $rule->name;
+        $auth->add($managerProfile);
+
+        $user = $auth->createRole('user');
+        $auth->add($user);
+        $auth->addChild($user, $managerProfile);
     }
 
     /**

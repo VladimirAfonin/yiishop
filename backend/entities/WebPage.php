@@ -3,18 +3,24 @@ namespace backend\entities;
 
 use DOMDocument;
 use DOMXPath;
+use yii\db\Expression;
 use yii\helpers\FileHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\db\ActiveRecord;
+
 
 /**
  * @property string $id
  * @property string $hl #language code: en,ru
  * @property string $node #node name: Country/City/Course/School/Uni
  * @property integer $nid #node id from table
+ * @property integer $version version of class
  * @property integer $source #source name: google/wikipedia/geonames
  * @property string $name #html title
+ * @property string $path_hash
+ * @property string $format #json,html or xml
+ * @property string $url #remote url after redirection
  * @property string $path #url without ignore attributes
  * @property string $http_code #curl response code
  * @property string $desc #responce
@@ -31,6 +37,8 @@ class WebPage extends ActiveRecord
     const GIMMEPROXY_API_URL = 'http://gimmeproxy.com/api/getProxy';
     const GETPROXYLIST_API_URL = 'https://api.getproxylist.com/proxy';
     const PUBPROXY_API_URL = 'http://pubproxy.com/api/proxy';
+	public $charset = 'utf-8';
+	public static $default_charset = 'utf-8';
 
     public static $folder = [
         'file' => [
@@ -43,6 +51,15 @@ class WebPage extends ActiveRecord
         ]
     ];
     public static $SLEEP_TIMER = 35;
+    public static $version = 1;
+	public static $clean = [];
+	public static $cleaners = [
+		'head'  =>"/\<head([\s\S]+?)\<\/head\>/",
+		'script'=>"/\<script([\s\S]+?)\<\/script\>/",
+		'style' =>"/\<style([\s\S]+?)\<\/style\>/",
+		'symbol'=>'/([0-9|#][\x{20E3}])|[\x{00ae}|\x{00a9}|\x{203C}|\x{2047}|\x{2048}|\x{2049}|\x{3030}|\x{303D}|\x{2139}|\x{2122}|\x{3297}|\x{3299}][\x{FE00}-\x{FEFF}]?|[\x{2190}-\x{21FF}][\x{FE00}-\x{FEFF}]?|[\x{2300}-\x{23FF}][\x{FE00}-\x{FEFF}]?|[\x{2460}-\x{24FF}][\x{FE00}-\x{FEFF}]?|[\x{25A0}-\x{25FF}][\x{FE00}-\x{FEFF}]?|[\x{2600}-\x{27BF}][\x{FE00}-\x{FEFF}]?|[\x{2900}-\x{297F}][\x{FE00}-\x{FEFF}]?|[\x{2B00}-\x{2BF0}][\x{FE00}-\x{FEFF}]?|[\x{1F000}-\x{1F6FF}][\x{FE00}-\x{FEFF}]?/u',
+	];
+//	const version = 1.1;
 
     public $queue = [];
     public $files = [];
@@ -52,7 +69,7 @@ class WebPage extends ActiveRecord
     public function rules()
     {
         return [
-            [['nid', 'redirect_count'], 'integer'],
+            [['nid', 'redirect_count','version'], 'integer'],
             [['desc', 'path', 'url'], 'string'],
             [['source'], 'string', 'max' => 255],
             [['path_hash'], 'string', 'max' => 100],
@@ -69,32 +86,91 @@ class WebPage extends ActiveRecord
      * @param array $ignoreParams
      * @return string
      */
-    public static function get($endpoint, $urlParams = [], $attributes = [], $withProxy = false,  &$m = null, $ignoreParams = [])
-    {
-        $path = self::makeUrl($endpoint, $urlParams, $ignoreParams);
-        $path_hash = hash('sha256', $path);
-        $m = WebPage::find()->filterWhere(['path_hash' => $path_hash])->one();
-        if ($m !== null) {
-//            exit('yes'); // todo
-            return $m->desc;
-        }
-        $url = self::makeUrl($endpoint, $urlParams);
-        $m = new WebPage();
+//    public static function get($endpoint, $urlParams = [], $attributes = [], $withProxy = false,  &$m = null, $ignoreParams = [])
+//    {
+//        $path = self::makeUrl($endpoint, $urlParams, $ignoreParams);
+//        $path_hash = hash('sha256', $path);
+//        $m = WebPage::find()->filterWhere(['path_hash' => $path_hash])->one();
+//        if ($m !== null) {
+////            exit('yes'); // todo
+//            return $m->desc;
+//        }
+//        $url = self::makeUrl($endpoint, $urlParams);
+//        $m = new WebPage();
+//
+//        $proxy = $m->connect($url, $withProxy);
+//
+//        if ( ! empty($m->desc)) {
+//            self::saveWorkingProxy($proxy);
+//            $m->path_hash = $path_hash;
+//            $m->path = $path;
+//            $m->url = $url;
+//            $m->attributes = $attributes;
+//            $m->save(false);
+//
+//            sleep(self::$SLEEP_TIMER);
+//        }
+//        return $m->desc;
+//    }
 
-        $proxy = $m->connect($url, $withProxy);
+//	public static function get($endpoint, $urlParams=[], $attributes=[],&$m=null, $ignoreParams=[],$headers=[],$useCache=true)
+//	{
+//		$path = self::makeUrl($endpoint, $urlParams, $ignoreParams);
+//		$path_hash = hash('sha256', $path);
+//		if($useCache){
+//			$m = WebPage::find()->filterWhere(['path_hash'=>$path_hash])->one();
+//			if($m!==null){
+//				return $m->desc;
+//			}
+//		}
+//		$url = self::makeUrl($endpoint,$urlParams);
+//		$m = new WebPage();
+//		$m->connect($url,$headers);
+////
+//		foreach (self::$clean as $cleaner){
+//			$m->desc = preg_replace(self::$cleaners[$cleaner],    '',$m->desc);
+//		}
+////		$m->desc = $m->desc;
+//		if(!empty($m->desc)){
+//			$m->path_hash = $path_hash;
+//			$m->path      = $path;
+//			$m->url       = $url;
+//			$m->format    = 'html';
+//			$m->attributes = $attributes;
+//			$m->source = 'yandex';
+//			$m->save(false);
+//		}
+//		return $m->desc;
+//	}
+	public static function get($endpoint, $urlParams=[], $attributes=[],&$m=null, $ignoreParams=[],$headers=[],$useCache=true)
+	{
+		$path = self::makeUrl($endpoint, $urlParams, $ignoreParams);
+		$path_hash = hash('sha256', $path);
+		if($useCache){
+			$m = WebPage::find()->filterWhere(['path_hash'=>$path_hash,'format'=>'html'])->one();
+			if($m!==null){
+				return $m->desc;
+			}
+		}
+		$url = self::makeUrl($endpoint,$urlParams);
+		$m = new WebPage();
+		$m->connect($url,$headers, false);
+		foreach (self::$clean as $cleaner){
+			$m->desc = preg_replace(self::$cleaners[$cleaner], '',$m->desc);
+		}
 
-        if ( ! empty($m->desc)) {
-            self::saveWorkingProxy($proxy);
-            $m->path_hash = $path_hash;
-            $m->path = $path;
-            $m->url = $url;
-            $m->attributes = $attributes;
-            $m->save(false);
 
-            sleep(self::$SLEEP_TIMER);
-        }
-        return $m->desc;
-    }
+		if(!empty($m->desc)){
+			$m->path_hash = $path_hash;
+			$m->path      = $path;
+			$m->url       = $url;
+			$m->format    = 'html';
+			$m->created_at = new Expression('NOW()');
+			$m->attributes = $attributes;
+			$m->save(false);
+		}
+		return $m->desc;
+	}
 
     /**
      * for wiki or google api
@@ -107,7 +183,7 @@ class WebPage extends ActiveRecord
     {
         $url = self::makeUrl($endpoint, $params);
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, 0); // 1
+        curl_setopt($ch, CURLOPT_HEADER, 1); // 1
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
@@ -243,77 +319,176 @@ class WebPage extends ActiveRecord
      *
      * @return mixed
      */
-    public function connect($url, $withProxy = false)
-    {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, 1); // 1
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+//    public function connect($url, $withProxy = false)
+//    {
+//        $ch = curl_init($url);
+//        curl_setopt($ch, CURLOPT_HEADER, 1); // 1
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+//        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+//
+//        if($withProxy) {
+//            $try = true;
+//            $steps = 20; // api response 20 request
+//            $step = 0;
+//
+//            if(($answer = self::checkProxyValidation()) == false) {
+//                $proxy = file('../entities/proxy.txt');
+//                // for api call
+////                $proxy = (array) self::getProxyResponse(self::GIMMEPROXY_API_URL); // self::GETPROXYLIST_API_URL | self::GIMMEPROXY_API_URL | self::PUBPROXY_API_URL
+//            } else {
+//                $proxy = (array) $answer;
+//            }
+//
+//            $userAgent = file('../entities/user_agents_list.txt');
+//            $userAgentsCount = count($userAgent) - 1;
+//
+//            while ($try) {
+//                if(count($proxy) > 1) {
+//                    shuffle($proxy);
+//                    $http_code = self::checkProxy($proxy[$step]);
+//                } else {
+//                    $http_code = self::checkProxy($proxy);
+//                }
+//
+//                $step++;
+//                if($step == $steps && $http_code != 200) { throw new \RuntimeException("{$steps} попыток закончилось, попробуйте снова!") ;}
+//                $try = (($step < $steps) && ($http_code != 200));
+//            }
+//
+//            $newProxy = ((count($proxy) > 1) ? $proxy[$step-1] : implode('', $proxy));
+//
+//            curl_setopt($ch, CURLOPT_PROXY, $newProxy);
+//            curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
+//            curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+//            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+//            curl_setopt($ch, CURLOPT_REFERER, 'http://www.google.ru/');
+//            curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
+//            curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
+//            curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
+//            curl_setopt($ch, CURLOPT_USERAGENT, $code = $userAgent[rand(0, $userAgentsCount)]);
+//
+//        }
+//
+//        $response = iconv('CP1251', 'UTF-8', curl_exec($ch));
+//        $http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+//
+//        if(preg_match('/302\s[a-z]{5}|blue coat/i', $response)) {
+//            sleep(90); // 120
+//            $this->setUpSleepTimer(5); // 20
+////            throw new \RuntimeException('we got 302 answer and bad proxy, try again.');
+//        } else {
+//            $this->desc = (strlen($response) > 10000) ? $response : '';
+//            $this->path = $url;
+//            $this->http_code = $http_code;
+//            $this->redirect_count = curl_getinfo($ch, CURLINFO_REDIRECT_COUNT);
+//            $this->direct = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+//        }
+//        curl_close($ch);
+//
+//        return ((!empty($newProxy)) ? $newProxy : null);
+//    }
 
-        if($withProxy) {
-            $try = true;
-            $steps = 20; // api response 20 request
-            $step = 0;
+	public function connect($url,$headers=[], $withProxy = false)
+	{
+		$ch = curl_init ($url);
+		curl_setopt($ch, CURLOPT_HEADER, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
-            if(($answer = self::checkProxyValidation()) == false) {
-                $proxy = file('../entities/proxy.txt');
-                // for api call
-//                $proxy = (array) self::getProxyResponse(self::GIMMEPROXY_API_URL); // self::GETPROXYLIST_API_URL | self::GIMMEPROXY_API_URL | self::PUBPROXY_API_URL
-            } else {
-                $proxy = (array) $answer;
-            }
 
-            $userAgent = file('../entities/user_agents_list.txt');
-            $userAgentsCount = count($userAgent) - 1;
+		// proxy logic
+		if($withProxy) {
+			$try = true;
+			$steps = 150;
+			$step = 0;
 
-            while ($try) {
-                if(count($proxy) > 1) {
-                    shuffle($proxy);
-                    $http_code = self::checkProxy($proxy[$step]);
-                } else {
-                    $http_code = self::checkProxy($proxy);
-                }
+			/*if(($answer = self::checkProxyValidation()) == false) {
+				$proxy = file('../entities/proxy.txt');
+			} else {
+				$proxy = (array) $answer;
+			}*/
 
-                $step++;
-                if($step == $steps && $http_code != 200) { throw new \RuntimeException("{$steps} попыток закончилось, попробуйте снова!") ;}
-                $try = (($step < $steps) && ($http_code != 200));
-            }
+			$proxy = file('../entities/proxy.txt');
 
-            $newProxy = ((count($proxy) > 1) ? $proxy[$step-1] : implode('', $proxy));
+			while ($try) {
+				if(count($proxy) > 1) {
+					shuffle($proxy);
+					$http_code = self::checkProxy($proxy[$step]);
+				} else {
+					$http_code = self::checkProxy($proxy);
+				}
 
-            curl_setopt($ch, CURLOPT_PROXY, $newProxy);
-            curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
-            curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_REFERER, 'http://www.google.ru/');
-            curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
-            curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
-            curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
-            curl_setopt($ch, CURLOPT_USERAGENT, $code = $userAgent[rand(0, $userAgentsCount)]);
+				$step++;
+				if($step == $steps && $http_code != 200) { throw new \RuntimeException("{$steps} попыток закончилось, попробуйте снова!") ;}
+				$try = (($step < $steps) && ($http_code != 200));
+			}
 
-        }
+			$newProxy = trim((count($proxy) > 1) ? $proxy[$step-1] : implode('', $proxy)); // todo exadd -
 
-        $response = iconv('CP1251', 'UTF-8', curl_exec($ch));
-        $http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+			var_dump($newProxy);
 
-        if(preg_match('/302\s[a-z]{5}|blue coat/i', $response)) {
-            sleep(90); // 120
-            $this->setUpSleepTimer(5); // 20
-//            throw new \RuntimeException('we got 302 answer and bad proxy, try again.');
-        } else {
-            $this->desc = (strlen($response) > 10000) ? $response : '';
-            $this->path = $url;
-            $this->http_code = $http_code;
-            $this->redirect_count = curl_getinfo($ch, CURLINFO_REDIRECT_COUNT);
-            $this->direct = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-        }
-        curl_close($ch);
+			curl_setopt($ch, CURLOPT_PROXY, $newProxy);
+			curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
+			curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+//			curl_setopt($ch, CURLOPT_REFERER, 'http://www.yandex.ru/');
+		}
 
-        return ((!empty($newProxy)) ? $newProxy : null);
-    }
+//		$response = iconv('CP1251', 'UTF-8', curl_exec($ch));
+//		$http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
+		// useragent
+		$userAgent = file('../entities/user_agents_list.txt');
+		$userAgentsCount = count($userAgent) - 1;
+
+		curl_setopt($ch, CURLOPT_USERAGENT, $code = $userAgent[rand(0, $userAgentsCount)]);
+		curl_setopt($ch, CURLOPT_COOKIESESSION, TRUE);
+		curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
+		curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
+//		curl_setopt ($ch, CURLOPT_COOKIE, "cookie1=1;cookie2=2");
+
+		$headers_string = [];
+		foreach ($headers as $key=>$header){
+			$headers_string[] = "$key:$header";
+		}
+		if(!empty($headers)){
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers_string);
+		}
+
+		$this->desc = curl_exec($ch);
+		$this->changeCharset($ch);
+		$this->path = $url;
+		$this->http_code      = curl_getinfo($ch,CURLINFO_RESPONSE_CODE);
+		$this->redirect_count = curl_getinfo($ch,CURLINFO_REDIRECT_COUNT);
+		$this->direct         = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+		curl_close ($ch);
+	}
+
+	public function changeCharset($ch)
+	{
+		$header_size = curl_getinfo($ch,CURLINFO_HEADER_SIZE);
+		$header_string = substr($this->desc, 0, $header_size);
+		$this->desc = substr($this->desc, $header_size);
+		$headers = [];
+		foreach(explode("\n",$header_string) as $header)
+		{
+			$tmp = explode(":",trim($header),2);
+			if (count($tmp)>1)
+			{
+				$headers[strtolower($tmp[0])] = trim(strtolower($tmp[1]));
+			}
+		}
+
+		if (isset($headers['content-type']))
+		{
+			$tmp = explode("=", $headers['content-type']);
+			if (count($tmp)>1) $this->charset = $tmp[1];
+		}
+		if ($this->charset != self::$default_charset) $this->desc = iconv($this->charset, self::$default_charset, $this->desc);
+	}
     /**
      * @param $value
      * @return mixed

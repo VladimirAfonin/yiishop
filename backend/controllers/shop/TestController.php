@@ -151,7 +151,11 @@ class TestController extends Controller
 
     public function actionComment()
     {
-        return $this->render('comment');
+//        return $this->render('comment');
+		for($i=0;$i<= 10000;$i++) {
+			$t = $i++;
+		}
+		return $t;
     }
 
     /**
@@ -416,7 +420,17 @@ class TestController extends Controller
 
 //        $response = WebPage::getDataFromApi($url_turkish_xiaomi);
 
-//        return $this->render('tech');
-        return $this->render('epey');
+//       return $this->render('tech');
+//       return $this->render('tech_run');
+//       return $this->render('import_product');
+//		exit('test');
+//       return $this->render('non_english');
+//		 return $this->render('epey_draft');
+//		 return $this->render('cnet_draft');
+//		 return $this->render('yandex_draft');
+//		 return $this->render('amazon_draft');
+		 return $this->render('pleer_draft');
+//         return $this->render('epey');
+
     }
 }

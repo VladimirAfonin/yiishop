@@ -22,65 +22,24 @@ if($whatNeed == PHONE) { // todo exadd +
 }
 
 // todo uncomment
-//$needLinksQuery = true; // links query
-$needLinksQuery = needLinkQuery(1); // todo exadd +
+$needLinksQuery = true; // links query
+//$needLinksQuery = needLinkQuery(); // todo exadd +
 $result_links = getAllLinks($needLinksQuery, $category); // todo exadd +
-
-//Render::pretty_print($result_links);
 
 $targets = [
     'https://www.epey.com/akilli-telefonlar/samsung-galaxy-note-5-64gb.html',
-//    'https://www.epey.com/akilli-telefonlar/apple-iphone-8.html',
-
-	'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s9-plus-duos.html',
-//	'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s9-plus-128gb.html',
-//	'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s9-plus.html',
-//    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s9-plus-256gb.html',
-//	'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s9-plus-256gb-duos.html',
-//
-    'https://www.epey.com/akilli-telefonlar/apple-iphone-7.html',
-//    'https://www.epey.com/akilli-telefonlar/apple-iphone-7-128gb.html',
-//    'https://www.epey.com/akilli-telefonlar/apple-iphone-7-256gb.html',
-//	'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s9.html',
-//
-//    'https://www.epey.com/akilli-telefonlar/xiaomi-mi-max.html',
-//    'https://www.epey.com/akilli-telefonlar/xiaomi-mi-max-16gb.html',
-//    'https://www.epey.com/akilli-telefonlar/xiaomi-mi-max-128gb.html',
-//    'https://www.epey.com/akilli-telefonlar/xiaomi-mi-max-64gb.html',
-//
-    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s7-edge.html',
-//    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s7-edge-duos.html',
-//    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s7-edge-injustice-edition.html',
-//
-//    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-note-8.html',
-//    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-note-8-dual-sim.html',
-//    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-note-8-128gb.html',
-//
-    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-j7.html',
-//    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-j7-sm-j700h.html',
-//	  'https://www.epey.com/akilli-telefonlar/apple-iphone-x.html',
-//
-//
-
+    'https://www.epey.com/akilli-telefonlar/apple-iphone-8.html',
+    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s9-plus-256gb.html',
     'https://www.epey.com/akilli-telefonlar/apple-iphone-7.html',
     'https://www.epey.com/akilli-telefonlar/samsung-galaxy-a5-2017-dual-sim.html',
     'https://www.epey.com/akilli-telefonlar/htc-u-ultra.html',
     'https://www.epey.com/akilli-telefonlar/razer-phone.html',
-//    'https://www.epey.com/akilli-telefonlar/apple-iphone-7-128gb.html',
-//    'https://www.epey.com/akilli-telefonlar/apple-iphone-7-256gb.html',
-//    'https://www.epey.com/akilli-telefonlar/apple-iphone-x.html',
-//    'https://www.epey.com/akilli-telefonlar/apple-iphone-x-256gb.html',
-//    'https://www.epey.com/akilli-telefonlar/xiaomi-redmi-4x-32gb.html',
-    'https://www.epey.com/akilli-telefonlar/huawei-p20-pro.html',
-//    'https://www.epey.com/akilli-telefonlar/samsung-galaxy-s9.html',
-
-    'https://www.epey.com/akilli-telefonlar/lg-g6-dual.html',
-
-//	'https://www.epey.com/akilli-saat/samsung-gear-s3-classic.html',
-//	'https://www.epey.com/akilli-saat/apple-watch-38-mm-paslanmaz-celik-kasa-ve-milano-loop.html',
-
-
-//      'https://www.epey.com/akilli-saat/samsung-smart-charm.html'
+    'https://www.epey.com/akilli-telefonlar/apple-iphone-7-128gb.html',
+    'https://www.epey.com/akilli-telefonlar/apple-iphone-7-256gb.html',
+    'https://www.epey.com/akilli-telefonlar/apple-iphone-x.html',
+    'https://www.epey.com/akilli-telefonlar/apple-iphone-x-256gb.html',
+    'https://www.epey.com/akilli-telefonlar/xiaomi-redmi-4x-32gb.html',
+    'https://www.epey.com/akilli-telefonlar/huawei-p20-pro.html'
 ];
 
 //$result_links = $targets;
@@ -94,27 +53,17 @@ $result_summary_info_turkish = [];
 //    2 => 'https://www.epey.com/akilli-saat/sony-smartband-talk.html',
 //]; //
 ////////
-function needLinkQuery(int $category) // todo exadd +
+function needLinkQuery() // todo exadd +
 {
-//    $path = dirname(__FILE__) .'/../tag/cron_time.txt';
-//    $path = dirname(__FILE__) .'/../tag/cron_time.txt'; // todo exadd +
-    if($category == 16) {
-        $path = dirname(__FILE__) .'/../tag/map_16.json';
-    } else if($category == 1){
-        $path = dirname(__FILE__) .'/../tag/map_1.json';
-    }
-
-    $period = 60; // 86400 - 1 day
+    $path = dirname(__FILE__) .'/../tag/cron_time.txt';
+    $period = 86400; // 86400 - 1 day
     $cron_time = filemtime($path);
     if (time() - $cron_time >= $period) {
-        // get all links // todo exadd +
-        $links = getLinksFromEpey($category);
-        file_put_contents($path,Json::encode($links));
+        file_put_contents($path,"");
         $needXmlQuery = true;
     } else {
         $needXmlQuery = false;
     }
-
     return $needXmlQuery;
 }
 function getAllLinks(bool $needQuery, $category) // todo exadd + all
@@ -122,8 +71,7 @@ function getAllLinks(bool $needQuery, $category) // todo exadd + all
     $item_links = [];
     if($needQuery) {
         // get xml query for all urls phones
-//        $item_links_epey = getLinksFromEpey($category); // todo exadd +
-        $item_links_epey = getLinksFromJsonFile($category); // todo exadd +
+        $item_links_epey = getLinksFromEpey($category);
         foreach($item_links_epey as $link) {
             $item_links[] = saveLinks($link);
         }
@@ -134,15 +82,6 @@ function getAllLinks(bool $needQuery, $category) // todo exadd + all
         }
     }
     return $item_links;
-}
-function getLinksFromJsonFile($category) // todo exadd +
-{
-    if($category == 16) {
-        $path = dirname(__FILE__) .'/../tag/map_16.json';
-    } else if($category == 1){
-        $path = dirname(__FILE__) .'/../tag/map_1.json';
-    }
-    return Json::decode(file_get_contents($path));
 }
 function saveLinks($needed_link) /// todo exadd + all
 {
@@ -173,26 +112,15 @@ foreach($result_links as $k => $url) {
     }
 
     ///  todo exadd +
-//    $path_hash = hash('sha256', $url);
-//    $obj = WebPage::findOne(['path_hash' => $path_hash]);
-//    if ($obj) {
-//        if (!empty($obj->desc)) { // todo exadd +
-//        	if($obj->nid == Webpage::$version) {
-//				$result_data = Json::decode($obj->desc);
-//				$result_summary_info_turkish[$url] = $result_data;
-//				continue;
-//			}
-//        }
-//    }
-
-    ////
-	$path_hash = hash('sha256', $url);
-	$obj = WebPage::findOne(['path_hash' => $path_hash]);
-    if($obj && !empty($obj->desc) && $obj->nid == WebPage::$version) {
-		$result_data = Json::decode($obj->desc);
-		$result_summary_info_turkish[$url] = $result_data;
-		continue;
-	}
+    $path_hash = hash('sha256', $url);
+    $obj = WebPage::findOne(['path_hash' => $path_hash]);
+    if ($obj) {
+        if (!empty($obj->desc)) {
+            $result_data = Json::decode($obj->desc);
+            $result_summary_info_turkish[$url] = $result_data;
+            continue;
+        }
+    }
     ///
     $result_data_turkish = []; // todo exadd +
     $html_turkish = getDataFromApiWithCategory($url);
@@ -206,28 +134,18 @@ foreach($result_links as $k => $url) {
         $result_data_turkish['w81a9u0'] = $model_info[0]; // brand
         $model_name = substr($item_info, strlen($model_info[0])); // todo exadd + del
         $model_name = preg_replace('/\(+\d+\)+|2\d{3}/ui', "", trim($model_name)); // todo exadd + del
-        /* // todo exadd +
-		$model_value = $htmlDom2->query('//div[@id="fiyatlar"]/h2/text()')->item(0)->nodeValue ?? null; // todo exadd + all
+        $model_value = $htmlDom2->query('//div[@id="fiyatlar"]/h2/text()')->item(0)->nodeValue ?? null; // todo exadd + all
         if($model_value) {
             preg_match('/\(+\d+\s*GB\)+/ui', $model_value, $out_memory);
             if(isset($out_memory[0]) && !empty($out_memory[0])) {
                 $model_name .= ' '.$out_memory[0];
             }
         }
-        */
-        $model_value = $htmlDom2->query('//div[@class="baslik"]/h1/a/span[@class="aile"]/text()')->item(0)->nodeValue ?? null; // todo exadd +
-		if(isset($model_value)) $model_name .= $model_value;
-        if(isModelExists($result_summary_info_turkish, $model_name)) continue; // todo exadd +
+        if( isModelExists($result_summary_info_turkish, $model_name) ) continue; // todo exadd +
+//        $result_data_turkish['33fksng'] = Html::a(getEngNameFromTurkish($model_name) , Url::to($url, true)); // todo exadd + delete
         $result_data_turkish['33fksng'] = getEngNameFromTurkish($model_name); // todo exadd +
         $result_data_turkish['url'] = Html::a($url, Url::to($url, true)); // todo exadd +
         $result_data_turkish['model_name'] = getEngNameFromTurkish($model_name); // todo exadd +
-
-
-		// get product version	// todo exadd +
-		$product_version = $htmlDom2->query('//div[@class="baslik"]/h1/a/span[@class="kod"]/text()')->item(0)->nodeValue ?? null;
-		if($product_version) {
-			$result_data_turkish['product_version'] = $product_version;
-		};
     }
 
 
@@ -244,63 +162,12 @@ foreach($result_links as $k => $url) {
     }
 
     // get family products // todo exadd +
-
-    // todo exadd ???
-    $z=0;
-    do{
-		$family_link = $htmlDom2->query('//div[@id="fiyatlar"]/div[@id="varyant"]/div/a[@class="varyant varyant1 cell"]/@href')->item($z)->nodeValue ?? null;
-		$family_title = $htmlDom2->query('//div[@id="fiyatlar"]/div[@id="varyant"]/div/a[@class="varyant varyant1 cell"]/@title')->item($z)->nodeValue ?? null; // todo exadd +
-		if($family_link && $family_title) $result_data_turkish['family'][trim(str_ireplace(['Tek Hat','Çift Hat','Cep Telefonu'],['one line','double line','mobile phone'],$family_title))] = trim($family_link); // todo exadd +
-        $z++;
-    } while ($family_link);
-
     for($z=0;$z<=6;$z++) {
         $family_link = $htmlDom2->query('//div[@id="fiyatlar"]/div[@id="varyant"]/div/a[@class="varyant varyant1 cell"]/@href')->item($z)->nodeValue ?? null;
-        $family_title = $htmlDom2->query('//div[@id="fiyatlar"]/div[@id="varyant"]/div/a[@class="varyant varyant1 cell"]/@title')->item($z)->nodeValue ?? null; // todo exadd +
-        if($family_link && $family_title) $result_data_turkish['family'][trim(str_ireplace(['Tek Hat','Çift Hat','Cep Telefonu'],['one line','double line','mobile phone'],$family_title))] = trim($family_link); // todo exadd +
+        $family_title = $htmlDom2->query('//div[@id="fiyatlar"]/div[@id="varyant"]/div/a[@class="varyant varyant1 cell"]/span[@class="vurunfiyat cell"]/span[@class="vurun row"]/text()')->item($z)->nodeValue ?? null;
+//        if($family_link && $family_title) $result_data_turkish['family'][] = [trim($family_title) => trim($family_link)]; // todo exadd +
+        if($family_link && $family_title) $result_data_turkish['family'][trim(str_ireplace(['Tek Hat','Çift Hat'],['One Line','Double Line'],$family_title))] = trim($family_link); // todo exadd +
     }
-
-    // get main product // todo exadd + all
-	if(isset($result_data_turkish['family'])) {
-        // version #1
-        /*
-    	foreach(array_values($result_data_turkish['family']) as $path) {
-			$html_family = getDataFromApiWithCategory($path);
-			$htmlDom2 = dom($html_family);
-			$family_aile = $htmlDom2->query('//div[@class="baslik"]/h1/a/span[@class="aile"]/text()')->item(0)->nodeValue ?? null; // todo exadd + // todo exadd +
-			$family_kod = $htmlDom2->query('//div[@class="baslik"]/h1/a/span[@class="kod"]/text()')->item(0)->nodeValue ?? null; // todo exadd + // todo exadd +
-			$score = 0;
-			if($family_aile) $score += 2;
-			if($family_kod) $score += 1;
-			$result_data_turkish['family_scores'][$path] = $score;
-		}
-		// get own scores
-		$family_aile = $htmlDom2->query('//div[@class="baslik"]/h1/a/span[@class="aile"]/text()')->item(0)->nodeValue ?? null; // todo exadd + // todo exadd +
-		$family_kod = $htmlDom2->query('//div[@class="baslik"]/h1/a/span[@class="kod"]/text()')->item(0)->nodeValue ?? null; // todo exadd + // todo +
-        $own_score = 0;
-		if($family_aile) $own_score += 2;
-		if($family_kod) $own_score += 1;
-//		var_dump($family_aile);var_dump($family_kod);exit();
-		$result_data_turkish['family_scores'][$url] = $own_score;
-        */
-
-        // version #2
-        $main_products = array_merge(array_values($result_data_turkish['family']), (array)$url);
-        usort($main_products, function($item1, $item2){
-           if(strlen($item1) == strlen($item2)) {return 0;}
-           return (strlen($item1) < strlen($item2)) ? -1 : 1;
-        });
-        $main_product = $main_products[0];
-		$result_data_turkish['main_product'] = $main_product;
-		if($url === $main_product) { // todo exadd +
-			$result_data_turkish['is_main_prod'] = 1;
-        } else {
-			$result_data_turkish['is_main_prod'] = 0;
-        }
-	} else {
-		$result_data_turkish['main_product'] = $url;
-		$result_data_turkish['is_main_prod'] = 1;
-	}
 
     // get related products // todo exadd +
     for($b=0;$b<=12;$b++) {
@@ -309,32 +176,6 @@ foreach($result_links as $k => $url) {
 //        if($related_link && $related_title) $result_data_turkish['related'][] = [trim($related_title) => trim($related_link)]; // todo exadd +
         if($related_link && $related_title) $result_data_turkish['related'][trim(str_ireplace(['Tek Hat','Çift Hat'],['One Line','Double Line'],$related_title))] = trim($related_link); // todo exadd +
     }
-
-	// get image from product // todo +
-	$image = $htmlDom2->query('//ul[@class="galerik"]/li/a/img/@src')->item(0)->nodeValue ?? null;
-	$result_data_turkish['photos'] = [];
-	if($image) {
-		preg_match('/\/s.+-(\d+)\.[png|jpg|jpeg]+/uim', $image, $out_url);
-		if(isset($out_url[0]) && ! empty($out_url[0])) {
-			$main_url = substr($image, 0, strlen($image) - strlen($out_url[0]));
-			$fin_url = str_replace('/s_', '/b_', $out_url[0]);
-			$fin_url = preg_replace('/-\d+\.[png|jpg|jpeg]+/uim', "", $fin_url);
-			for($i = 1; $i <= 15; $i++) {
-				$image_url = $main_url . $fin_url . '-' . $i . '.png';
-				$picture_png = getImage($image_url);
-				if($picture_png) {
-					$result_data_turkish['photos'][] = $picture_png;
-				}
-			}
-			for($i = 1; $i <= 25; $i++) {
-				$image_url = $main_url . $fin_url . '-' . $i . '.jpg';
-				$picture_jpg = getImage($image_url);
-				if($picture_jpg) {
-					$result_data_turkish['photos'][] = $picture_jpg;
-				}
-			}
-		}
-	}
 
 
     if(strpos($url, 'akilli-saat') === false) {
@@ -362,7 +203,6 @@ foreach($result_links as $k => $url) {
         if($screen_protection) { $result_data_turkish['59e6c9r'] = ($screen_protection); }
 
         // get image from product // todo exadd +
-        /*
         $result_data_turkish['photos'] = [];
         $image = $htmlDom2->query('//ul[@class="galerik"]/li/a/img/@src')->item(0)->nodeValue ?? null;
         if($image) {
@@ -387,7 +227,6 @@ foreach($result_links as $k => $url) {
                 }
             }
         }
-        */
 
 
         // get display technology
@@ -417,14 +256,14 @@ foreach($result_links as $k => $url) {
             $result_data_turkish['8vzzca7'] = str_replace(['Milyon',' '],['M',''], $display_colors); // number of colors // todo exadd +
         }
 
-		// get display rate
-		$display_rate = $htmlDom2->query('//strong[@class="ozellik886"]/following::span[1]')->item(0)->nodeValue ?? null; // body_rate
-		if($display_rate) {
-			$display_ratio = preg_match('/\d+/ui', $display_rate, $output_array);
-			if(isset($output_array[0]) && ( ! empty($output_array[0]))) {
-				$result_data_turkish['zq2ektp'] = trim($output_array[0]);
-			}
-		}
+        // get display rate
+        $display_rate = $htmlDom2->query('//strong[@class="ozellik886"]/following::span[1]')->item(0)->nodeValue ?? null; // body_rate
+        if($display_rate) {
+            $display_ratio = preg_match('/\d+/ui', $display_rate, $output_array);
+            if(isset($output_array[0]) && (!empty($output_array[0]))) {
+                $result_data_turkish['zq2ektp'] = trim($output_array[0]);
+            }
+        }
 
         // get battery capacity
         $battery_capacity = $htmlDom2->query('//strong[@class="ozellik7 tip"]/following::span[1]')->item(0)->nodeValue ?? null; // battery_capacity
@@ -475,7 +314,7 @@ foreach($result_links as $k => $url) {
 
         // get sec camera resol // todo exadd +
         $sec_camera_resol = $htmlDom2->query('//strong[@class="ozellik877"]/following::span[1]')->item(0)->nodeValue ?? null;
-        if($sec_camera_resol) $result_data_turkish['lggn117'] = $sec_camera_resol; // todo exadd +
+        if($sec_camera_resol) $result_data_turkish['06wzu4yz'] = $sec_camera_resol;
 
         // get front camera size sensor // todo exadd +
         $front_cam_sensor_size = $htmlDom2->query('//strong[@class="ozellik890"]/following::span[1]')->item(0)->nodeValue ?? null;
@@ -555,7 +394,7 @@ foreach($result_links as $k => $url) {
         if($camera_resol) {
             preg_match('/\d+/ui', $camera_resol, $out_camera);
             if(isset($out_camera[0]) && !empty($out_camera[0])) {
-                $result_data_turkish['lggn0m2'] = trim($out_camera[0]); // todo exadd +
+                $result_data_turkish['lggn0m2'] = trim($out_camera[0]).'MP'; // todo exadd +
             }
         }
 
@@ -685,7 +524,7 @@ foreach($result_links as $k => $url) {
         if($cam_resolution) {
             preg_match('/\d+/ui', $cam_resolution, $output_array);
             if(isset($output_array[0]) && !empty($output_array[0])) {
-                $result_data_turkish['06wzu4yz'] = trim($output_array[0]); // todo exadd +
+                $result_data_turkish['wzu4yz'] = trim($output_array[0]);
             }
         }
 
@@ -730,7 +569,7 @@ foreach($result_links as $k => $url) {
             $freg_2g = str_replace(' MHz',',',trim(strip_tags($freg_2g))); // todo exadd +
             $freq_info = explode(',', trim($freg_2g,',')); // todo exadd +
             $result_data_turkish['es77mka'] = array_map(function($item) {
-                return trim(strip_tags($item)); // todo exadd +
+                return strip_tags(trim($item));
             }, $freq_info);
         }
 
@@ -753,9 +592,7 @@ foreach($result_links as $k => $url) {
                     if(isset($out_3g[0][$i])) $final_3g .= ', ' . $out_3g[0][$i];
                 }
             }
-            $final_3g = explode(',',trim($final_3g,','));
-            $final_3g = array_map(function($item) { return strip_tags(trim($item)); }, $final_3g);
-            $result_data_turkish['lfy3yhr'] = $final_3g; // todo exadd +
+            $result_data_turkish['lfy3yhr'] = explode(',',trim($final_3g,',')); // todo exadd +
         }
 
         // get 3g download
@@ -856,7 +693,7 @@ foreach($result_links as $k => $url) {
 
         // get gpu info
         $gpu_info = ($htmlDom2->query('//strong[@class="ozellik17 tip"]/following::span[1]')->item(0)->nodeValue) ?? null;
-        if($gpu_info) { $result_data_turkish['4kzmswo'] = trim($gpu_info); } // todo exadd +
+        if($gpu_info) { $result_data_turkish['4kzmswo'][] = trim($gpu_info); } // todo exadd +
 
         // get antutu score
         $antutu_score = $htmlDom2->query('//strong[@class="ozellik1672"]/following::span[1]')->item(0)->nodeValue ?? null; // antutu_score
@@ -900,38 +737,11 @@ foreach($result_links as $k => $url) {
         $width = $htmlDom2->query('//strong[@class="ozellik8 tip"]/following::span[1]')->item(0)->nodeValue ?? null; // width
         if($width) {$result_data_turkish['65ihv16'] = str_replace('mm', '', trim($width));}
 
-        // get also known name todo exadd + (replace)
-		$aliases_parent_node = $htmlDom2->query('//strong[@class="ozellik116 tip"]/following::span[1]')->item(0)->childNodes ?? null;
-        if($aliases_parent_node) {
-			foreach($aliases_parent_node as $node) {
-				$alias = $node->textContent ?? null;
-				if(trim($alias)) $result_data_turkish['ywkpha1b'][] = getFeatures($alias);
-			}
-			$result_data_turkish['ywkpha1b'] = array_map('trim', $result_data_turkish['ywkpha1b']);
-		}
-
-		///
-//        $b = 0; // todo exadd +
-//		do {
-//			$alias = $aliases_parent_node->item($b)->nodeValue ?? null;
-//			if(trim($alias)) $result_data_turkish['ywkpha1b'][] = getFeatures($alias);
-//			$b++;
-//		} while($alias);
-//		$result_data_turkish['ywkpha1b'] = array_map('trim', $result_data_turkish['ywkpha1b']);
-//        Render::pretty_print($result_data_turkish['ywkpha1b']);exit();
-        ///////
-//
-//		$i = 0;
-//		do{
-//			$aliases = $htmlDom2->query('//strong[@class="ozellik116 tip"]/following::span[1]/span')->item($i)->nodeValue ?? null;
-//			if($aliases) $result_data_turkish['ywkpha1b'][] = trim(strip_tags($aliases)); // todo exadd +
-//        	$i++;
-//		} while($aliases);
-
-//        for($i=0;$i<=3;$i++) { // todo + del
-//            $aliases = $htmlDom2->query('//strong[@class="ozellik116 tip"]/following::span[1]/span')->item($i)->nodeValue ?? null;
-//            if($aliases) $result_data_turkish['ywkpha1b'][] = trim(strip_tags($aliases)); // todo +
-//        }
+        // get also known name todo exadd +
+        for($i=0;$i<=3;$i++) {
+            $aliases = $htmlDom2->query('//strong[@class="ozellik116 tip"]/following::span[1]/span')->item($i)->nodeValue ?? null;
+            if($aliases) $result_data_turkish['ywkpha1b'][] = $aliases;
+        }
 
         // get third camera todo exadd +
         $camera_3 = $htmlDom2->query('//strong[@class="ozellik2318"]/following::span[1]')->item(0)->nodeValue ?? null; // battery_capacity
@@ -969,14 +779,14 @@ foreach($result_links as $k => $url) {
         // get color's
         $colors = $htmlDom2->query('//strong[@class="ozellik80 tip"]/following::span[1]')->item(0)->nodeValue ?? null; // colors
         if($colors) { // todo exadd + all
-            $color_info = trim(getEngNameFromTurkish(($colors))); // todo ???
+            $color_info = trim(getEngNameFromTurkish(trim($colors)));
             $color_info = preg_replace('/\s/ui', ".", $color_info);
             $result_data_turkish['ywkph10b'] = explode('...',$color_info);
         }
 
         // get cover materials
         $cover_materials = $htmlDom2->query('//strong[@class="ozellik1320"]/following::span[1]')->item(0)->nodeValue ?? null;
-        if($cover_materials) { $result_data_turkish['3bjbzry'] = getEngNameMaterial(trim($cover_materials));} // todo  ??
+        if($cover_materials) { $result_data_turkish['3bjbzry'] = getEngNameMaterial(trim($cover_materials));}
 
         // get frame materials
         $frame_materials = $htmlDom2->query('//strong[@class="ozellik1321"]/following::span[1]')->item(0)->nodeValue ?? null;
@@ -1031,13 +841,7 @@ foreach($result_links as $k => $url) {
         if($wifi_features) {
             $result_data_turkish['p4zld1l5'] = isValueExists($wifi_features, 'MIMO');
             $result_data_turkish['p4zld1l2'] = isValueExists($wifi_features, 'Dual-Band');
-            $result_data_turkish['p4zld1l3'] = isValueExists($wifi_features, 'Hotspot'); // todo exadd + all
-            $result_data_turkish['p4zld1l4'] = isValueExists($wifi_features, 'MiraCast'); // todo exadd + all
-            $result_data_turkish['p4zld1l6'] = isValueExists($wifi_features, 'Wi-Fi Direct'); // todo exadd + all
-            $result_data_turkish['p4zld1l8'] = isValueExists($wifi_features, 'VoWiFi'); // todo exadd + all
-            $result_data_turkish['p4zld1l9'] = isValueExists($wifi_features, 'HT80');// todo exadd + all
-            $result_data_turkish['p4zld111'] = isValueExists($wifi_features, 'VHT80');// todo exadd + all
-            $result_data_turkish['p4zld120'] = isValueExists($wifi_features, '1024QAM');// todo exadd + all
+            $result_data_turkish['p4zld1l3'] = isValueExists($wifi_features, 'Hotspot');
         }
 
         // get nfc
@@ -1081,7 +885,7 @@ foreach($result_links as $k => $url) {
 
         // get water resistance
         $water_resistance = $htmlDom2->query('//strong[@class="ozellik329 tip"]/following::span[1]')->item(0)->nodeValue ?? null;
-        if($water_resistance) {$result_data_turkish['cxeplx1'] = getAnswerTurkish(($water_resistance));} // todo exadd +
+        if($water_resistance) {$result_data_turkish['cxeplx1'] = getAnswerTurkish(trim($water_resistance));} // todo exadd +
 
         // get video formats // todo exadd + all
         $video_formats = ($htmlDom2->query('//strong[@class="ozellik82 tip"]/following::span[@class="cell cs3"]')->item(0)->nodeValue) ?? null;
@@ -1138,7 +942,7 @@ foreach($result_links as $k => $url) {
                 'Sadece Sıçramalara Karşı' => 'IPX4',
                 'Yok' => '-'
             ];
-            $result_data_turkish['cxeplx1'] = (str_ireplace(array_keys($arr_wt_resist),array_values($arr_wt_resist),$water_resistance_level)); // todo exadd -
+            $result_data_turkish['cxeplx1'] = str_ireplace(array_keys($arr_wt_resist),array_values($arr_wt_resist),$water_resistance_level); // todo exadd +
         }
 
         // get dust resistance
@@ -1187,7 +991,17 @@ foreach($result_links as $k => $url) {
         $sar_body_info = ($htmlDom2->query('//strong[@class="ozellik91 tip"]/following::span[1]')->item(0)->nodeValue) ?? null; // todo exadd +
         if($sar_body_info) $result_data_turkish['owpcmmmy'] = str_replace('W/kg (10g)','', $sar_body_info);
 
-        // todo exadd + del
+       // get face_id
+        $services_info = $htmlDom2->query('//strong[@class="ozellik217 tip"]/following::span[1]')->item(0)->nodeValue ?? null; // services_apps
+        if($services_info) {
+            $result_data_turkish['c4awfagk'] = isValueExists($services_info, 'Face ID'); // face id
+            $result_data_turkish['a4xo6x6'] = isValueExists($services_info, 'AirDrop'); // todo exadd +
+            $result_data_turkish['a4xo1x6'] = isValueExists($services_info, 'AirPlay'); // todo exadd +
+            $result_data_turkish['azxo1x6'] = isValueExists($services_info, 'FaceTime'); // todo exadd +
+            $result_data_turkish['azxo2x6'] = isValueExists($services_info, 'iBeacon'); // todo exadd +
+            $result_data_turkish['azxo3x6'] = isValueExists($services_info, 'iCloud'); // todo exadd +
+            $result_data_turkish['azxo4x6'] = isValueExists($services_info, 'Siri'); // todo exadd +
+        }
 
         // number of lines // todo exadd +
         $number_lines = $htmlDom2->query('//strong[@class="ozellik104 tip"]/following::span[1]')->item(0)->nodeValue ?? null;
@@ -1279,78 +1093,12 @@ foreach($result_links as $k => $url) {
         if($thick_point) $result_data_turkish['ywkphzzz'] = str_replace('mm', '', $thick_point);
 
 
-        // get services and apps list todo exadd + del
+        // get services and apps todo exadd +
         $result_data_turkish['awkph141'] = [];
-
-//        // todo delete
-//        $all_services_info = $htmlDom2->query('//strong[@class="ozellik217 tip"]/following::span[1]')->item(0)->childNodes->item(2)->nodeValue ?? null;
-//        var_dump($all_services_info);
-//        exit(); // todo
-
-        $a = 0; // todo exadd +
-		$all_services_parent_node = $htmlDom2->query('//strong[@class="ozellik217 tip"]/following::span[1]')->item(0)->childNodes;
-
-		do {
-//            $all_services_info = $htmlDom2->query('//strong[@class="ozellik217 tip"]/following::span[1]/span/a/text()')->item($a)->childNodes ?? null;
-			$all_services_info = $all_services_parent_node->item($a)->nodeValue ?? null;
-			if(trim($all_services_info)) $result_data_turkish['awkph141'][] = getFeatures($all_services_info);
-			$a++;
-		} while($all_services_info);
-		$result_data_turkish['awkph141'] = array_map('trim', $result_data_turkish['awkph141']);
-
-
-//        for($a=0;$a<20;$a++) {
-//            $all_services_info = $htmlDom2->query('//strong[@class="ozellik217 tip"]/following::span[1]/span/a/text()')->item($a)->nodeValue ?? null; // services_apps
-//            if($all_services_info) $result_data_turkish['awkph141'][] = getFeatures($all_services_info);
-//        }
-
-
-        // todo exadd +
-//        $result_data_turkish['awkph141'] = [];
-//        $all_services_info = $htmlDom2->query('//strong[@class="ozellik217 tip"]/following::span[1]')->item(0)->nodeValue ?? null; // services_apps
-//        if($all_services_info) $result_data_turkish['awkph141'] = getFeatures($all_services_info);
-
-
-        // get services todo exadd +
-        if(isset($result_data_turkish['awkph141']) && !empty($result_data_turkish['awkph141'])) {
-                $str_services = implode(',', $result_data_turkish['awkph141']);
-                $result_data_turkish['azxo4x7'] = isCodecExists($str_services, 'Screen Mirroring');
-                $result_data_turkish['azxo4x8'] = isCodecExists($str_services, 'Changeable Themes');
-                $result_data_turkish['azxo4x9'] = isCodecExists($str_services, 'AirPrint');
-                $result_data_turkish['azxo410'] = isCodecExists($str_services, 'Spotlight Call');
-                $result_data_turkish['azxo411'] = isCodecExists($str_services, 'MirrorLink');
-                $result_data_turkish['azxo412'] = isCodecExists($str_services, 'Easy mode');
-                $result_data_turkish['azxo413'] = isCodecExists($str_services, 'Samsung KNOX');
-                $result_data_turkish['azxo414'] = isCodecExists($str_services, 'ANT+');
-                $result_data_turkish['azxo415'] = isCodecExists($str_services, 'Dual/Multi Window');
-                $result_data_turkish['azxo416'] = isCodecExists($str_services, 'Ultra Power Saving Mode');
-                $result_data_turkish['azxo416'] = isCodecExists($str_services, 'Ultra Power Saving Mode');
-                $result_data_turkish['azxo417'] = isCodecExists($str_services, 'Turn On Voice Screen Lock');
-                $result_data_turkish['azxo418'] = isCodecExists($str_services, 'Single-Hand Use Mode');
-                $result_data_turkish['azxo419'] = isCodecExists($str_services, 'S Pen');
-                $result_data_turkish['azxo420'] = isCodecExists($str_services, 'Air Command');
-                $result_data_turkish['azxo421'] = isCodecExists($str_services, 'DAC');
-                $result_data_turkish['azxo422'] = isCodecExists($str_services, 'Hidden Mode');
-                $result_data_turkish['azxo423'] = isCodecExists($str_services, '(AOP) Microphone');
-                $result_data_turkish['azxo424'] = isCodecExists($str_services, 'HWA');
-                $result_data_turkish['azxo425'] = isCodecExists($str_services, 'Voice Command');
-                $result_data_turkish['azxo426'] = isCodecExists($str_services, 'Virtual reality');
-                $result_data_turkish['azxo427'] = isCodecExists($str_services, 'LDAC');
-                $result_data_turkish['wnqjx4j9'] = isCodecExists($str_services, 'Samsung Pay');
+        for($a=0;$a<20;$a++) {
+            $all_services_info = $htmlDom2->query('//strong[@class="ozellik217 tip"]/following::span[1]/span/a/text()')->item($a)->nodeValue ?? null; // services_apps
+            if($all_services_info) $result_data_turkish['awkph141'][] = getFeatures($all_services_info);
         }
-
-        // get face_id // todo exadd + all
-        $services_info = $htmlDom2->query('//strong[@class="ozellik217 tip"]/following::span[1]')->item(0)->nodeValue ?? null; // services_apps
-        if($services_info) {
-            $result_data_turkish['c4awfagk'] = isValueExists($services_info, 'Face ID'); // face id
-            $result_data_turkish['a4xo6x6'] = isValueExists($services_info, 'AirDrop'); // todo exadd +
-            $result_data_turkish['a4xo1x6'] = isValueExists($services_info, 'AirPlay'); // todo exadd +
-            $result_data_turkish['azxo1x6'] = isValueExists($services_info, 'FaceTime'); // todo exadd +
-            $result_data_turkish['azxo2x6'] = isValueExists($services_info, 'iBeacon'); // todo exadd +
-            $result_data_turkish['azxo3x6'] = isValueExists($services_info, 'iCloud'); // todo exadd +
-            $result_data_turkish['azxo4x6'] = isValueExists($services_info, 'Siri'); // todo exadd +
-        }
-
 
         // get package include // todo exadd + all
         $package_info = $htmlDom2->query('//strong[@class="ozellik218 tip"]/following::span[1]')->item(0)->nodeValue ?? null;
@@ -1384,14 +1132,7 @@ foreach($result_links as $k => $url) {
         if($usb_features) {
             $result_data_turkish['9qsw0l7d'] = isValueExists($usb_features, 'OTG'); // todo exadd +
             $result_data_turkish['rmjj6m56'] = isValueExists($usb_features, 'DisplayPort'); // todo exadd +
-			// todo exadd + all
-			preg_match('/DisplayPort\s+\((.+)\)/mui', $usb_features, $out_dp_params);
-			if(isset($out_dp_params[1]) && !empty($out_dp_params[1])) {
-				$result_data_turkish['rmjj6m57'] = trim($out_dp_params[1]);
-			};
         }
-
-//        var_dump($result_data_turkish['rmjj6m57']);exit();
 
         // get sim info
         $sim_info = $htmlDom2->query('//strong[@class="ozellik44 tip"]/following::span[1]')->item(0)->nodeValue ?? null; // sim
@@ -1401,8 +1142,6 @@ foreach($result_links as $k => $url) {
             $result_data_turkish['8q7wrlul'] = isValueExists($sim_info,'Nano'); // todo exadd +
             // get micro-sim
             $result_data_turkish['lawrulap'] = isValueExists($sim_info,'Micro'); // todo exadd +
-			// get sim standard // todo exadd -
-			$result_data_turkish['mdmfh57'] = isValueExists($sim_info,'Micro');
         }
 
         // get dual sim // todo exadd +
@@ -1425,7 +1164,7 @@ foreach($result_links as $k => $url) {
             preg_match_all('/\d+\.?\d+\s+/', $user_rating, $output_rating);
             if(isset($output_rating[0][0]) && !empty($output_rating[0][0])) { $rank = trim(($output_rating[0][0]));}
             if(isset($output_rating[0][1]) && !empty($output_rating[0][1])) {  $opinions = ($output_rating[0][1]);}
-            if(isset($rank) && isset($opinions)) $result_data_turkish['bkaqn4m'] = [$rank => $opinions]; // todo exadd +
+            $result_data_turkish['bkaqn4m'] = (isset($rank) && isset($opinions)) ? [$rank => $opinions] : null;
         }
 
         // get type
@@ -1435,8 +1174,8 @@ foreach($result_links as $k => $url) {
         /** get smartwatch & fitness tracker data */
         // get display
         $display_exist = $htmlDom2->query('//strong[@class="ozellik1246"]/following::span[@class="cell cs1"]/span/a/text()')->item(0)->nodeValue ?? null; // screen_size
-        if($display_exist) { // todo exadd +
-            $result_data_turkish['aakph191'] = getAnswerTurkish($display_exist);
+        if($display_exist) {
+            $result_data_turkish['is_display'] = getAnswerTurkish($display_exist);
         }
 
         // get screen size
@@ -1445,8 +1184,7 @@ foreach($result_links as $k => $url) {
             $result_data_turkish['1n820fz'] = explode(' ', $screen_size)[0];
         }
 
-        // get image from product // todo + del
-        /*
+        // get image from product // todo exadd +
         $image = $htmlDom2->query('//ul[@class="galerik"]/li/a/img/@src')->item(0)->nodeValue ?? null;
         $result_data_turkish['photos'] = [];
         if($image) {
@@ -1471,7 +1209,6 @@ foreach($result_links as $k => $url) {
                 }
             }
         }
-        */
 
         // get display resolution
         $display_resolution = $htmlDom2->query('//strong[@class="ozellik1116"]/following::span[@class="cell cs1"]/span/text()')->item(0)->nodeValue ?? null;
@@ -1581,7 +1318,9 @@ foreach($result_links as $k => $url) {
                     $result_data_turkish['le00i0c'] = trim($out_arr[0]);
                 }
             }
-        } // todo exadd +
+        } else {
+            $result_data_turkish['le00i0c'] = null;
+        }
 
         // length(height)
         $size = $htmlDom2->query('//strong[@class="ozellik1101"]/following::span[1]/span/text()')->item(0)->nodeValue ?? null;
@@ -1632,11 +1371,7 @@ foreach($result_links as $k => $url) {
 
         // body color
         $body_colors = $htmlDom2->query('//strong[@class="ozellik1100"]/following::span[1]')->item(0)->nodeValue ?? null;
-        if($body_colors) { // todo exadd +
-            $body_colors_watch = getEngNameFromTurkish(trim($body_colors));
-            $body_colors_watch = preg_replace('/\s/ui', ".", $body_colors_watch);
-            $result_data_turkish['ywkph19b'] = explode('...',$body_colors_watch);
-        }
+        if($body_colors) {$result_data_turkish['ywkph19b'] = getEngNameFromTurkish(trim($body_colors));}
 
         // body material
         $body_material = $htmlDom2->query('//strong[@class="ozellik1113"]/following::span[1]/span/text()')->item(0)->nodeValue ?? null;
@@ -1647,12 +1382,7 @@ foreach($result_links as $k => $url) {
 
         // cord colors
         $cord_colors = $htmlDom2->query('//strong[@class="ozellik1123"]/following::span[1]')->item(0)->nodeValue ?? null;
-        if($cord_colors) {
-            // todo exadd +
-            $color_info_watch = getEngNameFromTurkish(trim($cord_colors));
-            $color_info_watch = preg_replace('/\s/ui', ".", $color_info_watch);
-            $result_data_turkish['ywkph20b'] = explode('...',$color_info_watch);
-        }
+        if($cord_colors) {$result_data_turkish['ywkph20b'] = getEngNameFromTurkish(trim($cord_colors));}
 
         // wifi exist
 //        $wifi_exist = $htmlDom2->query('//strong[@class="ozellik1129"]/following::span[1]')->item(0)->nodeValue ?? null;
@@ -1903,7 +1633,7 @@ foreach($result_links as $k => $url) {
             preg_match_all('/\d+\.?\d+\s+/', $user_rating, $output_rating);
             if(isset($output_rating[0][0]) && !empty($output_rating[0][0])) { $rank = trim(($output_rating[0][0])) ;}
             if(isset($output_rating[0][1]) && !empty($output_rating[0][1])) {  $opinions = ($output_rating[0][1]);}
-            if(isset($rank) && isset($opinions)) $result_data_turkish['bkaqn4m'] = [$rank => $opinions]; // todo exadd +
+            $result_data_turkish['bkaqn4m'] = (isset($rank) && isset($opinions)) ? [$rank => $opinions] : null;
         }
 
         // get type
@@ -1911,14 +1641,9 @@ foreach($result_links as $k => $url) {
 
     }
 
-    // todo exadd +
-	foreach($result_data_turkish  as $index => $value) {
-		if(is_string($value) && empty($value)) unset($result_data_turkish[$index]);
-	}
-
-	$result_summary_info_turkish[$url] = array_map(function ($item) { // todo exadd +
-		return (is_string($item)) ? (trim(strip_tags($item))) : $item;
-	}, $result_data_turkish);
+    $result_summary_info_turkish[$url] = array_map(function($item) { // todo exadd +
+        return (is_string($item)) ? (trim($item)) : $item;
+    }, $result_data_turkish);
 
     // todo exadd +
     $newObj = WebPage::find()->filterWhere(['path_hash' => $path_hash])->one();
@@ -1926,7 +1651,6 @@ foreach($result_links as $k => $url) {
         $newObj->path_hash = $path_hash;
         $newObj->source = 'epey';
         $newObj->url = $url;
-        $newObj->nid = WebPage::$version;	// ... version <WebPage::version> // todo exadd +
         $newObj->desc = Json::encode($result_summary_info_turkish[$url]);
         $newObj->save();
     }
@@ -1937,22 +1661,18 @@ foreach($result_links as $k => $url) {
 echo(Render::render($result_summary_info_turkish, $code));
 //Render::pretty_print($result_summary_info_turkish);
 
-
-// todo exadd +
-//foreach ($result_summary_info_turkish as $row) {
-//    if (isset($row['awkph141'])) {
-//        foreach ($row['awkph141'] as $service) {
-//            if ( ! isset($services[$service])) {
-//                $services[$service] = 0;
-//            };
-//            $services[$service]++;
-//        }
-//    }
-//};
-//arsort($services);
-//Render::pretty_print($services);
-echo '<br>';
-Render::pretty_print($result_summary_info_turkish);
+foreach ($result_summary_info_turkish as $row) {
+    if (isset($row['awkph141'])) {
+        foreach ($row['awkph141'] as $service) {
+            if ( ! isset($services[$service])) {
+                $services[$service] = 0;
+            };
+            $services[$service]++;
+        }
+    }
+};
+arsort($services);
+Render::pretty_print($services);
 
 ///// functions for epey //////
 // todo exadd +
@@ -1965,11 +1685,12 @@ function getImage($path)
         return null;
     }
 }
+
 function isModelExists($summary_arr, $model_name) // todo exadd +
 {
     foreach($summary_arr as $k => $value) {
         if(isset($value['model_name']) && !empty($value['model_name']) && $value['model_name'] == $model_name) {
-			return true;
+                return true;
         }
     }
     return false;
@@ -2021,9 +1742,7 @@ function getFeatures($data) // todo exadd + all
     'Gürültü Önleyici'  => 'Noise-Canceling', // todo exadd +
     'Üçüncü' => ' Third',
     'Yıl Güncelleme Garantisi' => 'Year Warranty Upgrade',
-    'Tuşu' => 'Keys',
-    'Arttırılmış Gerçeklik' => '',   // todo exadd +
-    'Genişletilebilir Kenar screen Özellikleri' => 'Expandable sidebar properties',   // todo exadd +
+    'Tuşu' => 'Keys'
 ];
     return $result = str_ireplace(array_keys($arrCombine), array_values($arrCombine), $data);
 }
@@ -2054,146 +1773,124 @@ function getEngNameMaterial($data) // todo exadd + all
 }
 function getEngNameFromTurkish($data) // todo exadd + al
 {
-	$arrCombine = [
-		' ve '                            => ' and ',
-		'Altın'                           => 'Gold',
-		'Alüminyum'                       => 'Aluminum',
-		'Kasa'                            => 'Safe',
-		'Kum'                             => 'Sand',
-		'Pembesi'                         => 'Pink',
-		' Spor '                          => ' Sport ',
-		'Kordon'                          => 'cord',
-		'Uzay'                            => 'Space',
-		'Grisi'                           => 'Grey',
-		'Gri'                             => 'Gray',
-		'Siyah'                           => 'Black',
-		'Gümüş'                           => 'Silver',
-		' Saf '                           => ' Pure ',
-		'Platin'                          => 'Platinum',
-		'Antrasit'                        => 'Anthracite',
-		'Puslu'                           => 'Misty',
-		'Gece'                            => 'Night',
-		'Mavisi'                          => 'Blue',
-		'Beyaz'                           => 'White',
-		'Paslanmaz'                       => 'Stainless',
-		'Çelik'                           => 'Steel',
-		'Milano'                          => 'Milan',
-		'Mat'                             => 'Matte',
-		'Roze'                            => 'Rose',
-		'Taş'                             => 'Stone',
-		'Klasik'                          => 'Classic',
-		'Tokalı'                          => 'Buckle',
-		'Kayış'                           => 'Slip',
-		'Akıllı'                          => 'Smart',
-		'Bileklik'                        => 'Wrist',
-		'Bilezik'                         => 'Bracelet',
-		'Baklalı'                         => 'Broad beans',
-		'Orta'                            => 'Middle',
-		'Büyük'                           => 'Large',
-		'Soğuk'                           => 'Cold',
-		'Beton'                           => 'Concrete',
-		'Naylon'                          => 'Nylon',
-		'Örme'                            => 'Knitting',
-		'İnci'                            => 'Pearl',
-		'Açık'                            => 'Open',
-		'Okyanus'                         => 'Ocean',
-		'Deri'                            => 'Leather',
-		'Kraliyet'                        => 'Royal',
-		'Tropik'                          => 'Tropical',
-		'Kırmızı'                         => 'Red',
-		'Turuncusu'                       => 'Orange',
-		'Pembe'                           => 'Pink',
-		'Kahverengi'                      => 'Brown',
-		'Ayar'                            => 'Setting',
-		'Parlak'                          => 'Bright',
-		'Mavi'                            => 'Blue',
-		'Kutup'                           => 'Pole',
-		'Seramik'                         => 'Ceramic',
-		'Polikarbonat'                    => 'Polycarbonate',
-		'Eloksal '                        => 'Anodizing',
-		'Termoplastik'                    => 'Thermoplastic',
-		'Poliüretan'                      => 'Polyurethane',
-		'Titanyum'                        => 'Titanium',
-		'Hipoalerjenik'                   => 'Hypoallergenic',
-		'Kauçuk'                          => 'Rubber',
-		'Silikon'                         => 'Silicone',
-		'Manyetik'                        => 'Magnetic',
-		'Kilit'                           => 'Lock',
-		'Klips'                           => 'Clipping',
-		'Örgü'                            => 'Mesh',
-		'Vulkanize'                       => 'Vulcanized',
-		'Tam'                             => 'Full',
-		'Daire'                           => '',
-		'Çift'                            => 'Double',
-		'Katmanlı'                        => 'Layer',
-		'Kavisli'                         => 'Curved',
-		'Renkli'                          => 'Color',
-		'Değiştirilebilir Para pil'       => 'Replaceable battery',
-		'Adet'                            => 'Piece',
-		'Bordo'                           => 'Maroon',
-		'Lacivert'                        => 'Blue',
-		'Mor'                             => 'Purple',
-		'Fuşya'                           => 'Fushya',
-		'Turkuaz'                         => 'Turquoise',
-		'Yeşil'                           => 'Green',
-		'Bakır'                           => 'Copper',
-		'Krem'                            => 'Cream',
-		"mt'ye kadar su geçirmez"         => "mt waterproof",
-		'Yalnızca su sıçramalarına karşı' => 'Only against water splashes',
-		'Uçuk'                            => 'Herpes',
-		'Rengi'                           => 'Color',
-		'Kahve'                           => 'Coffee',
-		'Plastik'                         => 'Plastic',
-		'Değiştirilebilir Para Pil'       => 'Replaceable Battery',
-		'Üretan'                          => 'Urethane',
-		' ı '                             => '',
-		'Sarı'                            => 'Yellow',
-		'Krımızı'                         => 'Red',
-		'Vestel Akıllı Bileklik'          => 'Vestel Smart Wristband',
-		'Değişebilir Kapak'               => 'Cover May Vary',
-		'Fenerbahç'                       => 'Fenerbahce',
-		'Yanık'                           => '',
-		'Fırtına'                         => 'Storm',
-		'Turuncu'                         => 'Orange',
-		'Hat'                         	  => 'line', // todo exadd +
-		'Tek'                         	  => 'Single', // todo exadd +
-	];
+    $arrCombine = [
+    ' ve ' => ' and ',
+    'Altın' => 'Gold',
+    'Alüminyum' => 'Aluminum',
+    'Kasa' => 'Safe',
+    'Kum' => 'Sand',
+    'Pembesi' => 'Pink',
+    ' Spor ' => ' Sport ',
+    'Kordon' => 'cord',
+    'Uzay' => 'Space',
+    'Grisi' => 'Grey',
+    'Gri' => 'Gray',
+    'Siyah' => 'Black',
+    'Gümüş' => 'Silver',
+    ' Saf ' => ' Pure ',
+    'Platin' => 'Platinum',
+    'Antrasit' => 'Anthracite',
+    'Puslu' => 'Misty',
+    'Gece' => 'Night',
+    'Mavisi' => 'Blue',
+    'Beyaz' => 'White',
+    'Paslanmaz' => 'Stainless',
+    'Çelik' => 'Steel',
+    'Milano' => 'Milan',
+    'Mat' => 'Matte',
+    'Roze' => 'Rose',
+    'Taş' => 'Stone',
+    'Klasik' => 'Classic',
+    'Tokalı' => 'Buckle',
+    'Kayış' => 'Slip',
+    'Akıllı' => 'Smart',
+    'Bileklik' => 'Wrist',
+    'Bilezik' => 'Bracelet',
+    'Baklalı' => 'Broad beans',
+    'Orta' => 'Middle',
+    'Büyük' => 'Large',
+    'Soğuk' => 'Cold',
+    'Beton' => 'Concrete',
+    'Naylon' => 'Nylon',
+    'Örme' => 'Knitting',
+    'İnci' => 'Pearl',
+    'Açık' => 'Open',
+    'Okyanus' => 'Ocean',
+    'Deri' => 'Leather',
+    'Kraliyet' => 'Royal',
+    'Tropik' => 'Tropical',
+    'Kırmızı' => 'Red',
+    'Turuncusu' => 'Orange',
+    'Pembe' => 'Pink',
+    'Kahverengi' => 'Brown',
+    'Ayar' => 'Setting',
+    'Parlak' => 'Bright',
+    'Mavi' => 'Blue',
+    'Kutup' => 'Pole',
+    'Seramik' => 'Ceramic',
+    'Polikarbonat' => 'Polycarbonate',
+    'Eloksal ' => 'Anodizing',
+    'Termoplastik' => 'Thermoplastic',
+    'Poliüretan' => 'Polyurethane',
+    'Titanyum' => 'Titanium',
+    'Hipoalerjenik' => 'Hypoallergenic',
+    'Kauçuk' => 'Rubber',
+    'Silikon' => 'Silicone',
+    'Manyetik' => 'Magnetic',
+    'Kilit' => 'Lock',
+    'Klips' => 'Clipping',
+    'Örgü' => 'Mesh',
+    'Vulkanize' => 'Vulcanized',
+    'Tam' => 'Full',
+    'Daire' =>'',
+    'Çift' => 'Double',
+    'Katmanlı' => 'Layer',
+    'Kavisli' => 'Curved',
+    'Renkli' =>'Color',
+    'Değiştirilebilir Para pil' => 'Replaceable battery',
+    'Adet' => 'Piece',
+    'Bordo' => 'Maroon',
+    'Lacivert' => 'Blue',
+    'Mor' => 'Purple',
+    'Fuşya' => 'Fushya',
+    'Turkuaz' => 'Turquoise',
+    'Yeşil' => 'Green',
+    'Bakır' => 'Copper',
+    'Krem' => 'Cream',
+    "mt'ye kadar su geçirmez" => "mt waterproof",
+    'Yalnızca su sıçramalarına karşı' => 'Only against water splashes',
+    'Uçuk' => 'Herpes',
+    'Rengi' => 'Color',
+    'Kahve' => 'Coffee',
+    'Plastik' => 'Plastic',
+    'Değiştirilebilir Para Pil' => 'Replaceable Battery',
+    'Üretan' => 'Urethane',
+    ' ı ' => '',
+    'Sarı' => 'Yellow',
+    'Krımızı' => 'Red',
+    'Vestel Akıllı Bileklik' => 'Vestel Smart Wristband',
+    'Değişebilir Kapak' => 'Cover May Vary',
+    'Fenerbahç' => 'Fenerbahce',
+    'Yanık' =>'',
+    'Fırtına' => 'Storm',
+    'Turuncu' => 'Orange',
+];
     return $result = str_ireplace(array_keys($arrCombine), array_values($arrCombine), $data);
 }
 function getLinksFromEpey($categoryId)
 {
-	$url = 'https://www.epey.com/kat/listele/';
-	$result_links = [];
+    $url = 'https://www.epey.com/kat/listele/';
+    $result_links = [];
+    for($i = 1; $i <= 45; $i++ ) { // page // todo uncomment '45'
+        $html_turkish = getDataFromApiWithCategory($url, ['sayfa' => $i], $categoryId);
+        $htmlDom2 = dom($html_turkish);
 
-	/*
-		for($i = 1; $i <= 45; $i++ ) { // page // todo uncomment '45'
-		$html_turkish = getDataFromApiWithCategory($url, ['sayfa' => $i], $categoryId);
-
-		$htmlDom2 = dom($html_turkish);
-
-		for($k = 0; $k <= 60; $k++) { // item per page todo uncomment '60'
-			$links = $htmlDom2->query('//div[@class="detay cell"]/a/@href')->item($k)->nodeValue ?? null;
-			if($links) $result_links[] = $links;
-		}
-	}*/
-
-	$i = 1;
-	do {
-		$html_turkish = getDataFromApiWithCategory($url, ['sayfa' => $i], $categoryId);
-		$htmlDom2 = dom($html_turkish);
-
-		$k = 0;
-		do {
-			$links = $htmlDom2->query('//div[@class="detay cell"]/a/@href')->item($k)->nodeValue ?? null;
-			if($links) $result_links[] = $links;
-			$k++;
-		} while($links);
-
-		$i++;
-
-	} while(strlen($html_turkish) >= 8000);
-
-	return $result_links;
+        for($k = 0; $k <= 60; $k++) { // item per page todo uncomment '60'
+            $links = $htmlDom2->query('//div[@class="detay cell"]/a/@href')->item($k)->nodeValue ?? null;
+            if($links) $result_links[] = $links;
+        }
+    }
+    return $result_links;
 }
 function getAnswerTurkish($str)
 {
@@ -2224,7 +1921,7 @@ function isCodecExists($item, $name) // todo exadd +
     if(mb_stripos($item, $name) !== false) {
         return '+';
     } else {
-        return ''; // todo exadd +
+        return '';
     }
 }
 function getAnswer($str)

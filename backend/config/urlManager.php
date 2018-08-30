@@ -6,7 +6,7 @@ return [
     'baseUrl'         => '',
     'enablePrettyUrl' => true,
     'showScriptName'  => false,
-//    'useStrictParsing' => true  , // zoro branch
+//    'useStrictParsing' => true  , // zoro branch + some changes
 //    'useStrictParsing' => true,
     'rules'           => [
         'GET modification/create/<id:\d+>' => 'shop/modification/create', // working!

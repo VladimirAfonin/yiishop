@@ -6,7 +6,7 @@ return [
     'baseUrl'         => '',
     'enablePrettyUrl' => true,
     'showScriptName'  => false,
-//    'useStrictParsing' => true ,
+//    'useStrictParsing' => true  ,
 //    'useStrictParsing' => true,
     'rules'           => [
         'GET modification/create/<id:\d+>' => 'shop/modification/create', // working!

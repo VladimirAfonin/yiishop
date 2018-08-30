@@ -7,6 +7,7 @@ return [
     'enablePrettyUrl' => true,
     'showScriptName'  => false,
 //    'useStrictParsing' => true,
+//    'useStrictParsing' => true,
     'rules'           => [
         'GET modification/create/<id:\d+>' => 'shop/modification/create', // working!
 //        'admin/product' => 'admin/product/index', // working!

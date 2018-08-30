@@ -69,7 +69,7 @@ class AttributeValueController extends Controller
         $model->product_id = $product_id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['admi/product/view', 'id' => $model->product_id]);
+            return $this->redirect(['admin/product/view', 'id' => $model->product_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,

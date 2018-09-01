@@ -24,7 +24,7 @@ return [
         ],
         'authManager' => [
             'class' => 'yii\rbac\PhpManager',
-            'itemFile' => '@common/rbac/items/items.php',
+            'itemFile' => '@common/rbac/items/items.php', // test
             'assignmentFile' => '@common/rbac/items/assignments.php',
             'ruleFile' => '@common/rbac/items/rules.php', // test
             'defaultRoles' => ['user'],

@@ -17,7 +17,7 @@ return [
         'db' => require(dirname(__DIR__)) . '/config/db.php',
         'cache' => [
             'class' => 'yii\caching\FileCache',
-//            'class' => 'yii\caching\MemCache',
+//            'class' => 'yii\caching\MemCache' ,
 //            'useMemcached' => true,
             // one dir for
 //            'cachePath' => '@common/runtime/cache',

@@ -30,7 +30,7 @@ return [
             'defaultRoles' => ['user'],
         ],
         'authClientCollection' => [
-            'class' => 'yii\authclient\Collection',
+            'class' => 'yii\authclient\Collection', // test v1.1
             'clients' => [
                 'google' => [
                     'class' => 'yii\authclient\clients\Google',

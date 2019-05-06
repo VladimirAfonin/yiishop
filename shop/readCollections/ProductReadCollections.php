@@ -121,7 +121,7 @@ class ProductReadCollections
                 ]
             ],
             'pagination' => [
-                'pageSizeLimit' => [15, 100],
+                'pageSizeLimit' => [3, 100],
             ]
         ]);
     }

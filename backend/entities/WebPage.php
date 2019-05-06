@@ -154,7 +154,7 @@ class WebPage extends ActiveRecord
 		}
 		$url = self::makeUrl($endpoint,$urlParams);
 		$m = new WebPage();
-		$m->connect($url,$headers, false);
+		$m->connect($url,$headers, true);
 		foreach (self::$clean as $cleaner){
 			$m->desc = preg_replace(self::$cleaners[$cleaner], '',$m->desc);
 		}
@@ -397,7 +397,7 @@ class WebPage extends ActiveRecord
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // true or '1' as default
 
 
 		// proxy logic
@@ -442,6 +442,7 @@ class WebPage extends ActiveRecord
 
 		// useragent
 		$userAgent = file('../entities/user_agents_list.txt');
+		var_dump($userAgent);
 		$userAgentsCount = count($userAgent) - 1;
 
 		curl_setopt($ch, CURLOPT_USERAGENT, $code = $userAgent[rand(0, $userAgentsCount)]);

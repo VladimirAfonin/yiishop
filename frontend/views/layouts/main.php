@@ -8,8 +8,10 @@ use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use yii\bootstrap\NavBar;
 use yii\bootstrap\Nav;
+use frontend\assets\OwlCarouselAsset;
 
 AppAsset::register($this);
+OwlCarouselAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
     <!DOCTYPE html>
@@ -26,7 +28,7 @@ AppAsset::register($this);
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <link href="<?= Html::encode(Url::canonical()) ?>" rel="canonical"/>
-        <link href="<?= Yii::getAlias('@web/images/catalog/cart.png') ?>" rel="icon"/>
+        <link href="<?= Yii::getAlias('@web/image/cart.png') ?>" rel="icon"/>
         <?php $this->head() ?>
     </head>
     <body class="common-home">

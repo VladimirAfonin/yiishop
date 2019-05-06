@@ -1,7 +1,6 @@
 <?php
 /* @var $this yii\web\View */
 use yii\helpers\Html;
-
 $this->title = 'Catalog';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -10,4 +9,3 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?=  $this->render('_subcategories', compact('category')) ?>
 <?=  $this->render('_list', compact('dataProvider')) ?>
-

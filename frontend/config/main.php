@@ -50,8 +50,10 @@ return [
         'backendUrlManager' =>  require __DIR__ .  '/../../backend/config/urlManager.php',
         'urlManager' => function() {
             return Yii::$app->get('frontendUrlManager');
-        }
-
+        },
+        'assetManager' => [
+            'appendTimestamp' => true,
+        ],
     ],
     'params' => $params,
 ];

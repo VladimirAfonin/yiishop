@@ -79,7 +79,10 @@ class UserCollection
      */
     public function findByNetworkIdentity($network, $identity): User
     {
-        return User::find()->joinWith('networks n')->andWhere(['n.network' => $network, 'n.identity' => $identity])->one();
+        return User::find()
+            ->joinWith('networks n')
+            ->andWhere(['n.network' => $network, 'n.identity' => $identity])
+            ->one();
     }
 
     /**
@@ -88,6 +91,7 @@ class UserCollection
      */
     public function get($id): User
     {
-        return User::findOne($id);
+//        return User::findOne($id);
+        return $this->getBy(['id' => $id]);
     }
 }

@@ -1,3 +1,6 @@
+<?php
+use backend\widgets\{CategoriesWidget, TagsWidget};
+?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -30,9 +33,17 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
+                    ['label' => 'Тестовые данные', 'options' => ['class' => 'header']],
+                    ['label' => 'Products', 'icon' => 'file-o', 'url' => ['/admin/product/index'], 'active' => Yii::$app->controller->id == 'product'],
+                    ['label' => 'Test Tags', 'icon' => 'file-o', 'url' => ['/admin/test-tags/index'], 'active' => Yii::$app->controller->id == 'test-tags'],
+                    ['label' => 'Category', 'icon' => 'file-o', 'url' => ['/admin/category/index'], 'active' => Yii::$app->controller->id == 'category'],
+                    ['label' => 'Attribute', 'icon' => 'file-o', 'url' => ['/admin/attribute/index'], 'active' => Yii::$app->controller->id == 'attribute'],
+                    ['label' => 'Attribute value', 'icon' => 'file-o', 'url' => ['/admin/attribute-value/index'], 'active' => Yii::$app->controller->id == 'attribute-value'],
+                    ['label' => 'Product tag', 'icon' => 'file-o', 'url' => ['/admin/product-tag/index'], 'active' => Yii::$app->controller->id == 'attribute-value'],
+
                     ['label' => 'Управление', 'options' => ['class' => 'header']],
                     ['label' => 'Shop', 'icon' => 'folder', 'items' => [
-                            ['label' => 'Brands', 'icon' => 'file-o', 'url' => ['/shop/brand/index'], 'active' => Yii::$app->controller->id == 'shop/brand'],
+                            ['label' => 'Brands', 'icon' => 'file-o', 'url' => ['/shop/brand/index'], 'active' => Yii::$app->controller->id == 'shop/brand'], // $this->context->id == 'shop/brand'($this -> View)
                             ['label' => 'Tags', 'icon' => 'file-o', 'url' => ['/shop/tag/index'], 'active' => Yii::$app->controller->id == 'shop/tag'],
                             ['label' => 'Categories', 'icon' => 'file-o', 'url' => ['/shop/category/index'], 'active' => Yii::$app->controller->id == 'shop/tag'],
                             ['label' => 'Characteristics', 'icon' => 'file-o', 'url' => ['/shop/characteristic/index'], 'active' => $this->context->id == 'shop/characteristic'],
@@ -73,6 +84,24 @@
                 ],
             ]
         ) ?>
+
+        <?php if ($this->beginCache('categories-widget', [
+            'duration' => 3600,
+            'variations' => [
+                isset($this->params['category']) ? $this->params['category']->id : null
+            ]
+        ])): ?>
+
+        <?= CategoriesWidget::widget([
+                'category' => isset($this->params['category']) ? $this->params['category'] : null,
+        ]) ?>
+
+        <?php $this->endCache();
+        endif; ?>
+
+        <?= TagsWidget::widget([
+                'tag' => isset($this->params['tag']) ? $this->params['tag'] : null,
+        ]) ?>
 
     </section>
 

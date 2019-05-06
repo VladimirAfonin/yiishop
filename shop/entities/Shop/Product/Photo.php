@@ -5,11 +5,12 @@ use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;
 
-/*
+/**
  * @property integer $id
  * @property string $file
  * @property integer $sort
  */
+
 class Photo extends ActiveRecord
 {
     /**
@@ -34,7 +35,9 @@ class Photo extends ActiveRecord
                 'thumbs' => [
                     'admin' => ['width' => 100, 'height' => 70],
                     'thumb'=> ['width' => 640, 'height' => 480],
-                    'catalog_list' => ['width' => 228, 'height' => 228]
+                    'catalog_list' => ['width' => 228, 'height' => 228],
+                    'catalog_product_main' => ['width' => 750, 'height' => 1000],
+                    'catalog_product_additional' => ['width' => 66, 'height' => 66],
                 ]
             ]
         ];
@@ -52,7 +55,7 @@ class Photo extends ActiveRecord
     }
 
     /**
-     * @param $sort
+     * @param int $sort
      */
     public function setSort($sort): void
     {

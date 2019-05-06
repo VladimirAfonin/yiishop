@@ -13,7 +13,7 @@ class MetaBehavior extends Behavior
     public $attribute = 'meta';
     public $attributeJson = 'meta_json';
 
-    public function events(): array
+    public function events()
     {
         return [
             ActiveRecord::EVENT_AFTER_FIND => 'onAfterFind',
@@ -28,6 +28,11 @@ class MetaBehavior extends Behavior
 //        $brand->on(ActiveRecord::EVENT_AFTER_FIND, [$this, 'onAfterFind']);
 //        parent::attach($owner);
 //    }
+
+//      public function detach()
+//      {
+//          parent::detach();
+//      }
 
     public function onAfterFind(Event $event)
     {

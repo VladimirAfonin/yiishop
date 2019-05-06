@@ -7,6 +7,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 use shop\entities\InstantiateTrait;
 use yii\db\ActiveQuery;
@@ -23,15 +24,35 @@ use yii\db\ActiveQuery;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $role;
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
 {
 //    use InstantiateTrait;
 
+    const SCENARIO_ADMIN_CREATE = 'admin_create';
+    const SCENARIO_ADMIN_UPDATE = 'admin_update';
+
     const STATUS_WAIT = 0;
     const STATUS_ACTIVE = 10;
 
+/*    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_ADMIN_CREATE] = ['username','email','status','newPassword','newPasswordRepeat'];
+        $scenarios[self::SCENARIO_ADMIN_UPDATE] = ['username','email','status','newPassword','newPasswordRepeat'];
+    }*/
+    // $model = new User(['username' => 'testmane']); $model->scenario = User::SCENARIO_ADMIN_CREATE
+
+   /* public function rules()
+    {
+        return ArrayHelper::merge(parent::rules(),[
+            [['newPassword','newPasswordRepeat'],'required','on' => self::SCENARIO_ADMIN_CREATE],
+            [['newPassword'],'string','min' => 6],
+            [['newPasswordRepeat'],'compare','compareAttribute' => 'newPassword'],
+        ]);
+    }*/
 
     /*public function __construct(string $username = '', string $email = '', string $password = '')
     {

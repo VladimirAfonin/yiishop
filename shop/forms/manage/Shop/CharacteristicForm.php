@@ -29,7 +29,7 @@ class CharacteristicForm extends Model
 
             $this->_charactObj = $characteristic;
         } else {
-            $this->sort = Characteristic::find()->max('sort') + 1;
+            $this->sort = Characteristic::find()->max('sort') + 1; // if new record we set sort
         }
         parent::__construct($config);
     }
@@ -47,7 +47,8 @@ class CharacteristicForm extends Model
     }
 
     /**
-     * get array of 'variants'
+     * get array of 'variants',
+     * from text to array
      *
      * @return array
      */
@@ -56,6 +57,10 @@ class CharacteristicForm extends Model
         return preg_split('#[\r\n]+#i', $this->textVariants);
     }
 
+    /**
+     *
+     * @return array
+     */
     public function typesList(): array
     {
         return CharacteristicHelper::typeList();

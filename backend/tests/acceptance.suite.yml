@@ -1,0 +1,17 @@
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+            url: http://yiielis.loc/admin
+            browser: chrome
+        - Yii2:
+            part: orm
+            entryScript: /
+            cleanup: false
+env:
+    screen:
+    mobile:
+          modules:
+                  config:
+                      WebDriver:
+                        window_size: 320x240

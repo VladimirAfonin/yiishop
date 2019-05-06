@@ -8,18 +8,20 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $product shop\entities\Shop\Product\Product */
 /* @var $photosForm shop\forms\manage\Shop\Product\PhotosForm */
 /* @var $modificationsProvider yii\data\ActiveDataProvider */
+
 $this->title = $product->name;
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
-
+<?= Html::csrfMetaTags() ?>
     <p>
         <?php if ($product->isActive()): ?>
             <?= Html::a('draft', ['draft', 'id' => $product->id], ['class' => 'btn btn-primary', 'data-method' => 'post']) ?>
@@ -90,7 +92,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="box box-default">
                 <div class="box-header with-border">Characteristics</div>
                 <div class="box-body">
-
                     <?= DetailView::widget([
                         'model' => $product,
                         'attributes' => array_map(function (Value $value) {
@@ -116,7 +117,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-header with-border">Modifications</div>
         <div class="box-body">
             <p>
-                <?= Html::a('Add Modification', ['shop/modification/create', 'product_id' => $product->id], ['class' => 'btn btn-success']) ?>
+<!--                --><?//= Html::a('Add Modification', ['shop/modification/create', 'product_id' => $product->id], ['class' => 'btn btn-success'/*, 'data' => ['method' => 'post']*/]) ?>
+                <?= Html::a('Add Modification', ['shop/modification/create', 'product_id' => $product->id], ['class' => 'btn btn-success', 'data-method' => 'post']) ?>
             </p>
             <?= GridView::widget([
                 'dataProvider' => $modificationsProvider,
@@ -185,7 +187,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]); ?>
                         </div>
                         <div>
-                            <?= Html::a(
+                            <?= /** @var \shop\entities\Shop\Product\Photo $photo */
+                            Html::a(
                                 Html::img($photo->getThumbFileUrl('file', 'thumb')),
                                 $photo->getUploadedFileUrl('file'),
                                 ['class' => 'thumbnail', 'target' => '_blank']
@@ -198,7 +201,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin([
                 'options' => ['enctype' => 'multipart/form-data'],
             ]); ?>
-
             <?= $form->field($photosForm, 'files[]')->label(false)->widget(FileInput::class, [
                 'options' => [
                     'accept' => 'image/*',
@@ -208,7 +210,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="form-group">
                 <?= Html::submitButton('Upload', ['class' => 'btn btn-success']) ?>
             </div>
-
             <?php ActiveForm::end(); ?>
 
         </div>

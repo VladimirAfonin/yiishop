@@ -3,7 +3,8 @@ namespace shop\entities\Shop\Product;
 
 use yii\db\ActiveRecord;
 
-/*
+/**
+ * @property string $name
  */
 class Tag extends ActiveRecord
 {
@@ -21,9 +22,9 @@ class Tag extends ActiveRecord
      */
     public static function create(string $tagName): self
     {
-        $photo = new static();
-        $photo->tagName = $tagName;
-        return $photo;
+        $tag = new static();
+        $tag->name = $tagName;
+        return $tag;
     }
 
 }

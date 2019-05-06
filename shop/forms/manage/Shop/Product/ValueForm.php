@@ -8,10 +8,11 @@ use shop\entities\Shop\Product\Value;
 /*
  * форма для ввода значений
  *
- * */
+ */
 class ValueForm extends Model
 {
     public $value;
+    /** @var Characteristic $_characteristic */
     private $_characteristic;
 
     public function __construct(Characteristic $characteristic = null, Value $value = null, array $config = [])
@@ -52,5 +53,6 @@ class ValueForm extends Model
     public function variantsList(): array
     {
         return $this->_characteristic->variants ? array_combine($this->_characteristic->variants, $this->_characteristic->variants) : [];
+//        return $this->characteristic->variants;
     }
 }

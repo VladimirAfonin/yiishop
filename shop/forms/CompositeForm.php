@@ -26,9 +26,9 @@ abstract class CompositeForm extends  Model
         $success = parent::load($data, $formName);
         foreach($this->forms as $name => $form) {
             if(is_array($form)) {
-               $success = Model::loadMultiple($form, $data, $formName ? null : $name);
+               $success = Model::loadMultiple($form, $data, $formName === null ? null : $name) && $success;
             } else {
-                $success = $form->load($data, $formName !== '' ? null : $name) && $success;
+                $success = $form->load($data, $formName === '' ? $name : null) && $success;
             }
         }
         return $success;
@@ -43,9 +43,7 @@ abstract class CompositeForm extends  Model
      */
     public function validate($attributeNames = null, $clearErrors = true): bool
     {
-        $parentNames = ($attributeNames !== null ? (array_filter($attributeNames, function($name) { // 2-nd: 'array_filter($attributeNames, 'is_string')'
-            return is_string($name);
-        })) : null);
+        $parentNames = ($attributeNames !== null ? (array_filter($attributeNames, 'is_string')) : null);
         $success = parent::validate($parentNames, $clearErrors);
         foreach($this->forms as $name => $form) {
             if(is_array($form)) {
@@ -53,9 +51,9 @@ abstract class CompositeForm extends  Model
 //                    $innerNames = ArrayHelper::getValue($attributeNames, $itemName);
 //                    $success = $itemForm->validate($innerNames, $clearErrors) && $success;
 //                }
-                $success = Model::validateMultiple($form) && $success;
+                 $success = Model::validateMultiple($form) && $success;
             } else {
-                $innerNames = ArrayHelper::getValue($attributeNames, $name);
+                $innerNames = ($attributeNames !== null) ? ArrayHelper::getValue($attributeNames, $name) : null;
                 $success = $form->validate($innerNames ?: null, $clearErrors) && $success;
             }
         }

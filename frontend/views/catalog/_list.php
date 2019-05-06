@@ -31,7 +31,9 @@ use yii\widgets\LinkPager;
                 $current = Yii::$app->request->get('sort');
                 ?>
                 <?php foreach($values as $k => $value): ?>
-                    <option value="<?= Html::encode(Url::current(['sort' => $k ?: null])) ?>" <?php if($current == $k) echo ' selected="selected"'?>><?= $value ?></option>
+                    <option value="<?= Html::encode(Url::current(['sort' => $k ?: null])) ?>" <?php if($current == $k) echo ' selected="selected"'?>>
+                        <?= $value ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -64,3 +66,10 @@ use yii\widgets\LinkPager;
     </div>
     <div class="col-sm-6 text-right">Showing <?= $dataProvider->getCount() ?>  of <?= $dataProvider->getTotalCount() ?></div>
 </div>
+
+<hr>
+<?= \yii\widgets\ListView::widget([
+    'dataProvider' => $dataProvider,
+    'layout'       => "{items}\n{pager}",
+    'itemView'     => '_product',
+]) ?>

@@ -8,8 +8,12 @@ use yii\db\ActiveRecord;
 use shop\entities\Meta;
 
 
+/**
+ * @property mixed children
+ */
 class Category extends ActiveRecord
 {
+    /** @var  Meta $meta */
     public $meta;
 
     public static function tableName(): string
@@ -97,5 +101,4 @@ class Category extends ActiveRecord
     {
          return $this->title ?: $this->name;
     }
-
 }

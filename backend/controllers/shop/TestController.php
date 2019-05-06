@@ -1,20 +1,19 @@
 <?php
 namespace backend\controllers\shop;
 
-use backend\controllers\shop\test\Gsm;
-use backend\entities\WebPageHelper;
-use Mailgun\Mailgun;
-use shop\forms\auth\EmailForm;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
-use Yii;
-use backend\entities\WebPage;
 use app\models\ConflictsList;
+use backend\entities\WebPage;
+use backend\entities\WebPageHelper;
 use backend\models\Email;
 use backend\models\UserAccount;
-use yii\base\Module;
 use common\services\EmailService;
+use Mailgun\Mailgun;
+use shop\forms\auth\EmailForm;
+use Yii;
+use yii\base\Module;
+use yii\filters\VerbFilter;
 use yii\helpers\Html;
+use yii\web\Controller;
 
 ini_set('max_execution_time', 70);
 ini_set('memory_limit', '256M');

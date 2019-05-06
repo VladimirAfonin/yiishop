@@ -5,12 +5,16 @@ use yii\db\ActiveRecord;
 use yii\db\ActiveQuery;
 use shop\entities\Shop\Characteristic;
 
-/*
- * @property integer $characteristic_id
- * @property string $value
+/**
+ * @property mixed value
  */
 class Value extends ActiveRecord
 {
+    public static function tableName(): string
+    {
+        return 'shop_values';
+    }
+
     /**
      * @param $charactId
      * @param $value

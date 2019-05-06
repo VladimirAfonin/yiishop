@@ -161,7 +161,8 @@ class BrandController extends Controller
 
     /**
      * @param $id
-     * @return \yii\web\Response
+     *
+     * @return string|\yii\web\Response
      */
     public function actionUpdate($id)
     {
@@ -185,6 +186,7 @@ class BrandController extends Controller
 
     /**
      * @param $id
+     * @return \yii\web\Response
      */
     public function actionDelete($id)
     {

@@ -10,7 +10,7 @@ class CategoryReadCollections
         return Category::find()->roots()->one();
     }
 
-    public function find($id): Category
+    public function find($id): ?Category
     {
         return Category::find()->andWhere(['id' => $id])->andWhere(['>', 'depth', 0])->one();
     }

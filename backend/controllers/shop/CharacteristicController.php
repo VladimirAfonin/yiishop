@@ -1,7 +1,7 @@
 <?php
 namespace backend\controllers\shop;
 
-use yii\base\Controller;
+use yii\web\Controller;
 use yii\filters\VerbFilter;
 use Yii;
 use shop\services\manage\Shop\CharacteristicManageService;

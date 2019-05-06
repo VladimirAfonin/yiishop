@@ -11,7 +11,8 @@ class TagCollection
      */
     public function get($id): Tag
     {
-        return Tag::findOne($id);
+        if(!$tag = Tag::findOne($id)) throw new NotFoundException('tag not found.');
+        return $tag;
     }
 
     /**
@@ -28,5 +29,14 @@ class TagCollection
     public function remove(Tag $tag)
     {
         if(!$tag->delete()) { throw new NotFoundException('delete error.'); }
+    }
+
+    /**
+     * @param $tagName
+     * @return Tag
+     */
+    public function findByName($tagName): ?Tag
+    {
+       return Tag::findOne(['name' => $tagName]);
     }
 }

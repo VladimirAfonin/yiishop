@@ -8,9 +8,12 @@ use shop\services\auth\AuthService;
 use shop\services\auth\PasswordResetService;
 use shop\services\contact\ContactService;
 use yii\base\BootstrapInterface;
+use yii\db\ActiveRecord;
 use yii\di\Instance;
+use yii\helpers\ArrayHelper;
 use yii\mail\MailerInterface;
 use shop\services\auth\SignUpService;
+use yii\widgets\Breadcrumbs;
 
 class SetUp implements BootstrapInterface
 {
@@ -70,5 +73,22 @@ class SetUp implements BootstrapInterface
 //            Instance::of(MailerInterface::class)
 //        ]);
         /* ---  /.set 'contactService' -> second variant --- */
+
+        $container->set(Breadcrumbs::class, function ($container, $params, $args){
+            return new Breadcrumbs(ArrayHelper::merge([
+                'homeLink' => [
+                    'label' => '<i class="fa fa-home"></i>',
+                    'encode' => false,
+                    'url' => \Yii::$app->homeUrl
+                ]
+            ], $args));
+        });
+
+        // set common events for all class:
+//        Event::on(Order::class,ActiveRecord::EVENT_AFTER_INSERT,[$this,'orderCreated']);
+//        Event::on(Opinion::class, ActiveRecord::EVENT_AFTER_INSERT,[$this,'opinionCreated']);
     }
+
+//    public function orderCreated(Event $event) {}
+//    public function opinionCreated(Event $event) {}
 }

@@ -7,10 +7,9 @@ use shop\helpers\ProductHelper;
 $this->title = 'Products';
 $this->params['breadcrumbs'][] = $this->title;
 
-
 ?>
 <div class="user-index">
-    <p><?= Html::a('crate product', ['create'], ['class' => 'btn btn-success']) ?></p>
+    <p><?= Html::a('create product', ['create'], ['class' => 'btn btn-success']) ?></p>
 </div>
 <div class="box">
     <div class="box-body">

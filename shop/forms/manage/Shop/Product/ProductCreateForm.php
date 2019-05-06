@@ -8,11 +8,19 @@ use shop\entities\Shop\Product\Product;
 use shop\entities\Shop\Brand;
 use yii\helpers\ArrayHelper;
 
+/* @property ValueForm[] $values
+ * @property PriceForm price
+ * @property MetaForm meta
+ * @property CategoriesForm categories
+ * @property PhotosForm photos
+ * @property TagsForm tags
+ */
 class ProductCreateForm extends CompositeForm
 {
     public $brandId;
     public $code;
     public $name;
+    public $description;
 
     public function __construct(array $config = [])
     {
@@ -35,7 +43,8 @@ class ProductCreateForm extends CompositeForm
             [['brandId', 'code', 'name'], 'required'],
             [['code', 'name'], 'string', 'max' => 255],
             [['brandId'], 'integer'],
-            [['code'], 'unique', 'targetClass' => Product::class]
+            [['code'], 'unique', 'targetClass' => Product::class],
+            [['description'], 'string']
         ];
     }
 

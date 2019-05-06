@@ -11,7 +11,8 @@ class CharacteristicCollection
      */
     public function get($id): Characteristic
     {
-        return Characteristic::findOne($id);
+        if(!$charact = Characteristic::findOne($id)) { throw new \RuntimeException(('cant find characteristic')); }
+        return $charact;
     }
 
     /**

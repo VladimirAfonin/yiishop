@@ -3,8 +3,8 @@ return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
-//        '@staticRoot' => '@common/static/web',
-//        '@static' => '@common/static',
+//        '@staticRoot' => '@common/static/web', // $params['staticPath']
+//        '@static' =>  $params['staticHostInfo'],// '@common/static',
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     // our container class
@@ -20,7 +20,14 @@ return [
 //            'class' => 'yii\caching\MemCache',
 //            'useMemcached' => true,
             // one dir for
-            'cachePath' => '@common/runtime/cache',
+//            'cachePath' => '@common/runtime/cache',
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\PhpManager',
+            'itemFile' => '@common/rbac/items/items.php',
+            'assignmentFile' => '@common/rbac/items/assignments.php',
+            'ruleFile' => '@common/rbac/items/rules.php',
+            'defaultRoles' => ['user'],
         ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',

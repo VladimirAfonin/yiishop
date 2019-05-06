@@ -22,7 +22,7 @@ class LoginCest
     {
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'login_data.php'
             ]
         ];
@@ -33,7 +33,7 @@ class LoginCest
      */
     public function loginUser(FunctionalTester $I)
     {
-        $I->amOnPage('/site/login');
+        $I->amOnPage('/site');
         $I->fillField('Username', 'erau');
         $I->fillField('Password', 'password_0');
         $I->click('login-button');
@@ -41,5 +41,14 @@ class LoginCest
         $I->see('Logout (erau)', 'form button[type=submit]');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
+    }
+
+    /**
+     * @group testing
+     * @param FunctionalTester $I
+     */
+    public function testTest(FunctionalTester $I)
+    {
+        $I->amGoingTo('submit something...');
     }
 }

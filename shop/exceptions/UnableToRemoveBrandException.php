@@ -2,6 +2,7 @@
 namespace shop\exceptions;
 
 use shop\entities\Shop\Brand;
+use Throwable;
 
 class UnableToRemoveBrandException extends \DomainException
 {

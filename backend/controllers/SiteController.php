@@ -1,7 +1,9 @@
 <?php
 namespace backend\controllers;
 
+use shop\entities\User;
 use Yii;
+use yii\filters\auth\HttpBasicAuth;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -31,22 +33,39 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
-//            'access' => [
-//                'class' => AccessControl::className(),
-//                'rules' => [
-//                    [
-//                        'actions' => ['login', 'error'],
-//                        'allow' => true,
-//                    ],
-//                    [
-//                        'actions' => ['logout', 'index'],
-//                        'allow' => true,
-//                        'roles' => ['@'],
-//                    ],
-//                ],
+            'access' => [
+                'class' => AccessControl::className(),
+//                'denyCallback' => [],
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+//                        'matchCallback' => function($rule, $action) {
+//                            return Yii::$app->user->identity->admin;
+//                        }
+                    ],
+                ],
+            ],
+//            'authenticator' => [
+//                'class' => HttpBasicAuth::className(),
+//                'realm' => 'Protected area',
+//                'auth'  => function ($username, $password) {
+//                    /** @var User $user */
+//                    $user = User::findByUsername($username);
+//                    if ($user && $user->validatePassword($password)) {
+//                        return $user;
+//                    } else {
+//                        return null;
+//                    }
+//                },
 //            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
+            'verbs'         => [
+                'class'   => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
                 ],

@@ -1,19 +1,16 @@
 <?php
 /* @var $product \shop\entities\Shop\Product\Product*/
 /* @var $product \yii\web\View*/
-use yii\helpers\{
-    Url, Html, StringHelper
-};
-
-$url = Url::to(['product', 'id' => $product->id])
-?>
+use yii\helpers\{Url, Html, StringHelper};
+$url = Url::to(['product', 'id' => $product->id])  ?>
 
 <div class="product-layout product-list col-xs-12">
     <div class="product-thumb">
         <?php if ($product->mainPhoto): ?>
             <div class="image">
                 <a href="<?= Html::encode($url) ?>">
-                    <img src="<?= Html::encode($product->mainPhoto->getThumbFileUrl('file', 'catalog_list')) ?>" alt=""
+                    <img src="<?= Html::encode($product->mainPhoto->getThumbFileUrl('file', 'catalog_list')) // attributes, profile to widht&height in config behavior  ?>"
+                         alt=""
                          title="" class="img-responsive"/>
                 </a>
             </div>

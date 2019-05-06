@@ -1,5 +1,7 @@
 <?php
-/* @var \shop\entities\Shop\Category */
+/* @var \shop\entities\Shop\Category $category */
+use backend\widgets\CategoriesWidget;
+use backend\widgets\TagsWidget;
 use yii\helpers\Html;
 
 $this->title = $category->getSeoTitle();
@@ -21,4 +23,24 @@ $this->params['breadcrumbs'][] = $category->name;
         </div>
     </div>
 <?php endif; ?>
-<?= $this->render('_list', compact('dataProvider')) ?>
+<?= /** @var \yii\web\View $this */
+$this->render('_list', compact('dataProvider')) ?>
+
+<?php
+$crumbs = [];
+$requiredCategory = $category;
+/** @var \shop\entities\Category $requiredCategory */
+while($parentCategory = $requiredCategory->parent) {
+    $crumbs[] = ['label' => $parentCategory->name, 'url' => ['category', 'id' => $parentCategory->id]];
+}
+$this->params['breadcrumbs'] = array_merge($this->params['breadcrumbs'], $crumbs);
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="catalog-index">
+    <h1><?= Html::encode($this->title); ?></h1>
+    <?= \yii\widgets\ListView::widget([
+        'dataProvider' => $dataProvider,
+        'layout'       => "{items}\n{pager}",
+        'itemView'     => '_item',
+    ]) ?>
+</div>

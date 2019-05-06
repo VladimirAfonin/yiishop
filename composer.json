@@ -28,13 +28,14 @@
         "bower-asset/font-awesome": "^4.7",
         "bower-asset/owl.carousel": "2.2.0",
         "bower-asset/magnific-popup": "^1.1",
-        "boundstate/yii2-mailgun": "*"
+        "boundstate/yii2-mailgun": "*",
+        "facebook/webdriver": "^1.6"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",
         "yiisoft/yii2-faker": "~2.0.0",
-        "codeception/base": "^2.2.3",
+        "codeception/codeception": "*",
         "codeception/verify": "~0.3.1"
     },
     "config": {

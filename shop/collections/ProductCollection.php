@@ -47,11 +47,11 @@ class ProductCollection
     /**
      * Do we have product in category
      *
-     * @param $categoryid
+     * @param $category_id
      * @return bool
      */
-    public function existsByMainCategory($categoryid): bool
+    public function existsByMainCategory($category_id): bool
     {
-        return Product::find()->andWhere(['category_id' => $categoryid])->exists();
+        return Product::find()->andWhere(['category_id' => $category_id])->exists();
     }
 }

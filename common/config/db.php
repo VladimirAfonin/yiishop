@@ -2,11 +2,12 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;port=3306;dbname=yiielis;unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock',
-//    'dsn' => 'mysql:host=127.0.0.1;dbname=yiigeek',
+//    'dsn' => 'mysql:host=localhost;port=3306;dbname=yiielis;unix_socket=/Applications/MAMP/tmp/mysql/mysql.sock',
+    'dsn' => 'mysql:host=127.0.0.1;dbname=yiielis', // for Windows 10
     'username' => 'admin',
     'password' => 'admin',
     'charset' => 'utf8',
+    'enableSchemaCache' => true,
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,

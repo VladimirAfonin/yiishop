@@ -3,6 +3,9 @@
 namespace shop\services\auth;
 
 
+use shop\dispatchers\EventDispatcher;
+use shop\dispatchers\events\UserSignUpConfirmed;
+use shop\dispatchers\events\UserSignUpRequested;
 use shop\forms\auth\SignupForm;
 use shop\entities\User;
 use yii\mail\MailerInterface;
@@ -11,11 +14,13 @@ class SignUpService
 {
     private $mailer;
     private $supportEmail;
+    private $dispatcher;
 
-    public function __construct($supportEmail, MailerInterface $mailer)
+    public function __construct($supportEmail, MailerInterface $mailer, EventDispatcher $dispatcher)
     {
         $this->mailer = $mailer;
         $this->supportEmail = $supportEmail;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -31,6 +36,8 @@ class SignUpService
         if(!$user->save()) {
             throw new \RuntimeException('saving error.');
         }
+
+        $this->dispatcher->dispatch(new UserSignUpRequested($user));
 
         $sent = $this->mailer
             ->compose(
@@ -62,6 +69,8 @@ class SignUpService
         $user->confirmSignup();
 
         if(!$user->save()) { throw new \RuntimeException("saving error."); }
+
+        $this->dispatcher->dispatch(new UserSignUpConfirmed($user));
 
     }
 }

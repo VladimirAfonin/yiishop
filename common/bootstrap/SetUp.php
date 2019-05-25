@@ -4,10 +4,17 @@ namespace common\bootstrap;
 use app\models\Email;
 use common\services\EmailService;
 use shop\collections\UserCollection;
+use shop\dispatchers\EventDispatcher;
+use shop\dispatchers\events\UserSignUpConfirmed;
+use shop\dispatchers\events\UserSignUpRequested;
+use shop\dispatchers\listeners\UserSignUpConfirmListener;
+use shop\dispatchers\listeners\UserSignUpRequestListener;
+use shop\dispatchers\SimpleEventDispatcher;
 use shop\services\auth\AuthService;
 use shop\services\auth\PasswordResetService;
 use shop\services\contact\ContactService;
 use yii\base\BootstrapInterface;
+use yii\di\Container;
 use yii\di\Instance;
 use yii\mail\MailerInterface;
 use shop\services\auth\SignUpService;
@@ -70,5 +77,24 @@ class SetUp implements BootstrapInterface
 //            Instance::of(MailerInterface::class)
 //        ]);
         /* ---  /.set 'contactService' -> second variant --- */
+
+        $container->setSingleton(EventDispatcher::class, function(Container $container){
+            return new SimpleEventDispatcher([
+
+                UserSignUpRequested::class => [
+                    [$container->get(UserSignUpRequestListener::class), 'handle'],
+                ],
+
+                UserSignUpConfirmed::class => [
+                    [$container->get(UserSignUpConfirmListener::class), 'handle'],
+                    function($event) {
+                        // ...
+                    },
+                ],
+            ]);
+        });
+
+
+
     }
 }

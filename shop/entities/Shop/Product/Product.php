@@ -693,4 +693,20 @@ class Product extends  ActiveRecord
         return new ProductQuery(static::class);
     }
 
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getModificationPrice($id)
+    {
+        foreach ($this->modifications as $modification) {
+            if ($modification->isIdEqualTo($id)) {
+                return $modification->price ?: $this->price_new;
+            }
+        }
+        throw new \Exception();
+    }
+
 }

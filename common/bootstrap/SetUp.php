@@ -79,18 +79,14 @@ class SetUp implements BootstrapInterface
         /* ---  /.set 'contactService' -> second variant --- */
 
         $container->setSingleton(EventDispatcher::class, function(Container $container){
-            return new SimpleEventDispatcher([
-
-                UserSignUpRequested::class => [
-                    [$container->get(UserSignUpRequestListener::class), 'handle'],
-                ],
-
-                UserSignUpConfirmed::class => [
-                    [$container->get(UserSignUpConfirmListener::class), 'handle'],
-                    function($event) {
+            return new SimpleEventDispatcher($container, [
+                UserSignUpRequested::class => [UserSignUpRequestListener::class],
+                UserSignUpConfirmed::class => [UserSignUpConfirmListener::class],
+//                    [$container->get(UserSignUpConfirmListener::class), 'handle'],
+                    /*function($event) {
                         // ...
-                    },
-                ],
+                    },*/
+//                ],
             ]);
         });
 

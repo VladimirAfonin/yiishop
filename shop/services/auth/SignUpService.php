@@ -45,7 +45,7 @@ class SignUpService
 
 
         $this->transaction->wrap(function() use($user){
-           $user->save()
+           $user->save();
         });
 
         $this->dispatcher->dispatch(new UserSignUpRequested($user));

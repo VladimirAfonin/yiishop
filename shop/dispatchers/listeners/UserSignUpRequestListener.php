@@ -2,29 +2,24 @@
 namespace shop\dispatchers\listeners;
 
 use shop\dispatchers\events\UserSignUpRequested;
+use shop\dispatchers\jobs\UserSignUpRequestNotify;
 use yii\mail\MailerInterface;
+use yii\queue\redis\Queue;
 
 class UserSignUpRequestListener
 {
-    private $mailer;
+    private $queue;
 
-    public function __construct(MailerInterface $mailer)
+    public function __construct(Queue $queue)
     {
-        $this->mailer = $mailer;
+        $this->queue = $queue;
     }
 
+    /**
+     * @param UserSignUpRequested $event
+     */
     public function handle(UserSignUpRequested $event)
     {
-        $sent = $this->mailer
-            ->compose(
-                ['html' => 'emailConfirmToken-html', 'text' => 'emailConfirmToken-text'],
-                ['user' => $event->user]
-            )
-            ->setTo($event->user->email)
-//            ->setFrom($this->supportEmail)
-            ->setSubject('signup confirm for ' . \Yii::$app->name)
-            ->send();
-
-        if(!$sent) { throw new \RuntimeException('email sending error.'); }
+        $this->queue->push(new UserSignUpRequestNotify($event->user));
     }
 }

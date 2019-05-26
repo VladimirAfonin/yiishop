@@ -10,7 +10,8 @@ return [
     // our container class
     'bootstrap' => [
         'common\bootstrap\SetUp',
-        'log'
+        'log',
+        'queue', // The component registers its own console commands
     ],
 
     'components' => [
@@ -36,6 +37,11 @@ return [
                     'clientSecret' => 'секретный_ключ_facebook_client',
                 ],
             ],
-        ]
+        ],
+        'queue' => [
+            'class' => \yii\queue\redis\Queue::class,
+            'as log' => \yii\queue\LogBehavior::class,
+            // Other driver options
+        ],
     ],
 ];

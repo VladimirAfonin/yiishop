@@ -28,7 +28,9 @@
         "bower-asset/font-awesome": "^4.7",
         "bower-asset/owl.carousel": "2.2.0",
         "bower-asset/magnific-popup": "^1.1",
-        "boundstate/yii2-mailgun": "*"
+        "boundstate/yii2-mailgun": "*",
+        "yiisoft/yii2-redis": "~2.0.0",
+        "yiisoft/yii2-queue": "^2.2"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

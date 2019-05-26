@@ -4,6 +4,7 @@ namespace common\bootstrap;
 use app\models\Email;
 use common\services\EmailService;
 use shop\collections\UserCollection;
+use shop\dispatchers\DeferredEventDispatcher;
 use shop\dispatchers\EventDispatcher;
 use shop\dispatchers\events\UserSignUpConfirmed;
 use shop\dispatchers\events\UserSignUpRequested;
@@ -78,19 +79,20 @@ class SetUp implements BootstrapInterface
 //        ]);
         /* ---  /.set 'contactService' -> second variant --- */
 
-        $container->setSingleton(EventDispatcher::class, function(Container $container){
-            return new SimpleEventDispatcher($container, [
-                UserSignUpRequested::class => [UserSignUpRequestListener::class],
-                UserSignUpConfirmed::class => [UserSignUpConfirmListener::class],
-//                    [$container->get(UserSignUpConfirmListener::class), 'handle'],
-                    /*function($event) {
-                        // ...
-                    },*/
-//                ],
-            ]);
+        $container->setSingleton(EventDispatcher::class, DeferredEventDispatcher::class);
+
+        $container->setSingleton(DeferredEventDispatcher::class, function(Container $container) {
+            return new DeferredEventDispatcher(
+                new SimpleEventDispatcher($container, [
+                    UserSignUpRequested::class => [UserSignUpRequestListener::class],
+                    UserSignUpConfirmed::class => [UserSignUpConfirmListener::class],
+                ])
+            );
         });
-
-
-
+        //    [$container->get(UserSignUpConfirmListener::class), 'handle'],
+        /*function($event) {
+            // ...
+        },*/
+//       ],
     }
 }

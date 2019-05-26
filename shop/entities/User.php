@@ -3,6 +3,7 @@ namespace shop\entities;
 
 
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use shop\dispatchers\traits\EventTrait;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -27,6 +28,7 @@ use yii\db\ActiveQuery;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    use EventTrait;
 //    use InstantiateTrait;
 
     const STATUS_WAIT = 0;

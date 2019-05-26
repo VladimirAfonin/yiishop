@@ -8,6 +8,7 @@ use shop\dispatchers\events\UserSignUpConfirmed;
 use shop\dispatchers\events\UserSignUpRequested;
 use shop\forms\auth\SignupForm;
 use shop\entities\User;
+use shop\services\manage\TransactionManager;
 use yii\mail\MailerInterface;
 
 class SignUpService
@@ -15,27 +16,37 @@ class SignUpService
     private $mailer;
     private $supportEmail;
     private $dispatcher;
+    private $transaction;
 
-    public function __construct($supportEmail, MailerInterface $mailer, EventDispatcher $dispatcher)
+    public function __construct(
+        $supportEmail,
+        MailerInterface $mailer,
+        EventDispatcher $dispatcher,
+        TransactionManager $transaction
+    )
     {
         $this->mailer = $mailer;
         $this->supportEmail = $supportEmail;
         $this->dispatcher = $dispatcher;
+        $this->transaction = $transaction;
+
     }
 
     /**
      * sign up action user
      *
      * @param SignupForm $form
-     * @return User
+     * @return void
+     * @throws \Exception
      */
     public function signup(SignupForm $form)
     {
         $user =  User::create($form->username, $form->email, $form->password);
 
-        if(!$user->save()) {
-            throw new \RuntimeException('saving error.');
-        }
+
+        $this->transaction->wrap(function() use($user){
+           $user->save()
+        });
 
         $this->dispatcher->dispatch(new UserSignUpRequested($user));
 
@@ -70,7 +81,7 @@ class SignUpService
 
         if(!$user->save()) { throw new \RuntimeException("saving error."); }
 
-        $this->dispatcher->dispatch(new UserSignUpConfirmed($user));
+        $this->dispatcher->dispatch($user->releaseEvents());
 
     }
 }
